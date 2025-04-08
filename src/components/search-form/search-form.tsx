@@ -9,6 +9,11 @@ function SearchForm () : JSX.Element {
     setIsListOpen(value.length >= 3);
   };
 
+  const handleResetButtonClick = () => {
+    setQuery('');
+    setIsListOpen(false);
+  };
+
   return (
     <div className={`form-search ${query.length ? 'list-opened' : ''}`}>
       <form>
@@ -25,14 +30,6 @@ function SearchForm () : JSX.Element {
             onChange={handleInputChange}
           />
         </label>
-        {/* <ul className="form-search__select-list scroller">
-              <li className="form-search__select-item" tabIndex={0}>Cannonball Pro MX 8i</li>
-              <li className="form-search__select-item" tabIndex={0}>Cannonball Pro MX 7i</li>
-              <li className="form-search__select-item" tabIndex={0}>Cannonball Pro MX 6i</li>
-              <li className="form-search__select-item" tabIndex={0}>Cannonball Pro MX 5i</li>
-              <li className="form-search__select-item" tabIndex={0}>Cannonball Pro MX 4i</li>
-            </ul> */}
-
         {isListOpen &&
         <ul className="form-search__select-list scroller">
           <li className="form-search__select-item" tabIndex={0}>Cannonball Pro MX 8i</li>
@@ -43,7 +40,11 @@ function SearchForm () : JSX.Element {
         </ul>}
 
       </form>
-      <button className="form-search__reset" type="reset">
+      <button
+        className="form-search__reset"
+        type="reset"
+        onClick={handleResetButtonClick}
+      >
         <svg width="10" height="10" aria-hidden="true">
           <use xlinkHref="#icon-close"></use>
         </svg><span className="visually-hidden">Сбросить поиск</span>
