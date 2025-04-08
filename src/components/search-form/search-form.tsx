@@ -9,9 +9,8 @@ function SearchForm () : JSX.Element {
     setIsListOpen(value.length >= 3);
   };
 
-
   return (
-    <div className="form-search list-opened">
+    <div className={`form-search ${query.length ? 'list-opened' : ''}`}>
       <form>
         <label>
           <svg className="form-search__icon" width="16" height="16" aria-hidden="true">
