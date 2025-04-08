@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect} from 'react';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { selectCameras } from '../../store/selectors';
 import { Cameras } from '../../types/camera';
@@ -7,43 +7,26 @@ function SearchForm () : JSX.Element {
   const [query, setQuery] = useState('');
   const [isListOpen, setIsListOpen] = useState(false);
   const [foundCameras, setFilteredCameras] = useState<Cameras | []>([]);
-  const [currentProductIndex, setCurrentProductIndex] = useState<number>(-1);
+  const [currentProductIndex, setCurrentProductIndex] = useState<number | null> (null);
+  const camerasCatalog = useAppSelector(selectCameras);
 
   const arrowUpPressed = useKeyPress('ArrowUp');
   const arrowDownPressed = useKeyPress('ArrowDown');
 
-  const camerasCatalog = useAppSelector(selectCameras);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setQuery(value);
     setIsListOpen(value.length >= 3);
-    setCurrentProductIndex(0);
-    setCurrentProductIndex(-1); // Сброс активного индекса при изменении запроса
+    setCurrentProductIndex(null); // Сброс активного индекса при изменении запроса
   };
 
   const handleResetButtonClick = () => {
     setQuery('');
     setIsListOpen(false);
     setFilteredCameras([]);
-    setCurrentProductIndex(0);
-    setCurrentProductIndex(-1); // Сброс активного индекса
+    setCurrentProductIndex(null); // Сброс активного индекса
   };
-
-  useEffect(() => {
-    if (foundCameras.length && arrowUpPressed) {
-      setCurrentProductIndex((prevState) => (prevState > 0 ? prevState - 1 : prevState));
-      console.log(currentProductIndex);
-    }
-
-  }, [arrowUpPressed, foundCameras, currentProductIndex]);
-
-  useEffect(() => {
-    if (foundCameras.length && arrowDownPressed) {
-      setCurrentProductIndex((prevState) => (prevState < foundCameras.length - 1 ? prevState + 1 : prevState));
-      console.log(currentProductIndex);
-    }
-  }, [arrowDownPressed,foundCameras, currentProductIndex]);
 
   useEffect(() => {
     if (query.length >= 3) {
@@ -51,11 +34,30 @@ function SearchForm () : JSX.Element {
         camera.name.toLowerCase().includes(query.toLowerCase())
       );
       setFilteredCameras(filteredCameras);
-      setCurrentProductIndex(0);
-      setCurrentProductIndex(-1); // Сброс активного индекса при новом фильтре
+      setCurrentProductIndex(null); // Сброс активного индекса при новом фильтре
     }
   }, [query, camerasCatalog]);
 
+  useEffect(() => {
+    if (foundCameras.length && arrowUpPressed) {
+      setCurrentProductIndex((prevState) => (prevState !== null && prevState > 0 ? prevState - 1 : prevState));
+    }
+  }, [arrowUpPressed, foundCameras]);
+
+  useEffect(() => {
+    if (foundCameras.length && arrowDownPressed) {
+      setCurrentProductIndex((prevState) => (prevState !== null && prevState < foundCameras.length - 1 ? prevState + 1 : prevState));
+    }
+  }, [arrowDownPressed, foundCameras]);
+
+  const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+
+      console.log(currentProductIndex);
+    }
+
+  };
 
 
   return (
@@ -74,14 +76,17 @@ function SearchForm () : JSX.Element {
             placeholder="Поиск по сайту"
             value={query}
             onChange={handleInputChange}
+            onKeyDown={handleInputKeyDown}
           />
         </label>
         {isListOpen && foundCameras.length > 0 && (
-          <ul className="form-search__select-list scroller" >
+          <ul
+            className="form-search__select-list scroller"
+          >
             {foundCameras.map((camera) => (
               <li
                 key={camera.id}
-                className="form-search__select-item form-search__select-item--active"
+                className="form-search__select-item"
                 tabIndex={0}
                 // onClick={() => handleItemClick(product)}
               >
