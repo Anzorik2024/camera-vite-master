@@ -1,22 +1,68 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useAppSelector } from '../../hooks/use-app-selector';
+import { selectCameras } from '../../store/selectors';
+import { Cameras } from '../../types/camera';
+import useKeyPress from '../../hooks/use-key-press';
 function SearchForm () : JSX.Element {
   const [query, setQuery] = useState('');
   const [isListOpen, setIsListOpen] = useState(false);
+  const [foundCameras, setFilteredCameras] = useState<Cameras | []>([]);
+  const [currentProductIndex, setCurrentProductIndex] = useState<number>(-1);
+
+  const arrowUpPressed = useKeyPress('ArrowUp');
+  const arrowDownPressed = useKeyPress('ArrowDown');
+
+  const camerasCatalog = useAppSelector(selectCameras);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setQuery(value);
     setIsListOpen(value.length >= 3);
+    setCurrentProductIndex(0);
+    setCurrentProductIndex(-1); // Сброс активного индекса при изменении запроса
   };
 
   const handleResetButtonClick = () => {
     setQuery('');
     setIsListOpen(false);
+    setFilteredCameras([]);
+    setCurrentProductIndex(0);
+    setCurrentProductIndex(-1); // Сброс активного индекса
   };
 
+  useEffect(() => {
+    if (foundCameras.length && arrowUpPressed) {
+      setCurrentProductIndex((prevState) => (prevState > 0 ? prevState - 1 : prevState));
+      console.log(currentProductIndex);
+    }
+
+  }, [arrowUpPressed, foundCameras, currentProductIndex]);
+
+  useEffect(() => {
+    if (foundCameras.length && arrowDownPressed) {
+      setCurrentProductIndex((prevState) => (prevState < foundCameras.length - 1 ? prevState + 1 : prevState));
+      console.log(currentProductIndex);
+    }
+  }, [arrowDownPressed,foundCameras, currentProductIndex]);
+
+  useEffect(() => {
+    if (query.length >= 3) {
+      const filteredCameras = camerasCatalog.filter((camera) =>
+        camera.name.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredCameras(filteredCameras);
+      setCurrentProductIndex(0);
+      setCurrentProductIndex(-1); // Сброс активного индекса при новом фильтре
+    }
+  }, [query, camerasCatalog]);
+
+
+
   return (
-    <div className={`form-search ${query.length ? 'list-opened' : ''}`}>
-      <form>
+    <div
+      className={`form-search ${query.length ? 'list-opened' : ''}`}
+    >
+      <form >
         <label>
           <svg className="form-search__icon" width="16" height="16" aria-hidden="true">
             <use xlinkHref="#icon-lens"></use>
@@ -30,14 +76,20 @@ function SearchForm () : JSX.Element {
             onChange={handleInputChange}
           />
         </label>
-        {isListOpen &&
-        <ul className="form-search__select-list scroller">
-          <li className="form-search__select-item" tabIndex={0}>Cannonball Pro MX 8i</li>
-          <li className="form-search__select-item" tabIndex={0}>Cannonball Pro MX 7i</li>
-          <li className="form-search__select-item" tabIndex={0}>Cannonball Pro MX 6i</li>
-          <li className="form-search__select-item" tabIndex={0}>Cannonball Pro MX 5i</li>
-          <li className="form-search__select-item" tabIndex={0}>Cannonball Pro MX 4i</li>
-        </ul>}
+        {isListOpen && foundCameras.length > 0 && (
+          <ul className="form-search__select-list scroller" >
+            {foundCameras.map((camera) => (
+              <li
+                key={camera.id}
+                className="form-search__select-item form-search__select-item--active"
+                tabIndex={0}
+                // onClick={() => handleItemClick(product)}
+              >
+                {camera.name}
+              </li>
+            ))}
+          </ul>
+        )}
 
       </form>
       <button
