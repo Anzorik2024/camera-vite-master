@@ -9,7 +9,7 @@ function Sort(): JSX.Element {
   // const currentSortByType = useAppSelector(getCurrentSortType);
   // const currentSortByOrder = useAppSelector(getCurrentSortOrder);
 
-  const currentSortByType = SortByTypeServerValue.Price;
+  const currentSortByType = SortByTypeServerValue.Popular;
   const currentSortByOrder = SortByOrderServerValue.OrderUp;
 
 
@@ -17,6 +17,8 @@ function Sort(): JSX.Element {
     const element = event.target;
     const selectedSortByType = element.dataset.value as SortByTypeServerValue;
 
+
+    //currentSortByType = selectedSortByType;
     console.log(selectedSortByType);
   };
 
@@ -24,7 +26,6 @@ function Sort(): JSX.Element {
     const element = event.target;
 
     const selectedSortByOrder = element.dataset.value as SortByOrderServerValue;
-
     console.log(selectedSortByOrder);
   };
 

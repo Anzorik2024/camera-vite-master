@@ -15,6 +15,7 @@ import { selectOrderStatus } from '../../store/selectors';
 import { RequestStatus } from '../../const/request-status';
 import { toast} from 'react-toastify';
 import { WarningMessage } from '../../const/warning-message';
+import Sort from '../../components/sort/sort';
 function MainPage ():JSX.Element {
 
   const [isModalAddCameraToBasketOpen, setModalAddCameraToBasketOpen] = useState<boolean>(false);
@@ -136,7 +137,7 @@ function MainPage ():JSX.Element {
                   </div>
                 </div>
                 <div className="catalog__content">
-                  <div className="catalog-sort">
+                  {/* <div className="catalog-sort">
                     <form action="#">
                       <div className="catalog-sort__inner">
                         <p className="title title--h5">Сортировать:</p>
@@ -170,7 +171,9 @@ function MainPage ():JSX.Element {
                         </div>
                       </div>
                     </form>
-                  </div>
+                  </div> */}
+                  <Sort/>
+
                   <div className="cards catalog__cards">
                     {camerasCatalog.map((camera) => <ProductCard camera={camera} key={camera.id} onAddCameraInBasketClickButton={handleAddCameraToBasketButtonClick} />)}
                   </div>
