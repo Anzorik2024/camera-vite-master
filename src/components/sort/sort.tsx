@@ -1,14 +1,16 @@
 import { ChangeEvent } from 'react';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
-
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { changeSortOrder, changeSortType } from '../../store/sort-slice/sort-slice';
 
 import { getCurrentSortType, getCurrentSortOrder } from '../../store/selectors';
 import { SortByOrderServerValue, SORT_BY_ORDER } from '../../const/sort-by-order';
 import { SortByTypeServerValue, SORT_BY_TYPE } from '../../const/sort-by-type';
 
-function Sort(): JSX.Element {
 
+function Sort(): JSX.Element {
+  const dispatch = useAppDispatch();
   const currentSortByType = useAppSelector(getCurrentSortType);
   const currentSortByOrder = useAppSelector(getCurrentSortOrder);
 
@@ -17,16 +19,14 @@ function Sort(): JSX.Element {
     const element = event.target;
     const selectedSortByType = element.dataset.value as SortByTypeServerValue;
 
-
-    //currentSortByType = selectedSortByType;
-    console.log(selectedSortByType);
+    dispatch(changeSortType(selectedSortByType));
   };
 
   const handleInputSortOrderChange = (event: ChangeEvent<HTMLInputElement>) => {
     const element = event.target;
 
     const selectedSortByOrder = element.dataset.value as SortByOrderServerValue;
-    console.log(selectedSortByOrder);
+    dispatch(changeSortOrder(selectedSortByOrder));
   };
 
   return (
