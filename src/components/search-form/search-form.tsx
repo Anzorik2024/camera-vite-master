@@ -90,7 +90,6 @@ function SearchForm () : JSX.Element {
             placeholder="Поиск по сайту"
             value={query}
             onChange={handleInputChange}
-            // onKeyDown={handleInputKeyDown}
           />
         </label>
         {isListOpen && foundCameras.length > 0 && (
