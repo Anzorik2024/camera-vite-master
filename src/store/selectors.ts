@@ -20,6 +20,9 @@ const getSelectPhoneOrder = (state: State) => state.order.tel;
 const selectAdaptedReviews = createSelector(selectCameraReviews, (reviews: Reviews) => reviews.map(adaptReview));
 const selectSortedReviews = createSelector(selectAdaptedReviews, (reviews: ReviewsAdapt) => reviews.sort(sortReviewByTime));
 
+const getCurrentSortType = (state: State) => state.sort.currentSortType;
+const getCurrentSortOrder = (state: State) => state.sort.currentSortOrder;
+
 export {
   selectCameras,
   selectIsLoading,
@@ -29,5 +32,7 @@ export {
   selectSortedReviews,
   getSelectCamera,
   getSelectPhoneOrder,
-  selectOrderStatus
+  selectOrderStatus,
+  getCurrentSortType,
+  getCurrentSortOrder
 };

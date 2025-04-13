@@ -1,16 +1,16 @@
 import { ChangeEvent } from 'react';
 
+import { useAppSelector } from '../../hooks/use-app-selector';
+
+
+import { getCurrentSortType, getCurrentSortOrder } from '../../store/selectors';
 import { SortByOrderServerValue, SORT_BY_ORDER } from '../../const/sort-by-order';
 import { SortByTypeServerValue, SORT_BY_TYPE } from '../../const/sort-by-type';
 
-
 function Sort(): JSX.Element {
 
-  // const currentSortByType = useAppSelector(getCurrentSortType);
-  // const currentSortByOrder = useAppSelector(getCurrentSortOrder);
-
-  const currentSortByType = SortByTypeServerValue.Popular;
-  const currentSortByOrder = SortByOrderServerValue.OrderUp;
+  const currentSortByType = useAppSelector(getCurrentSortType);
+  const currentSortByOrder = useAppSelector(getCurrentSortOrder);
 
 
   const handleInputSortTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
