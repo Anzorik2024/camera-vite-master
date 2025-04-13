@@ -1,32 +1,25 @@
-import { useState, useEffect} from 'react';
+import { useState, useEffect, useRef,} from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { selectCameras } from '../../store/selectors';
 import { Cameras } from '../../types/camera';
+import ListItemSearch from '../list-item-search/list-item-search';
 import useKeyPress from '../../hooks/use-key-press';
+import { useKeydownEscClose } from '../../hooks/use-keydown-esc-close';
+import useOnClickOutside from '../../hooks/use-on-click-outside';
+import { AppRoute } from '../../const/app-route';
+
 function SearchForm () : JSX.Element {
   const [query, setQuery] = useState('');
   const [isListOpen, setIsListOpen] = useState(false);
   const [foundCameras, setFilteredCameras] = useState<Cameras | []>([]);
-  const [currentProductIndex, setCurrentProductIndex] = useState<number | null> (null);
+  const [focusedIndex, setFocusedIndex] = useState(-1);
+
+  const navigate = useNavigate();
+  const searchRef = useRef(null);
+
   const camerasCatalog = useAppSelector(selectCameras);
-
-  const arrowUpPressed = useKeyPress('ArrowUp');
-  const arrowDownPressed = useKeyPress('ArrowDown');
-
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setQuery(value);
-    setIsListOpen(value.length >= 3);
-    setCurrentProductIndex(null); // Сброс активного индекса при изменении запроса
-  };
-
-  const handleResetButtonClick = () => {
-    setQuery('');
-    setIsListOpen(false);
-    setFilteredCameras([]);
-    setCurrentProductIndex(null); // Сброс активного индекса
-  };
 
   useEffect(() => {
     if (query.length >= 3) {
@@ -34,35 +27,56 @@ function SearchForm () : JSX.Element {
         camera.name.toLowerCase().includes(query.toLowerCase())
       );
       setFilteredCameras(filteredCameras);
-      setCurrentProductIndex(null); // Сброс активного индекса при новом фильтре
+      setFocusedIndex(-1); // Сброс активного индекса при новом фильтре
     }
   }, [query, camerasCatalog]);
 
-  useEffect(() => {
-    if (foundCameras.length && arrowUpPressed) {
-      setCurrentProductIndex((prevState) => (prevState !== null && prevState > 0 ? prevState - 1 : prevState));
-    }
-  }, [arrowUpPressed, foundCameras]);
+  const searchCamerasAmount = foundCameras.length;
+  const arrowUpPressed = useKeyPress('ArrowUp');
+  const arrowDownPressed = useKeyPress('ArrowDown');
 
   useEffect(() => {
-    if (foundCameras.length && arrowDownPressed) {
-      setCurrentProductIndex((prevState) => (prevState !== null && prevState < foundCameras.length - 1 ? prevState + 1 : prevState));
+    if (searchCamerasAmount && arrowUpPressed) {
+      setFocusedIndex((prevState) => (prevState > 0 ? prevState - 1 : prevState));
     }
-  }, [arrowDownPressed, foundCameras]);
+  }, [arrowUpPressed, searchCamerasAmount]);
 
-  const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-
-      console.log(currentProductIndex);
+  useEffect(() => {
+    if (searchCamerasAmount && arrowDownPressed) {
+      setFocusedIndex((prevState) => (prevState < searchCamerasAmount - 1 ? prevState + 1 : prevState));
     }
+  }, [arrowDownPressed, searchCamerasAmount]);
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setQuery(value);
+    setIsListOpen(value.length >= 3);
+    setFocusedIndex(-1); // Сброс активного индекса при изменении запроса
   };
 
+  const resetDropdown = () => {
+    setQuery('');
+    setIsListOpen(false);
+    setFilteredCameras([]);
+    setFocusedIndex(-1); // Сброс активного индекса
+  };
+
+  const handleResetButtonClick = () => {
+    resetDropdown();
+  };
+
+  const navigateToCurrentProductPage = (id: number) => {
+    navigate(`${AppRoute.Product}/${id}`);
+    resetDropdown();
+  };
+
+  useOnClickOutside(searchRef, resetDropdown);
+  useKeydownEscClose(resetDropdown);
 
   return (
     <div
       className={`form-search ${query.length ? 'list-opened' : ''}`}
+      ref={searchRef}
     >
       <form >
         <label>
@@ -76,23 +90,26 @@ function SearchForm () : JSX.Element {
             placeholder="Поиск по сайту"
             value={query}
             onChange={handleInputChange}
-            onKeyDown={handleInputKeyDown}
+            // onKeyDown={handleInputKeyDown}
           />
         </label>
         {isListOpen && foundCameras.length > 0 && (
           <ul
             className="form-search__select-list scroller"
+            tabIndex={-1}
           >
-            {foundCameras.map((camera) => (
-              <li
-                key={camera.id}
-                className="form-search__select-item"
-                tabIndex={0}
-                // onClick={() => handleItemClick(product)}
-              >
-                {camera.name}
-              </li>
-            ))}
+            {foundCameras.map((camera, index) => {
+              const isFocused = index === focusedIndex;
+
+              return(
+                < ListItemSearch
+                  key={camera.id}
+                  isFocused={isFocused}
+                  onNavigateToCurrentProductPage={navigateToCurrentProductPage}
+                  item={camera}
+                />
+              );
+            })}
           </ul>
         )}
 
