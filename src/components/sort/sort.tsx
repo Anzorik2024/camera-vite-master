@@ -14,10 +14,6 @@ function Sort(): JSX.Element {
   const currentSortByType = useAppSelector(getCurrentSortType);
   const currentSortByOrder = useAppSelector(getCurrentSortOrder);
 
-  console.log(currentSortByType);
-  console.log(currentSortByOrder);
-
-
   const handleInputSortTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
     const element = event.target;
     const selectedSortByType = element.dataset.value as SortByTypeServerValue;

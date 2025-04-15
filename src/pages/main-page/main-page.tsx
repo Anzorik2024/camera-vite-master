@@ -16,11 +16,17 @@ import { RequestStatus } from '../../const/request-status';
 import { toast} from 'react-toastify';
 import { WarningMessage } from '../../const/warning-message';
 import Sort from '../../components/sort/sort';
+import { getCurrentSortOrder, getCurrentSortType} from '../../store/selectors';
+import { sortCameras } from '../../utils/sort-cameras';
 function MainPage ():JSX.Element {
 
   const [isModalAddCameraToBasketOpen, setModalAddCameraToBasketOpen] = useState<boolean>(false);
   const modalRef = useRef(null);
   const camerasCatalog = useAppSelector(selectCameras);
+  const currentSortByType = useAppSelector(getCurrentSortType);
+  const currentSortByOrder = useAppSelector(getCurrentSortOrder);
+
+  const camerasSort = sortCameras(camerasCatalog,currentSortByType, currentSortByOrder);
 
   const isOrderStatus = useAppSelector(selectOrderStatus);
   const dispatch = useAppDispatch();
@@ -175,7 +181,7 @@ function MainPage ():JSX.Element {
                   <Sort/>
 
                   <div className="cards catalog__cards">
-                    {camerasCatalog.map((camera) => <ProductCard camera={camera} key={camera.id} onAddCameraInBasketClickButton={handleAddCameraToBasketButtonClick} />)}
+                    {camerasSort.map((camera) => <ProductCard camera={camera} key={camera.id} onAddCameraInBasketClickButton={handleAddCameraToBasketButtonClick} />)}
                   </div>
                 </div>
               </div>
