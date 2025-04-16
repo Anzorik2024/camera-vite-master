@@ -18,11 +18,18 @@ import { WarningMessage } from '../../const/warning-message';
 import Sort from '../../components/sort/sort';
 import { getCurrentSortOrder, getCurrentSortType} from '../../store/selectors';
 import { sortCameras } from '../../utils/sort-cameras';
+import FilterByPrice from '../../components/filter-by-price/filter-by-price'; // вынести в фильтр компонент
 function MainPage ():JSX.Element {
 
   const [isModalAddCameraToBasketOpen, setModalAddCameraToBasketOpen] = useState<boolean>(false);
   const modalRef = useRef(null);
   const camerasCatalog = useAppSelector(selectCameras);
+
+  // const prices = camerasCatalog.map((camera) => camera.price);// заменить на отфильтрованные данные
+  // const currentMinPrice = Math.min(...prices);// текущие данные вынести в фильтр компонент
+  // const currentMaxPrice = Math.max(...prices);// текущие данные вынести в фильтр компонент
+
+
   const currentSortByType = useAppSelector(getCurrentSortType);
   const currentSortByOrder = useAppSelector(getCurrentSortOrder);
 
@@ -68,21 +75,7 @@ function MainPage ():JSX.Element {
                   <div className="catalog-filter">
                     <form action="#">
                       <h2 className="visually-hidden">Фильтр</h2>
-                      <fieldset className="catalog-filter__block">
-                        <legend className="title title--h5">Цена, ₽</legend>
-                        <div className="catalog-filter__price-range">
-                          <div className="custom-input">
-                            <label>
-                              <input type="number" name="price" placeholder="от"/>
-                            </label>
-                          </div>
-                          <div className="custom-input">
-                            <label>
-                              <input type="number" name="priceUp" placeholder="до"/>
-                            </label>
-                          </div>
-                        </div>
-                      </fieldset>
+                      <FilterByPrice/>
                       <fieldset className="catalog-filter__block">
                         <legend className="title title--h5">Категория</legend>
                         <div className="custom-radio catalog-filter__item">
@@ -143,43 +136,7 @@ function MainPage ():JSX.Element {
                   </div>
                 </div>
                 <div className="catalog__content">
-                  {/* <div className="catalog-sort">
-                    <form action="#">
-                      <div className="catalog-sort__inner">
-                        <p className="title title--h5">Сортировать:</p>
-                        <div className="catalog-sort__type">
-                          <div className="catalog-sort__btn-text">
-                            <input type="radio" id="sortPrice" name="sort" checked/>
-                            <label htmlFor="sortPrice">по цене</label>
-                          </div>
-                          <div className="catalog-sort__btn-text">
-                            <input type="radio" id="sortPopular" name="sort"/>
-                            <label htmlFor="sortPopular">по популярности</label>
-                          </div>
-                        </div>
-                        <div className="catalog-sort__order">
-                          <div className="catalog-sort__btn catalog-sort__btn--up">
-                            <input type="radio" id="up" name="sort-icon" checked aria-label="По возрастанию"/>
-                            <label htmlFor="up">
-                              <svg width="16" height="14" aria-hidden="true">
-                                <use xlinkHref="#icon-sort"></use>
-                              </svg>
-                            </label>
-                          </div>
-                          <div className="catalog-sort__btn catalog-sort__btn--down">
-                            <input type="radio" id="down" name="sort-icon" aria-label="По убыванию"/>
-                            <label htmlFor="down">
-                              <svg width="16" height="14" aria-hidden="true">
-                                <use xlinkHref="#icon-sort"></use>
-                              </svg>
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                    </form>
-                  </div> */}
                   <Sort/>
-
                   <div className="cards catalog__cards">
                     {camerasSort.map((camera) => <ProductCard camera={camera} key={camera.id} onAddCameraInBasketClickButton={handleAddCameraToBasketButtonClick} />)}
                   </div>
