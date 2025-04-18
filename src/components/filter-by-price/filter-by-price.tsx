@@ -4,7 +4,7 @@ import { getCamerasMaxPrice,getCamerasMinPrice } from '../../store/selectors';
 import { UserInput } from '../../types/filter';
 import { QueryKey } from '../../const/query-key';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import {setBottomPrice} from '../../store/filter-slice/filter-slice';
+import {setBottomPrice,setTopPrice} from '../../store/filter-slice/filter-slice';
 
 type FilterByPriceProps = {
   bottomPrice: UserInput;
@@ -67,7 +67,6 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
         if (isNotValid) {
           setBottomPriceInvalid(true);
           onBottomPriceChange('');
-
           return;
         }
 
@@ -80,7 +79,6 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
         if(isNotValid) {
           setTopPriceInvalid(true);
           onTopPriceChange('');
-
           return;
         }
 
@@ -102,9 +100,6 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
           onBottomPriceChange(validBottomPrice);
 
           dispatch(setBottomPrice(validBottomPrice)); // тестирую для фильтрации!!!
-
-
-          // добавить диспатч
         }
 
         break;
@@ -115,8 +110,7 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
 
         if (validTopPrice) {
           onTopPriceChange(validTopPrice);
-          //добавить диспатч
-          //dispatch(setMaxPrice(validTopPrice));
+          dispatch(setTopPrice(validTopPrice));// тестирую для фильтрации!!!
         }
 
         break;

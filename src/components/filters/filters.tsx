@@ -25,21 +25,8 @@ function Filters(): JSX.Element {
   //   (product) => product.price >= minPriceFilter && product.price <= maxPriceFilter
   // ); - пример фильтрации по цене!!!
 
-  const currentBottomPrice = useAppSelector(getUserEnteredBottomPrice);
-  const currentTopPrice = useAppSelector(getUserEnteredTopPrice);
-
-  const [bottomPrice, setBottomPrice] = useState<UserInput>(currentBottomPrice);
-  const [topPrice, setTopPrice] = useState<UserInput>(currentTopPrice);
-
-  useEffect(() => {
-    if (Number(currentBottomPrice) !== currentMinPrice) {
-      setBottomPrice(currentBottomPrice);
-    }
-
-    if (Number(currentTopPrice) !== currentMaxPrice) {
-      setTopPrice(currentTopPrice);
-    }
-  }, [currentBottomPrice, currentTopPrice, currentMinPrice, currentMaxPrice]);
+  const [bottomPrice, setBottomPrice] = useState<UserInput>('');
+  const [topPrice, setTopPrice] = useState<UserInput>('');
 
   const handleFormReset = () => {
     dispatch(resetFilters());
