@@ -1,5 +1,14 @@
+import { useAppSelector } from '../../hooks/use-app-selector';
+import { selectCameras } from '../../store/selectors';
+
 import FilterByPrice from '../filter-by-price/filter-by-price';
 function Filters(): JSX.Element {
+
+  const camerasCatalog = useAppSelector(selectCameras);
+
+  const prices = camerasCatalog.map((camera) => camera.price);// заменить на отфильтрованные данные
+  const currentMinPrice = Math.min(...prices);// текущие данные вынести в фильтр компонент
+  const currentMaxPrice = Math.max(...prices);// текущие данные вынести в фильтр компонент
 
   return (
     <div className="catalog__aside">

@@ -5,6 +5,7 @@ import { catalogReducer } from './catalog-slice/catalog-slice';
 import { productDataReducer } from './product-slice/product-slice';
 import { orderReducer } from './order-slice/order-slice';
 import { sortReducer } from './sort-slice/sort-slice';
+import { filterReducer } from './filter-slice/filter-slice';
 
 const api = createAPI();
 
@@ -13,7 +14,8 @@ const store = configureStore({
     catalog: catalogReducer,
     product: productDataReducer,
     order: orderReducer,
-    sort: sortReducer
+    sort: sortReducer,
+    filter: filterReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
