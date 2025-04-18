@@ -14,8 +14,8 @@ function Filters(): JSX.Element {
   const currentMinPrice = Math.min(...prices);// текущие данные вынести в фильтр компонент
   const currentMaxPrice = Math.max(...prices);// текущие данные вынести в фильтр компонент
 
-  dispatch(setMinPrice(currentMinPrice));
-  dispatch(setMaxPrice(currentMaxPrice));
+  dispatch(setMinPrice(currentMinPrice));//устанавливаем значение в плейсхолдер
+  dispatch(setMaxPrice(currentMaxPrice));//устанавливаем значение в плейсхолдер
 
 
   return (
