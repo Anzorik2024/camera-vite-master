@@ -5,6 +5,7 @@ import { UserInput } from '../../types/filter';
 import { QueryKey } from '../../const/query-key';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import {setBottomPrice,setTopPrice} from '../../store/filter-slice/filter-slice';
+import { getUserEnteredBottomPrice, getUserEnteredTopPrice } from '../../store/selectors';
 
 type FilterByPriceProps = {
   bottomPrice: UserInput;
@@ -22,8 +23,11 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
   const numBottomPrice = Number(bottomPrice);
   const numTopPrice = Number(topPrice);
 
-  console.log('boottom',numBottomPrice);
-  console.log('top',numTopPrice);
+  const currentBottomPrice = useAppSelector(getUserEnteredBottomPrice);// для теста
+  const currentTopPrice = useAppSelector(getUserEnteredTopPrice);// для теста
+
+  console.log('boottom',currentBottomPrice);// для теста
+  console.log('top',currentTopPrice);// для теста
 
   const [isBottomPriceInvalid, setBottomPriceInvalid] = useState<boolean>(false);
   const [isTopPriceInvalid, setTopPriceInvalid] = useState<boolean>(false);
