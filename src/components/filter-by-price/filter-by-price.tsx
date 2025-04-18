@@ -4,7 +4,7 @@ import { getCamerasMaxPrice,getCamerasMinPrice } from '../../store/selectors';
 import { UserInput } from '../../types/filter';
 import { QueryKey } from '../../const/query-key';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { setMinPrice,setMaxPrice } from '../../store/filter-slice/filter-slice';
+import {setBottomPrice} from '../../store/filter-slice/filter-slice';
 
 type FilterByPriceProps = {
   bottomPrice: UserInput;
@@ -100,7 +100,8 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
 
         if (validBottomPrice) {
           onBottomPriceChange(validBottomPrice);
-          //dispatch(setMinPrice(validBottomPrice));//устанавливаем значение в плейсхолдер
+
+          dispatch(setBottomPrice(validBottomPrice)); // тестирую для фильтрации!!!
 
 
           // добавить диспатч

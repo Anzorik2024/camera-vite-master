@@ -7,6 +7,7 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { setMinPrice, setMaxPrice } from '../../store/filter-slice/filter-slice';
 import { UserInput } from '../../types/filter';
 import { getUserEnteredBottomPrice, getUserEnteredTopPrice } from '../../store/selectors';
+import { resetFilters } from '../../store/filter-slice/filter-slice';
 function Filters(): JSX.Element {
 
   const dispatch = useAppDispatch();
@@ -40,10 +41,16 @@ function Filters(): JSX.Element {
     }
   }, [currentBottomPrice, currentTopPrice, currentMinPrice, currentMaxPrice]);
 
+  const handleFormReset = () => {
+    dispatch(resetFilters());
+    setBottomPrice('');
+    setTopPrice('');
+  };
+
   return (
     <div className="catalog__aside">
       <div className="catalog-filter">
-        <form action="#">
+        <form action="#" onReset={handleFormReset}>
           <h2 className="visually-hidden">Фильтр</h2>
           <FilterByPrice
             bottomPrice={bottomPrice}
