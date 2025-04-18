@@ -45,6 +45,8 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
       }
 
       return bottomPrice;
+    } else {
+      return minPrice;
     }
   };
 
