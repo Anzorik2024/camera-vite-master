@@ -23,6 +23,10 @@ const selectSortedReviews = createSelector(selectAdaptedReviews, (reviews: Revie
 const getCurrentSortType = (state: State) => state.sort.currentSortType;
 const getCurrentSortOrder = (state: State) => state.sort.currentSortOrder;
 
+
+export const getCamerasMinPrice = (state: State): number => state.filter.minPrice;
+export const getCamerasMaxPrice = (state: State): number => state.filter.maxPrice;
+
 export {
   selectCameras,
   selectIsLoading,

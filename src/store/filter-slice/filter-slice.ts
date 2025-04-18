@@ -47,7 +47,7 @@ export const filterSlice = createSlice({
   },
 });
 
-const {setCurrentFilterCategory, setCurrentFilterTypes, setCurrentFilterLevels, resetFilters, setBottomPrice, setTopPrice} = filterSlice.actions;
+const {setCurrentFilterCategory, setCurrentFilterTypes, setCurrentFilterLevels, resetFilters, setBottomPrice, setTopPrice, setMinPrice, setMaxPrice} = filterSlice.actions;
 const filterReducer = filterSlice.reducer;
 
 export {
@@ -57,5 +57,7 @@ export {
   resetFilters,
   setBottomPrice,
   setTopPrice,
-  filterReducer
+  filterReducer,
+  setMinPrice,
+  setMaxPrice
 };
