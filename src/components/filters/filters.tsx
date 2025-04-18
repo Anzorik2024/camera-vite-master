@@ -1,9 +1,12 @@
+import {useEffect, useState } from 'react';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { selectCameras } from '../../store/selectors';
 
 import FilterByPrice from '../filter-by-price/filter-by-price';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { setMinPrice, setMaxPrice } from '../../store/filter-slice/filter-slice';
+import { UserInput } from '../../types/filter';
+import { getUserEnteredBottomPrice, getUserEnteredTopPrice } from '../../store/selectors';
 function Filters(): JSX.Element {
 
   const dispatch = useAppDispatch();
@@ -17,13 +20,37 @@ function Filters(): JSX.Element {
   dispatch(setMinPrice(currentMinPrice));//устанавливаем значение в плейсхолдер
   dispatch(setMaxPrice(currentMaxPrice));//устанавливаем значение в плейсхолдер
 
+  // const newFilteredProducts = products.filter(
+  //   (product) => product.price >= minPriceFilter && product.price <= maxPriceFilter
+  // ); - пример фильтрации по цене!!!
+
+  const currentBottomPrice = useAppSelector(getUserEnteredBottomPrice);
+  const currentTopPrice = useAppSelector(getUserEnteredTopPrice);
+
+  const [bottomPrice, setBottomPrice] = useState<UserInput>(currentBottomPrice);
+  const [topPrice, setTopPrice] = useState<UserInput>(currentTopPrice);
+
+  useEffect(() => {
+    if (Number(currentBottomPrice) !== currentMinPrice) {
+      setBottomPrice(currentBottomPrice);
+    }
+
+    if (Number(currentTopPrice) !== currentMaxPrice) {
+      setTopPrice(currentTopPrice);
+    }
+  }, [currentBottomPrice, currentTopPrice, currentMinPrice, currentMaxPrice]);
 
   return (
     <div className="catalog__aside">
       <div className="catalog-filter">
         <form action="#">
           <h2 className="visually-hidden">Фильтр</h2>
-          <FilterByPrice/>
+          <FilterByPrice
+            bottomPrice={bottomPrice}
+            topPrice={topPrice}
+            onBottomPriceChange={setBottomPrice}
+            onTopPriceChange={setTopPrice}
+          />
           <fieldset className="catalog-filter__block">
             <legend className="title title--h5">Категория</legend>
             <div className="custom-radio catalog-filter__item">

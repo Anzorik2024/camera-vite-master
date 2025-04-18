@@ -1,6 +1,14 @@
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { getCamerasMaxPrice,getCamerasMinPrice } from '../../store/selectors';
-function FilterByPrice(): JSX.Element {
+import { UserInput } from '../../types/filter';
+
+type FilterByPriceProps = {
+  bottomPrice: UserInput;
+  topPrice: UserInput;
+  onBottomPriceChange: (bottomPrice: UserInput) => void;
+  onTopPriceChange: (topPrice: UserInput) => void;
+}
+function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceChange}: FilterByPriceProps): JSX.Element {
 
   const minPrice = useAppSelector(getCamerasMinPrice);
   const maxPrice = useAppSelector(getCamerasMaxPrice);

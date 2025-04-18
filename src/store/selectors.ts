@@ -27,6 +27,9 @@ const getCurrentSortOrder = (state: State) => state.sort.currentSortOrder;
 export const getCamerasMinPrice = (state: State): number => state.filter.minPrice;
 export const getCamerasMaxPrice = (state: State): number => state.filter.maxPrice;
 
+export const getUserEnteredBottomPrice = (state: State) => state.filter.bottomPrice;
+export const getUserEnteredTopPrice = (state: State) => state.filter.topPrice;
+
 export {
   selectCameras,
   selectIsLoading,
