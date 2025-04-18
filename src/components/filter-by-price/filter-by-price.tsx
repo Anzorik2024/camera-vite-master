@@ -36,6 +36,9 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
       if (numBottomPrice > maxPrice && numTopPrice === 0) {
         return maxPrice;
       }
+      if ((numBottomPrice > numTopPrice || numBottomPrice > maxPrice) && numTopPrice !== 0) {
+        return numTopPrice;
+      }
 
       return bottomPrice;
     }
@@ -47,6 +50,9 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
     }
     if (numTopPrice < minPrice && numBottomPrice === 0) {
       return minPrice;
+    }
+    if ((numTopPrice < numBottomPrice || numTopPrice < minPrice) && numBottomPrice !== 0) {
+      return numBottomPrice;
     }
     return numTopPrice;
   };
@@ -94,7 +100,7 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
 
         if (validBottomPrice) {
           onBottomPriceChange(validBottomPrice);
-          dispatch(setMinPrice(validBottomPrice));//устанавливаем значение в плейсхолдер
+          //dispatch(setMinPrice(validBottomPrice));//устанавливаем значение в плейсхолдер
 
 
           // добавить диспатч
@@ -109,7 +115,7 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
         if (validTopPrice) {
           onTopPriceChange(validTopPrice);
           //добавить диспатч
-          dispatch(setMaxPrice(validTopPrice));
+          //dispatch(setMaxPrice(validTopPrice));
         }
 
         break;
@@ -143,6 +149,7 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
               type="number"
               name="price"
               placeholder={`${minPrice}`}
+              value={bottomPrice}
               onChange={handlePriceInputChange}
               data-query={QueryKey.BottomPrice}
               onBlur={handlePriceInputBlur}
@@ -160,6 +167,7 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
               data-query={QueryKey.TopPrice}
               onBlur={handlePriceInputBlur}
               onKeyDown={handleInputKeyDown}
+              value={topPrice}
             />
           </label>
         </div>
