@@ -49,15 +49,24 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
   };
 
   const getValidTopPrice = () => {
+    if(numTopPrice === 0) {
+      console.log('здесь сделать повышение');
+      return maxPrice;
+    }
     if (numTopPrice > maxPrice && numTopPrice !== 0) {
+      console.log('Первая проверка топ цены');
       return maxPrice;
     }
     if (numTopPrice < minPrice && numBottomPrice === 0) {
+      console.log('Вторая проверка топ цены');
       return minPrice;
     }
     if ((numTopPrice < numBottomPrice || numTopPrice < minPrice) && numBottomPrice !== 0) {
+      console.log('Третья проверка топ цены',numTopPrice);
       return numBottomPrice;
     }
+
+
     return numTopPrice;
   };
 
@@ -71,6 +80,7 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
         if (isNotValid) {
           setBottomPriceInvalid(true);
           onBottomPriceChange('');
+          //dispatch(setBottomPrice(minPrice));
           return;
         }
 
@@ -83,6 +93,7 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
         if(isNotValid) {
           setTopPriceInvalid(true);
           onTopPriceChange('');
+          //dispatch(setTopPrice(maxPrice));
           return;
         }
 

@@ -1,4 +1,4 @@
-import {useEffect, useState } from 'react';
+import {useState } from 'react';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { selectCameras } from '../../store/selectors';
 
@@ -6,7 +6,6 @@ import FilterByPrice from '../filter-by-price/filter-by-price';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { setMinPrice, setMaxPrice } from '../../store/filter-slice/filter-slice';
 import { UserInput } from '../../types/filter';
-import { getUserEnteredBottomPrice, getUserEnteredTopPrice } from '../../store/selectors';
 import { resetFilters } from '../../store/filter-slice/filter-slice';
 function Filters(): JSX.Element {
 
