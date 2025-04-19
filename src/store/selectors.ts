@@ -24,11 +24,13 @@ const getCurrentSortType = (state: State) => state.sort.currentSortType;
 const getCurrentSortOrder = (state: State) => state.sort.currentSortOrder;
 
 
-export const getCamerasMinPrice = (state: State): number => state.filter.minPrice;
-export const getCamerasMaxPrice = (state: State): number => state.filter.maxPrice;
+export const getCamerasMinPrice = (state: State): number => state.filter.minPrice;//переделать однообр
+export const getCamerasMaxPrice = (state: State): number => state.filter.maxPrice;//переделать однообр
 
-export const getUserEnteredBottomPrice = (state: State) => state.filter.bottomPrice;
-export const getUserEnteredTopPrice = (state: State) => state.filter.topPrice;
+export const getUserEnteredBottomPrice = (state: State) => state.filter.bottomPrice;//переделать однообр
+export const getUserEnteredTopPrice = (state: State) => state.filter.topPrice;//переделать однообр
+
+export const getCurrentFilterByCategory = (state: State) => state.filter.currentFilterCategory;//переделать однообр
 
 export {
   selectCameras,

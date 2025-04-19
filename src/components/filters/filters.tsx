@@ -1,13 +1,27 @@
-import {useState } from 'react';
+import {useState, ChangeEvent, KeyboardEvent } from 'react';
 import FilterByPrice from '../filter-by-price/filter-by-price';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { useAppSelector } from '../../hooks/use-app-selector';
 import { UserInput } from '../../types/filter';
-import { resetFilters } from '../../store/filter-slice/filter-slice';
+import { resetFilters, setCurrentFilterCategory } from '../../store/filter-slice/filter-slice';
 import { FilterByCategory } from '../../const/filter-by-category';
+import { getCurrentFilterByCategory } from '../../store/selectors';
 function Filters(): JSX.Element {
 
-  const dispatch = useAppDispatch();
+  // useEffect(() => {
+  //   if (categoryFilter === 'Все') {
+  //     setProducts(initialProducts); // Показываем все товары
+  //   } else {
+  //     const filteredProducts = initialProducts.filter(
+  //       (product) => product.category === categoryFilter
+  //     );
+  //     setProducts(filteredProducts);
+  //   }
+  // }, [categoryFilter, initialProducts]); - пример для фильтрации по категории
 
+
+  const dispatch = useAppDispatch();
+  const currentFilterByCategory = useAppSelector(getCurrentFilterByCategory);
   const [bottomPrice, setBottomPrice] = useState<UserInput>('');
   const [topPrice, setTopPrice] = useState<UserInput>('');
 
@@ -15,6 +29,24 @@ function Filters(): JSX.Element {
     dispatch(resetFilters());// поменять поведении перед сдачечей
     setBottomPrice('');
     setTopPrice('');
+  };
+
+  const handleCategoryInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const radioInput = event.target;
+    const value = radioInput.dataset.value as string;
+    if (value) {
+      dispatch(setCurrentFilterCategory(value));
+    }
+  };
+
+  const handleCategoryInputKeyDown = (event: KeyboardEvent) => {
+    const radioInput = event.target as HTMLInputElement;;
+    const value = radioInput.dataset.value as string;
+    if (event.key === 'Enter') {
+      if (value) {
+        dispatch(setCurrentFilterCategory(value));
+      }
+    }
   };
 
   return (
@@ -37,7 +69,10 @@ function Filters(): JSX.Element {
                     type="radio"
                     name="category"
                     value={name}
-                    checked={category === FilterByCategory.photocamera}
+                    checked={category === currentFilterByCategory}
+                    data-value={category}
+                    onChange={handleCategoryInputChange}
+                    onKeyDown={handleCategoryInputKeyDown}
                   />
                   <span className="custom-radio__icon">
                   </span>
