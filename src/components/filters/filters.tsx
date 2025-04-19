@@ -3,6 +3,7 @@ import FilterByPrice from '../filter-by-price/filter-by-price';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { UserInput } from '../../types/filter';
 import { resetFilters } from '../../store/filter-slice/filter-slice';
+import { FilterByCategory } from '../../const/filter-by-category';
 function Filters(): JSX.Element {
 
   const dispatch = useAppDispatch();
@@ -11,7 +12,7 @@ function Filters(): JSX.Element {
   const [topPrice, setTopPrice] = useState<UserInput>('');
 
   const handleFormReset = () => {
-    dispatch(resetFilters());
+    dispatch(resetFilters());// поменять поведении перед сдачечей
     setBottomPrice('');
     setTopPrice('');
   };
@@ -31,7 +32,16 @@ function Filters(): JSX.Element {
             <legend className="title title--h5">Категория</legend>
             <div className="custom-radio catalog-filter__item">
               <label>
-                <input type="radio" name="category" value="photocamera" checked/><span className="custom-radio__icon"></span><span className="custom-radio__label">Фотокамера</span>
+                <input
+                  type="radio"
+                  name="category"
+                  value="photocamera" checked
+                />
+                <span className="custom-radio__icon">
+                </span>
+                <span className="custom-radio__label">
+                    Фотокамера
+                </span>
               </label>
             </div>
             <div className="custom-radio catalog-filter__item">
