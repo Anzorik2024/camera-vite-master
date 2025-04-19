@@ -30,25 +30,23 @@ function Filters(): JSX.Element {
           />
           <fieldset className="catalog-filter__block">
             <legend className="title title--h5">Категория</legend>
-            <div className="custom-radio catalog-filter__item">
-              <label>
-                <input
-                  type="radio"
-                  name="category"
-                  value="photocamera" checked
-                />
-                <span className="custom-radio__icon">
-                </span>
-                <span className="custom-radio__label">
-                    Фотокамера
-                </span>
-              </label>
-            </div>
-            <div className="custom-radio catalog-filter__item">
-              <label>
-                <input type="radio" name="category" value="videocamera"/><span className="custom-radio__icon"></span><span className="custom-radio__label">Видеокамера</span>
-              </label>
-            </div>
+            {Object.entries(FilterByCategory).map(([name, category]) => (
+              <div className="custom-radio catalog-filter__item" key={name}>
+                <label>
+                  <input
+                    type="radio"
+                    name="category"
+                    value={name}
+                    checked={category === FilterByCategory.photocamera}
+                  />
+                  <span className="custom-radio__icon">
+                  </span>
+                  <span className="custom-radio__label">
+                    {category}
+                  </span>
+                </label>
+              </div>
+            ))}
           </fieldset>
           <fieldset className="catalog-filter__block">
             <legend className="title title--h5">Тип камеры</legend>
