@@ -92,7 +92,7 @@ function MainPage ():JSX.Element {
                 <div className="catalog__content">
                   <Sort/>
                   <div className="cards catalog__cards">
-                    {camerasSort.map((camera) => <ProductCard camera={camera} key={camera.id} onAddCameraInBasketClickButton={handleAddCameraToBasketButtonClick} />)}
+                    {camerasSort.map((camera) => <ProductCard camera={camera} key={camera.id} onAddCameraInBasketButtonClick={handleAddCameraToBasketButtonClick} />)}
                   </div>
                 </div>
               </div>

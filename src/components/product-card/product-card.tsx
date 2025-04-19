@@ -10,12 +10,12 @@ import { selectCamera} from '../../store/order-slice/order-slice';
 
 type ProductCardProps = {
   camera: Camera;
-  onAddCameraInBasketClickButton: () => void;
+  onAddCameraInBasketButtonClick: () => void;
  };
 
 const STAR_MAX = 5;
 
-function ProductCard ({camera, onAddCameraInBasketClickButton } :ProductCardProps): JSX.Element {
+function ProductCard ({camera, onAddCameraInBasketButtonClick } :ProductCardProps): JSX.Element {
 
   const {name, rating, price, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x, reviewCount,id} = camera;
 
@@ -23,7 +23,7 @@ function ProductCard ({camera, onAddCameraInBasketClickButton } :ProductCardProp
 
   const handleAddCameraInBasketButtonClick = () => {
     dispatch(selectCamera(camera));
-    onAddCameraInBasketClickButton();
+    onAddCameraInBasketButtonClick();
   };
 
   const getStarsRating = (): JSX.Element => {
