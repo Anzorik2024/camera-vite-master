@@ -16,27 +16,44 @@ import { RequestStatus } from '../../const/request-status';
 import { toast} from 'react-toastify';
 import { WarningMessage } from '../../const/warning-message';
 import Sort from '../../components/sort/sort';
-import { getCurrentSortOrder, getCurrentSortType} from '../../store/selectors';
+import { getCurrentSortOrder, getCurrentSortType, getUserEnteredBottomPrice, getUserEnteredTopPrice} from '../../store/selectors';
 import { sortCameras } from '../../utils/sort-cameras';
 import Filters from '../../components/filters/filters';
+import { setMaxPrice,setMinPrice, setTopPrice, setBottomPrice } from '../../store/filter-slice/filter-slice';
+import { filterCamerasByPrice } from '../../utils/filter-cameras-by-price';
 function MainPage ():JSX.Element {
 
   const [isModalAddCameraToBasketOpen, setModalAddCameraToBasketOpen] = useState<boolean>(false);
   const modalRef = useRef(null);
+
+  const dispatch = useAppDispatch();
+
   const camerasCatalog = useAppSelector(selectCameras);
 
-  // const prices = camerasCatalog.map((camera) => camera.price);// заменить на отфильтрованные данные
-  // const currentMinPrice = Math.min(...prices);// текущие данные вынести в фильтр компонент
-  // const currentMaxPrice = Math.max(...prices);// текущие данные вынести в фильтр компонент
+  const prices = camerasCatalog.map((camera) => camera.price);// заменить на отфильтрованные данные
+  const currentMinPrice = Math.min(...prices);// текущие данные вынести в фильтр компонент
+  const currentMaxPrice = Math.max(...prices);// текущие данные вынести в фильтр компонент
 
+  dispatch(setMinPrice(currentMinPrice));//устанавливаем значение в плейсхолдер
+  dispatch(setMaxPrice(currentMaxPrice));//устанавливаем значение в плейсхолдер
+
+  useEffect(() => {// вынести в отдельный компонент!!!
+    dispatch(setTopPrice(currentMaxPrice));// тестирую для фильтрации!!!
+    dispatch(setBottomPrice(currentMinPrice));// тестирую для фильтрации!!!
+  },[currentMaxPrice,currentMinPrice,dispatch]);
+
+  const currentBottomPrice = Number(useAppSelector(getUserEnteredBottomPrice));// для теста вынести в компонент!!!-начало фильтрации по цене
+  const currentTopPrice = Number(useAppSelector(getUserEnteredTopPrice));// для теста -начало фильтрации по цене
+
+  const camerasFilterByPrice = filterCamerasByPrice(camerasCatalog,currentBottomPrice, currentTopPrice);
 
   const currentSortByType = useAppSelector(getCurrentSortType);
   const currentSortByOrder = useAppSelector(getCurrentSortOrder);
 
-  const camerasSort = sortCameras(camerasCatalog,currentSortByType, currentSortByOrder);
+  const camerasSort = sortCameras(camerasFilterByPrice,currentSortByType, currentSortByOrder); // в самом конце всегда сортировка
 
   const isOrderStatus = useAppSelector(selectOrderStatus);
-  const dispatch = useAppDispatch();
+
 
   useEffect(() => {
     if (isOrderStatus === RequestStatus.Success) {

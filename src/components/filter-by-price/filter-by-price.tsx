@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, KeyboardEvent, SyntheticEvent } from 'react';
+import { useEffect,useState, ChangeEvent, KeyboardEvent, SyntheticEvent } from 'react';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { getCamerasMaxPrice,getCamerasMinPrice } from '../../store/selectors';
 import { UserInput } from '../../types/filter';
@@ -23,12 +23,6 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
   const numBottomPrice = Number(bottomPrice);
   const numTopPrice = Number(topPrice);
 
-  const currentBottomPrice = useAppSelector(getUserEnteredBottomPrice);// для теста
-  const currentTopPrice = useAppSelector(getUserEnteredTopPrice);// для теста
-
-  console.log('boottom',currentBottomPrice);// для теста
-  console.log('top',currentTopPrice);// для теста
-
   const [isBottomPriceInvalid, setBottomPriceInvalid] = useState<boolean>(false);
   const [isTopPriceInvalid, setTopPriceInvalid] = useState<boolean>(false);
 
@@ -52,7 +46,7 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
 
   const getValidTopPrice = () => {
     if(numTopPrice === 0) {
-      console.log('здесь сделать повышение');
+      console.log('здесь сделать повышение');// изменить наверное это
       return maxPrice;
     }
     if (numTopPrice > maxPrice && numTopPrice !== 0) {
@@ -82,7 +76,6 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
         if (isNotValid) {
           setBottomPriceInvalid(true);
           onBottomPriceChange('');
-          //dispatch(setBottomPrice(minPrice));
           return;
         }
 
@@ -95,7 +88,6 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
         if(isNotValid) {
           setTopPriceInvalid(true);
           onTopPriceChange('');
-          //dispatch(setTopPrice(maxPrice));
           return;
         }
 

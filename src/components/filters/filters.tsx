@@ -11,18 +11,6 @@ function Filters(): JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  const camerasCatalog = useAppSelector(selectCameras);
-
-  const prices = camerasCatalog.map((camera) => camera.price);// заменить на отфильтрованные данные
-  const currentMinPrice = Math.min(...prices);// текущие данные вынести в фильтр компонент
-  const currentMaxPrice = Math.max(...prices);// текущие данные вынести в фильтр компонент
-
-  dispatch(setMinPrice(currentMinPrice));//устанавливаем значение в плейсхолдер
-  dispatch(setMaxPrice(currentMaxPrice));//устанавливаем значение в плейсхолдер
-
-  // const newFilteredProducts = products.filter(
-  //   (product) => product.price >= minPriceFilter && product.price <= maxPriceFilter
-  // ); - пример фильтрации по цене!!!
 
   const [bottomPrice, setBottomPrice] = useState<UserInput>('');
   const [topPrice, setTopPrice] = useState<UserInput>('');
