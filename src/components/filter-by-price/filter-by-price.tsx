@@ -1,11 +1,10 @@
-import { useEffect,useState, ChangeEvent, KeyboardEvent, SyntheticEvent } from 'react';
+import { useState, ChangeEvent, KeyboardEvent, SyntheticEvent } from 'react';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { getCamerasMaxPrice,getCamerasMinPrice } from '../../store/selectors';
 import { UserInput } from '../../types/filter';
 import { QueryKey } from '../../const/query-key';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import {setBottomPrice,setTopPrice} from '../../store/filter-slice/filter-slice';
-import { getUserEnteredBottomPrice, getUserEnteredTopPrice } from '../../store/selectors';
 
 type FilterByPriceProps = {
   bottomPrice: UserInput;
@@ -46,23 +45,17 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
 
   const getValidTopPrice = () => {
     if(numTopPrice === 0) {
-      console.log('здесь сделать повышение');// изменить наверное это
       return maxPrice;
     }
     if (numTopPrice > maxPrice && numTopPrice !== 0) {
-      console.log('Первая проверка топ цены');
       return maxPrice;
     }
     if (numTopPrice < minPrice && numBottomPrice === 0) {
-      console.log('Вторая проверка топ цены');
       return minPrice;
     }
     if ((numTopPrice < numBottomPrice || numTopPrice < minPrice) && numBottomPrice !== 0) {
-      console.log('Третья проверка топ цены',numTopPrice);
       return numBottomPrice;
     }
-
-
     return numTopPrice;
   };
 

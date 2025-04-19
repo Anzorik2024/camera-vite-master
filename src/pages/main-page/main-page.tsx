@@ -28,7 +28,7 @@ function MainPage ():JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  const camerasCatalog = useAppSelector(selectCameras);
+  const camerasCatalog = useAppSelector(selectCameras);// Заменить на фильтрованные данные
 
   const prices = camerasCatalog.map((camera) => camera.price);// заменить на отфильтрованные данные
   const currentMinPrice = Math.min(...prices);// текущие данные вынести в фильтр компонент
