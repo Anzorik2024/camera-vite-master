@@ -61,14 +61,14 @@ function PhoneNumberInput({ inputRef, setIsButtonDisabled, isOpen} : PhoneNumber
     return isValid;
   };
 
-  const handleBlur = () => {
+  const handleInputBlur = () => {
     if (error) {
       setInputValue('');
       setError(PhoneValidationMessages.REQUIRED);
     }
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = event.target.value;
 
     if (/[a-zA-Zа-яА-Я]/.test(rawValue)) {
@@ -110,8 +110,8 @@ function PhoneNumberInput({ inputRef, setIsButtonDisabled, isOpen} : PhoneNumber
           required
           ref={inputRef}
           value={inputValue}
-          onChange={handleChange}
-          onBlur={handleBlur}
+          onChange={handleInputChange}
+          onBlur={handleInputBlur}
           data-testid="input-phone"
         />
       </label>
