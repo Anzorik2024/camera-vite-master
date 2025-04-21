@@ -10,10 +10,9 @@ export const filterCameras = (
   // Копируем исходный массив для безопасной работы
   let filteredCameras = [...initialCameras];
 
-  const categoryAdapt = category === FilterByCategory.Photocamera ? 'Фотоаппарат' : FilterByCategory.Videocamera;
-
   // Фильтрация по категории (фото/видео)
-  if (categoryAdapt) {
+  if (category) {
+    const categoryAdapt = category === FilterByCategory.Photocamera ? 'Фотоаппарат' : FilterByCategory.Videocamera;
     filteredCameras = filteredCameras.filter((camera) =>
       camera.category === categoryAdapt
     );

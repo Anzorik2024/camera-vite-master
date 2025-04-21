@@ -42,9 +42,9 @@ function MainPage ():JSX.Element {
   const currentFiltersByType = useAppSelector(getCurrentFiltersByTypes);
   const currentFiltersByLevels = useAppSelector(getCurrentFiltersByLevels);
 
-  console.log(filterCameras(camerasCatalog, currentFilterByCategory, currentFiltersByLevels, currentFiltersByType));
+  const filterAllCameras = filterCameras(camerasCatalog, currentFilterByCategory, currentFiltersByLevels, currentFiltersByType);
 
-  const prices = camerasCatalog.map((camera) => camera.price);// заменить на отфильтрованные данные
+  const prices = filterAllCameras.map((camera) => camera.price);// заменить на отфильтрованные данные
   const currentMinPrice = Math.min(...prices);// текущие данные вынести в фильтр компонент
   const currentMaxPrice = Math.max(...prices);// текущие данные вынести в фильтр компонент
 
@@ -62,7 +62,7 @@ function MainPage ():JSX.Element {
   const currentBottomPrice = Number(useAppSelector(getUserEnteredBottomPrice));// для теста вынести в компонент!!!-начало фильтрации по цене
   const currentTopPrice = Number(useAppSelector(getUserEnteredTopPrice));// для теста -начало фильтрации по цене
 
-  const camerasFilterByPrice = filterCamerasByPrice(camerasCatalog,currentBottomPrice, currentTopPrice);// пример как будет работать фильтрация
+  const camerasFilterByPrice = filterCamerasByPrice(filterAllCameras,currentBottomPrice, currentTopPrice);// пример как будет работать фильтрация
 
   const currentSortByType = useAppSelector(getCurrentSortType);
   const currentSortByOrder = useAppSelector(getCurrentSortOrder);
