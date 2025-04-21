@@ -1,5 +1,5 @@
 export enum FilterByCategory {
-  photocamera = 'Фотокамера',
-  videocamera = 'Видеокамера'
+  Photocamera = 'Фотокамера',
+  Videocamera = 'Видеокамера'
 }
 

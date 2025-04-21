@@ -11,8 +11,12 @@ function Filters(): JSX.Element {
 
   const dispatch = useAppDispatch();
   const currentFilterByCategory = useAppSelector(getCurrentFilterByCategory);
+  const isVideocamera = currentFilterByCategory === FilterByCategory.Videocamera;
+
+
   const [bottomPrice, setBottomPrice] = useState<UserInput>('');
   const [topPrice, setTopPrice] = useState<UserInput>('');
+
 
   const handleFormReset = () => {
     dispatch(resetFilters());// поменять поведении перед сдачечей
@@ -73,7 +77,7 @@ function Filters(): JSX.Element {
                   <input
                     type="radio"
                     name="category"
-                    value={name}
+                    value={name[0].toLowerCase().concat(name.slice(1))}
                     checked={category === currentFilterByCategory}
                     data-value={category}
                     data-query={QueryKey.FilterCategory}
