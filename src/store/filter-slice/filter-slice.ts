@@ -30,6 +30,11 @@ export const filterSlice = createSlice({
     setCurrentFilterLevels: (state, action: PayloadAction<string>) => {
       state.currentFilterLevels = [...state.currentFilterLevels, action.payload];
     },
+    removeCurrentFilterLevels: (state, action: PayloadAction<string>) => {
+      state.currentFilterLevels = state.currentFilterTypes.filter(
+        (type) => type !== action.payload
+      );
+    },
     setBottomPrice: (state, action: PayloadAction<UserInput>) => {
       state.bottomPrice = action.payload;
     },
@@ -60,7 +65,8 @@ const {setCurrentFilterCategory,
   setTopPrice,
   setMinPrice,
   setMaxPrice,
-  removeCurrentFilterType} = filterSlice.actions;
+  removeCurrentFilterType,
+  removeCurrentFilterLevels} = filterSlice.actions;
 
 const filterReducer = filterSlice.reducer;
 
@@ -74,5 +80,6 @@ export {
   filterReducer,
   setMinPrice,
   setMaxPrice,
-  removeCurrentFilterType
+  removeCurrentFilterType,
+  removeCurrentFilterLevels
 };
