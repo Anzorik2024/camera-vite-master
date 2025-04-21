@@ -34,8 +34,11 @@ function MainPage ():JSX.Element {
   const currentMinPrice = Math.min(...prices);// текущие данные вынести в фильтр компонент
   const currentMaxPrice = Math.max(...prices);// текущие данные вынести в фильтр компонент
 
-  dispatch(setMinPrice(currentMinPrice));//устанавливаем значение в плейсхолдер и это будет начальное значение
-  dispatch(setMaxPrice(currentMaxPrice));//устанавливаем значение в плейсхолдер и это будет начальное значение
+
+  useEffect(() => {// вынести в отдельный компонент!!!
+    dispatch(setMinPrice(currentMinPrice));//устанавливаем значение в плейсхолдер и это будет начальное значение
+    dispatch(setMaxPrice(currentMaxPrice));//устанавливаем значение в плейсхолдер и это будет начальное значение
+  },[currentMaxPrice,currentMinPrice,dispatch]);
 
   useEffect(() => {// вынести в отдельный компонент!!!
     dispatch(setTopPrice(currentMaxPrice));// тестирую для фильтрации!!!
