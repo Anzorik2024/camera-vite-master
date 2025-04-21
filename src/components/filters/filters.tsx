@@ -1,4 +1,4 @@
-import {useState, ChangeEvent, KeyboardEvent, useEffect } from 'react';
+import {useState, ChangeEvent, KeyboardEvent} from 'react';
 import FilterByPrice from '../filter-by-price/filter-by-price';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
