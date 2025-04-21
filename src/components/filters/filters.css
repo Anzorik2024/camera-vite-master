@@ -1,0 +1,10 @@
+.custom-radio:focus-within {
+  outline: px solid #bbbbbd;
+  box-shadow: 0 0 2px #bbbbbd;
+}
+
+.custom-checkbox:focus-within {
+  outline: 1px solid #bbbbbd;
+  box-shadow: 0 0 2px #bbbbbd;
+
+}

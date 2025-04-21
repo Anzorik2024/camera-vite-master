@@ -9,6 +9,8 @@ import { getCurrentFilterByCategory, getCurrentFiltersByTypes, getCurrentFilters
 import { QueryKey } from '../../const/query-key';
 import { FilterByType } from '../../const/filter-by-type';
 import { FilterByLevel } from '../../const/filter-by-level';
+
+import '../filters/filters.css';
 function Filters(): JSX.Element {
 
   const dispatch = useAppDispatch();
@@ -121,7 +123,7 @@ function Filters(): JSX.Element {
             {Object.entries(FilterByType).map(([name, type]) => {
               const isDisabled = (type === FilterByType.Snapshot || type === FilterByType.Film) && isVideocamera;
               return (
-                <div className="custom-checkbox catalog-filter__item" key={name}>
+                <div className="custom-checkbox catalog-filter__item" key={name} >
                   <label>
                     <input
                       type="checkbox"
