@@ -52,6 +52,7 @@ function MainPage ():JSX.Element {
   useEffect(() => {// вынести в отдельный компонент!!!
     dispatch(setMinPrice(currentMinPrice));//устанавливаем значение в плейсхолдер и это будет начальное значение
     dispatch(setMaxPrice(currentMaxPrice));//устанавливаем значение в плейсхолдер и это будет начальное значение
+
   },[currentMaxPrice,currentMinPrice,dispatch]);
 
   useEffect(() => {// вынести в отдельный компонент!!!

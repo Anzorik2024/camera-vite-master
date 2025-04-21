@@ -35,41 +35,41 @@ function Filters(): JSX.Element {
 
     switch(queryKey) {
       case QueryKey.FilterCategory: {
-
         if (value) {
+          if(value === FilterByCategory.Videocamera) {
+            if (currentFiltersByType.some((filter) => filter === FilterByType.Film)) {
+              dispatch(removeCurrentFilterType(FilterByType.Film));//убираю тип камеры
+            }
+            if (currentFiltersByType.some((filter) => filter === FilterByType.Snapshot)) {
+              dispatch(removeCurrentFilterType(FilterByType.Snapshot));//убираю тип камеры
+            }
+          }
           dispatch(setCurrentFilterCategory(value));// тут убирать при смене категории тип камеры!!!
         }
-
         break;
       }
 
       case QueryKey.FilterType: {
-        // add handle
         if (value && !currentFiltersByType.some((filter) => filter === value)) {
-          dispatch(setCurrentFilterTypes(value));// устанавливаю тип камеры
+          dispatch(setCurrentFilterTypes(value));
         }
-
         if (value && currentFiltersByType.some((filter) => filter === value)) {
-          dispatch(removeCurrentFilterType(value));//убираю тип камеры
+          dispatch(removeCurrentFilterType(value));
         }
         break;
       }
 
       case QueryKey.FilterLevel: {
         if (value && !currentFiltersByLevels.some((filter) => filter === value)) {
-          dispatch(setCurrentFilterLevels(value));// устанавливаю тип камеры
-
+          dispatch(setCurrentFilterLevels(value));
         }
         if (value && currentFiltersByLevels.some((filter) => filter === value)) {
-          dispatch(removeCurrentFilterLevels(value));//убираю тип камеры
+          dispatch(removeCurrentFilterLevels(value));
         }
         break;
-
       }
     }
-
   };
-
 
   const handleCategoryInputKeyDown = (event: KeyboardEvent) => {// скорее всего убрать обаботчик - решается стрелками!!!
     const radioInput = event.target as HTMLInputElement;
