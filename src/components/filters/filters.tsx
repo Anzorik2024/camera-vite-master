@@ -155,21 +155,6 @@ function Filters(): JSX.Element {
                 </label>
               </div>
             ))}
-
-              <label>
-                <input type="checkbox" name="zero" checked/><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Нулевой</span>
-              </label>
-
-            <div className="custom-checkbox catalog-filter__item">
-              <label>
-                <input type="checkbox" name="non-professional"/><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Любительский</span>
-              </label>
-            </div>
-            <div className="custom-checkbox catalog-filter__item">
-              <label>
-                <input type="checkbox" name="professional"/><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Профессиональный</span>
-              </label>
-            </div>
           </fieldset>
           <button className="btn catalog-filter__reset-btn" type="reset">Сбросить фильтры
           </button>
