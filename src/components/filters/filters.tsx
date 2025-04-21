@@ -5,13 +5,16 @@ import { useAppSelector } from '../../hooks/use-app-selector';
 import { UserInput } from '../../types/filter';
 import { resetFilters, setCurrentFilterCategory } from '../../store/filter-slice/filter-slice';
 import { FilterByCategory } from '../../const/filter-by-category';
-import { getCurrentFilterByCategory } from '../../store/selectors';
+import { getCurrentFilterByCategory, getCurrentFiltersByTypes } from '../../store/selectors';
 import { QueryKey } from '../../const/query-key';
+import { FilterByType } from '../../const/filter-by-type';
 function Filters(): JSX.Element {
 
   const dispatch = useAppDispatch();
   const currentFilterByCategory = useAppSelector(getCurrentFilterByCategory);
+  const currentFiltersByType = useAppSelector(getCurrentFiltersByTypes);
   const isVideocamera = currentFilterByCategory === FilterByCategory.Videocamera;
+  const isChecked = (filter: string, filtres: string[]) => filtres.some((value) => value === filter);
 
 
   const [bottomPrice, setBottomPrice] = useState<UserInput>('');
@@ -95,6 +98,28 @@ function Filters(): JSX.Element {
           </fieldset>
           <fieldset className="catalog-filter__block">
             <legend className="title title--h5">Тип камеры</legend>
+            {Object.entries(FilterByType).map(([name, type]) => {
+              const isDisabled = (type === FilterByType.Snapshot || type === FilterByType.Film) && isVideocamera;
+              return (
+                <div className="custom-checkbox catalog-filter__item" key={name}>
+                  <label>
+                    <input
+                      type="checkbox"
+                      name={name[0].toLowerCase().concat(name.slice(1))}
+                      checked={isChecked(type, currentFiltersByType)}
+                      disabled={isDisabled}
+                      data-query={QueryKey.FilterType}
+                      data-value={type}
+                      onChange={handleCategoryInputChange}// переделать название под общее, сделать изменение значения
+                    />
+                    <span className="custom-checkbox__icon" />
+                    <span className="custom-checkbox__label">
+                      {type}
+                    </span>
+                  </label>
+                </div>
+              );
+            })}
             <div className="custom-checkbox catalog-filter__item">
               <label>
                 <input type="checkbox" name="digital" checked/><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Цифровая</span>
