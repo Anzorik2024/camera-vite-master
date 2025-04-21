@@ -3,7 +3,7 @@ import FilterByPrice from '../filter-by-price/filter-by-price';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { UserInput } from '../../types/filter';
-import { resetFilters, setCurrentFilterCategory } from '../../store/filter-slice/filter-slice';
+import { resetFilters, setCurrentFilterCategory, setCurrentFilterTypes } from '../../store/filter-slice/filter-slice';
 import { FilterByCategory } from '../../const/filter-by-category';
 import { getCurrentFilterByCategory, getCurrentFiltersByTypes } from '../../store/selectors';
 import { QueryKey } from '../../const/query-key';
@@ -16,6 +16,8 @@ function Filters(): JSX.Element {
   const isVideocamera = currentFilterByCategory === FilterByCategory.Videocamera;
   const isChecked = (filter: string, filtres: string[]) => filtres.some((value) => value === filter);
 
+  console.log(currentFiltersByType);
+
 
   const [bottomPrice, setBottomPrice] = useState<UserInput>('');
   const [topPrice, setTopPrice] = useState<UserInput>('');
@@ -27,7 +29,7 @@ function Filters(): JSX.Element {
     setTopPrice('');
   };
 
-  const handleCategoryInputChange = (event: ChangeEvent<HTMLInputElement>) => {// переделать название под общее!!!
+  const handleCategoryInputChange = (event: ChangeEvent<HTMLInputElement>) => {// переделать название под общее!!! добавить изменение под типы
     const filterInput = event.target;
     const queryKey = filterInput.dataset.query as QueryKey;
     const value = filterInput.dataset.value as string;
@@ -44,8 +46,12 @@ function Filters(): JSX.Element {
         break;
       }
 
-      case QueryKey.TopPrice: {
+      case QueryKey.FilterType: {
         // add handle
+        if (value && !currentFiltersByType.some((filter) => filter === value)) {
+          dispatch(setCurrentFilterTypes(value));// устанавливаю тип камеры
+          console.log(currentFiltersByType);
+        }
       }
     }
 
@@ -120,26 +126,6 @@ function Filters(): JSX.Element {
                 </div>
               );
             })}
-            <div className="custom-checkbox catalog-filter__item">
-              <label>
-                <input type="checkbox" name="digital" checked/><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Цифровая</span>
-              </label>
-            </div>
-            <div className="custom-checkbox catalog-filter__item">
-              <label>
-                <input type="checkbox" name="film" disabled/><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Плёночная</span>
-              </label>
-            </div>
-            <div className="custom-checkbox catalog-filter__item">
-              <label>
-                <input type="checkbox" name="snapshot"/><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Моментальная</span>
-              </label>
-            </div>
-            <div className="custom-checkbox catalog-filter__item">
-              <label>
-                <input type="checkbox" name="collection" checked disabled/><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Коллекционная</span>
-              </label>
-            </div>
           </fieldset>
           <fieldset className="catalog-filter__block">
             <legend className="title title--h5">Уровень</legend>

@@ -22,6 +22,11 @@ export const filterSlice = createSlice({
     setCurrentFilterTypes: (state, action: PayloadAction<string>) => {
       state.currentFilterTypes = [...state.currentFilterTypes, action.payload];
     },
+    removeCurrentFilterType: (state, action: PayloadAction<string>) => {
+      state.currentFilterTypes = state.currentFilterTypes.filter(
+        (type) => type !== action.payload
+      );
+    },
     setCurrentFilterLevels: (state, action: PayloadAction<string>) => {
       state.currentFilterLevels = [...state.currentFilterLevels, action.payload];
     },
@@ -36,7 +41,7 @@ export const filterSlice = createSlice({
       state.currentFilterTypes = [];
       state.currentFilterLevels = [];
       //state.bottomPrice = '';//изсменить перед сдачей сюда подставить начальные значения каталога
-     //state.topPrice = '';//изсменить перед сдачей изсменить перед сдачей сюда подставить начальные значения каталога
+      //state.topPrice = '';//изсменить перед сдачей изсменить перед сдачей сюда подставить начальные значения каталога
     },
     setMinPrice: (state, action: PayloadAction<number>) => {
       state.minPrice = action.payload;
@@ -47,7 +52,16 @@ export const filterSlice = createSlice({
   },
 });
 
-const {setCurrentFilterCategory, setCurrentFilterTypes, setCurrentFilterLevels, resetFilters, setBottomPrice, setTopPrice, setMinPrice, setMaxPrice} = filterSlice.actions;
+const {setCurrentFilterCategory,
+  setCurrentFilterTypes,
+  setCurrentFilterLevels,
+  resetFilters,
+  setBottomPrice,
+  setTopPrice,
+  setMinPrice,
+  setMaxPrice,
+  removeCurrentFilterType} = filterSlice.actions;
+
 const filterReducer = filterSlice.reducer;
 
 export {
@@ -59,5 +73,6 @@ export {
   setTopPrice,
   filterReducer,
   setMinPrice,
-  setMaxPrice
+  setMaxPrice,
+  removeCurrentFilterType
 };
