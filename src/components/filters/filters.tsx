@@ -1,4 +1,4 @@
-import {useState, ChangeEvent, KeyboardEvent } from 'react';
+import {useState, ChangeEvent, KeyboardEvent, useEffect } from 'react';
 import FilterByPrice from '../filter-by-price/filter-by-price';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
@@ -22,13 +22,17 @@ function Filters(): JSX.Element {
   const [bottomPrice, setBottomPrice] = useState<UserInput>('');
   const [topPrice, setTopPrice] = useState<UserInput>('');
 
+  useEffect(() => {
+    dispatch(resetFilters());
+  }, [dispatch]);
+
   const handleFormReset = () => {
     dispatch(resetFilters());// поменять поведении перед сдачечей
     setBottomPrice('');
     setTopPrice('');
   };
 
-  const handleCategoryInputChange = (event: ChangeEvent<HTMLInputElement>) => {// переделать название под общее!!! добавить изменение под типы
+  const handleCatalogFilterInputChange = (event: ChangeEvent<HTMLInputElement>) => {// переделать название под общее!!! добавить изменение под типы
     const filterInput = event.target;
     const queryKey = filterInput.dataset.query as QueryKey;
     const value = filterInput.dataset.value as string;
@@ -104,7 +108,7 @@ function Filters(): JSX.Element {
                     checked={category === currentFilterByCategory}
                     data-value={category}
                     data-query={QueryKey.FilterCategory}
-                    onChange={handleCategoryInputChange}
+                    onChange={handleCatalogFilterInputChange}
                     onKeyDown={handleCategoryInputKeyDown}
                   />
                   <span className="custom-radio__icon">
@@ -130,7 +134,7 @@ function Filters(): JSX.Element {
                       disabled={isDisabled}
                       data-query={QueryKey.FilterType}
                       data-value={type}
-                      onChange={handleCategoryInputChange}// переделать название под общее, сделать изменение значения
+                      onChange={handleCatalogFilterInputChange}// переделать название под общее, сделать изменение значения
                     />
                     <span className="custom-checkbox__icon" />
                     <span className="custom-checkbox__label">
@@ -152,7 +156,7 @@ function Filters(): JSX.Element {
                     checked={isChecked(level, currentFiltersByLevels)}
                     data-query={QueryKey.FilterLevel}
                     data-value={level}
-                    onChange={handleCategoryInputChange}// переделать название под общее, сделать изменение значения
+                    onChange={handleCatalogFilterInputChange}// переделать название под общее, сделать изменение значения
                   />
                   <span className="custom-checkbox__icon" />
                   <span className="custom-checkbox__label">
