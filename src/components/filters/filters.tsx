@@ -22,10 +22,6 @@ function Filters(): JSX.Element {
   const [bottomPrice, setBottomPrice] = useState<UserInput>('');
   const [topPrice, setTopPrice] = useState<UserInput>('');
 
-  useEffect(() => {
-    dispatch(resetFilters());
-  }, [dispatch]);
-
   const handleFormReset = () => {
     dispatch(resetFilters());// поменять поведении перед сдачечей
     setBottomPrice('');

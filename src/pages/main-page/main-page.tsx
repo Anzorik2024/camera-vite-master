@@ -18,7 +18,7 @@ import { WarningMessage } from '../../const/warning-message';
 import Sort from '../../components/sort/sort';
 import { sortCameras } from '../../utils/sort-cameras';
 import Filters from '../../components/filters/filters';
-import { setMaxPrice,setMinPrice, setTopPrice, setBottomPrice } from '../../store/filter-slice/filter-slice';
+import { setMaxPrice,setMinPrice, setTopPrice, setBottomPrice, resetFilters } from '../../store/filter-slice/filter-slice';
 import { filterCamerasByPrice } from '../../utils/filter-cameras-by-price';
 import { filterCameras } from '../../utils/filter-cameras';
 import { getCurrentSortOrder,
@@ -47,6 +47,7 @@ function MainPage ():JSX.Element {
   const prices = filterAllCameras.map((camera) => camera.price);// заменить на отфильтрованные данные
   const currentMinPrice = Math.min(...prices);// текущие данные вынести в фильтр компонент
   const currentMaxPrice = Math.max(...prices);// текущие данные вынести в фильтр компонент
+
 
 
   useEffect(() => {// вынести в отдельный компонент!!!
