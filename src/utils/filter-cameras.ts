@@ -1,4 +1,5 @@
 import { Cameras } from '../types/camera';
+import { FilterByCategory } from '../const/filter-by-category';
 
 export const filterCameras = (
   initialCameras: Cameras,
@@ -9,10 +10,12 @@ export const filterCameras = (
   // Копируем исходный массив для безопасной работы
   let filteredCameras = [...initialCameras];
 
+  const categoryAdapt = category === FilterByCategory.Photocamera ? 'Фотоаппарат' : FilterByCategory.Videocamera;
+
   // Фильтрация по категории (фото/видео)
-  if (category) {
+  if (categoryAdapt) {
     filteredCameras = filteredCameras.filter((camera) =>
-      camera.category === category
+      camera.category === categoryAdapt
     );
   }
 

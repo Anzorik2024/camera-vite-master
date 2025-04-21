@@ -16,11 +16,19 @@ import { RequestStatus } from '../../const/request-status';
 import { toast} from 'react-toastify';
 import { WarningMessage } from '../../const/warning-message';
 import Sort from '../../components/sort/sort';
-import { getCurrentSortOrder, getCurrentSortType, getUserEnteredBottomPrice, getUserEnteredTopPrice} from '../../store/selectors';
+import { getCurrentSortOrder,
+  getCurrentSortType,
+  getUserEnteredBottomPrice,
+  getUserEnteredTopPrice,
+  getCurrentFilterByCategory,
+  getCurrentFiltersByTypes,
+  getCurrentFiltersByLevels
+} from '../../store/selectors';
 import { sortCameras } from '../../utils/sort-cameras';
 import Filters from '../../components/filters/filters';
 import { setMaxPrice,setMinPrice, setTopPrice, setBottomPrice } from '../../store/filter-slice/filter-slice';
 import { filterCamerasByPrice } from '../../utils/filter-cameras-by-price';
+import { filterCameras } from '../../utils/filter-cameras';
 function MainPage ():JSX.Element {
 
   const [isModalAddCameraToBasketOpen, setModalAddCameraToBasketOpen] = useState<boolean>(false);
@@ -29,6 +37,12 @@ function MainPage ():JSX.Element {
   const dispatch = useAppDispatch();
 
   const camerasCatalog = useAppSelector(selectCameras);// Заменить на фильтрованные данные
+
+  const currentFilterByCategory = useAppSelector(getCurrentFilterByCategory);
+  const currentFiltersByType = useAppSelector(getCurrentFiltersByTypes);
+  const currentFiltersByLevels = useAppSelector(getCurrentFiltersByLevels);
+
+  console.log(filterCameras(camerasCatalog, currentFilterByCategory, currentFiltersByLevels, currentFiltersByType));
 
   const prices = camerasCatalog.map((camera) => camera.price);// заменить на отфильтрованные данные
   const currentMinPrice = Math.min(...prices);// текущие данные вынести в фильтр компонент
