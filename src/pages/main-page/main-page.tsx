@@ -16,6 +16,11 @@ import { RequestStatus } from '../../const/request-status';
 import { toast} from 'react-toastify';
 import { WarningMessage } from '../../const/warning-message';
 import Sort from '../../components/sort/sort';
+import { sortCameras } from '../../utils/sort-cameras';
+import Filters from '../../components/filters/filters';
+import { setMaxPrice,setMinPrice, setTopPrice, setBottomPrice } from '../../store/filter-slice/filter-slice';
+import { filterCamerasByPrice } from '../../utils/filter-cameras-by-price';
+import { filterCameras } from '../../utils/filter-cameras';
 import { getCurrentSortOrder,
   getCurrentSortType,
   getUserEnteredBottomPrice,
@@ -24,11 +29,6 @@ import { getCurrentSortOrder,
   getCurrentFiltersByTypes,
   getCurrentFiltersByLevels
 } from '../../store/selectors';
-import { sortCameras } from '../../utils/sort-cameras';
-import Filters from '../../components/filters/filters';
-import { setMaxPrice,setMinPrice, setTopPrice, setBottomPrice } from '../../store/filter-slice/filter-slice';
-import { filterCamerasByPrice } from '../../utils/filter-cameras-by-price';
-import { filterCameras } from '../../utils/filter-cameras';
 function MainPage ():JSX.Element {
 
   const [isModalAddCameraToBasketOpen, setModalAddCameraToBasketOpen] = useState<boolean>(false);
