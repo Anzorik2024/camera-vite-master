@@ -1,5 +1,5 @@
 export enum FilterByLevel {
   Zero = 'Нулевой',
-  Hobby = 'Любительский',
+  NonProfessional = 'Любительский',
   Professional = 'Профессиональный'
 }

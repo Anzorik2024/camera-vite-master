@@ -32,6 +32,7 @@ export const getUserEnteredTopPrice = (state: State) => state.filter.topPrice;//
 
 export const getCurrentFilterByCategory = (state: State) => state.filter.currentFilterCategory;//переделать однообр
 export const getCurrentFiltersByTypes = (state: State) => state.filter.currentFilterTypes;//переделать однообр
+export const getCurrentFiltersByLevels = (state: State) => state.filter.currentFilterLevels;//переделать однообр
 
 export {
   selectCameras,

@@ -3,20 +3,23 @@ import FilterByPrice from '../filter-by-price/filter-by-price';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { UserInput } from '../../types/filter';
-import { resetFilters, setCurrentFilterCategory, setCurrentFilterTypes } from '../../store/filter-slice/filter-slice';
+import { resetFilters, setCurrentFilterCategory, setCurrentFilterTypes, removeCurrentFilterType } from '../../store/filter-slice/filter-slice';
 import { FilterByCategory } from '../../const/filter-by-category';
-import { getCurrentFilterByCategory, getCurrentFiltersByTypes } from '../../store/selectors';
+import { getCurrentFilterByCategory, getCurrentFiltersByTypes, getCurrentFiltersByLevels } from '../../store/selectors';
 import { QueryKey } from '../../const/query-key';
 import { FilterByType } from '../../const/filter-by-type';
+import { FilterByLevel } from '../../const/filter-by-level';
 function Filters(): JSX.Element {
 
   const dispatch = useAppDispatch();
   const currentFilterByCategory = useAppSelector(getCurrentFilterByCategory);
   const currentFiltersByType = useAppSelector(getCurrentFiltersByTypes);
+  const currentFiltersByLevels = useAppSelector(getCurrentFiltersByLevels);
+
   const isVideocamera = currentFilterByCategory === FilterByCategory.Videocamera;
   const isChecked = (filter: string, filtres: string[]) => filtres.some((value) => value === filter);
 
-  console.log(currentFiltersByType);
+  console.log(currentFiltersByLevels);
 
 
   const [bottomPrice, setBottomPrice] = useState<UserInput>('');
@@ -50,6 +53,11 @@ function Filters(): JSX.Element {
         // add handle
         if (value && !currentFiltersByType.some((filter) => filter === value)) {
           dispatch(setCurrentFilterTypes(value));// устанавливаю тип камеры
+          console.log(currentFiltersByType);
+        }
+
+        if (value && currentFiltersByType.some((filter) => filter === value)) {
+          dispatch(removeCurrentFilterType(value));//убираю тип камеры
           console.log(currentFiltersByType);
         }
       }
@@ -129,11 +137,29 @@ function Filters(): JSX.Element {
           </fieldset>
           <fieldset className="catalog-filter__block">
             <legend className="title title--h5">Уровень</legend>
-            <div className="custom-checkbox catalog-filter__item">
+            {Object.entries(FilterByLevel).map(([name, level]) => (
+              <div className="custom-checkbox catalog-filter__item" key={name}>
+                <label>
+                  <input
+                    type="checkbox"
+                    name={level === FilterByLevel.NonProfessional ? 'non-professional' : name[0].toLowerCase().concat(name.slice(1))}
+                    checked={isChecked(level, currentFiltersByLevels)}
+                    data-query={QueryKey.FilterLevel}
+                    data-value={level}
+                    onChange={handleCategoryInputChange}// переделать название под общее, сделать изменение значения
+                  />
+                  <span className="custom-checkbox__icon" />
+                  <span className="custom-checkbox__label">
+                    {level}
+                  </span>
+                </label>
+              </div>
+            ))}
+
               <label>
                 <input type="checkbox" name="zero" checked/><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Нулевой</span>
               </label>
-            </div>
+
             <div className="custom-checkbox catalog-filter__item">
               <label>
                 <input type="checkbox" name="non-professional"/><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Любительский</span>
