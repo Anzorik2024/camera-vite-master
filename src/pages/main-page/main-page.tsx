@@ -34,8 +34,8 @@ function MainPage ():JSX.Element {
   const currentMinPrice = Math.min(...prices);// текущие данные вынести в фильтр компонент
   const currentMaxPrice = Math.max(...prices);// текущие данные вынести в фильтр компонент
 
-  dispatch(setMinPrice(currentMinPrice));//устанавливаем значение в плейсхолдер
-  dispatch(setMaxPrice(currentMaxPrice));//устанавливаем значение в плейсхолдер
+  dispatch(setMinPrice(currentMinPrice));//устанавливаем значение в плейсхолдер и это будет начальное значение
+  dispatch(setMaxPrice(currentMaxPrice));//устанавливаем значение в плейсхолдер и это будет начальное значение
 
   useEffect(() => {// вынести в отдельный компонент!!!
     dispatch(setTopPrice(currentMaxPrice));// тестирую для фильтрации!!!
@@ -45,7 +45,7 @@ function MainPage ():JSX.Element {
   const currentBottomPrice = Number(useAppSelector(getUserEnteredBottomPrice));// для теста вынести в компонент!!!-начало фильтрации по цене
   const currentTopPrice = Number(useAppSelector(getUserEnteredTopPrice));// для теста -начало фильтрации по цене
 
-  const camerasFilterByPrice = filterCamerasByPrice(camerasCatalog,currentBottomPrice, currentTopPrice);
+  const camerasFilterByPrice = filterCamerasByPrice(camerasCatalog,currentBottomPrice, currentTopPrice);// пример как будет работать фильтрация
 
   const currentSortByType = useAppSelector(getCurrentSortType);
   const currentSortByOrder = useAppSelector(getCurrentSortOrder);

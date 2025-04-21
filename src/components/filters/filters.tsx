@@ -6,19 +6,8 @@ import { UserInput } from '../../types/filter';
 import { resetFilters, setCurrentFilterCategory } from '../../store/filter-slice/filter-slice';
 import { FilterByCategory } from '../../const/filter-by-category';
 import { getCurrentFilterByCategory } from '../../store/selectors';
+import { QueryKey } from '../../const/query-key';
 function Filters(): JSX.Element {
-
-  // useEffect(() => {
-  //   if (categoryFilter === 'Все') {
-  //     setProducts(initialProducts); // Показываем все товары
-  //   } else {
-  //     const filteredProducts = initialProducts.filter(
-  //       (product) => product.category === categoryFilter
-  //     );
-  //     setProducts(filteredProducts);
-  //   }
-  // }, [categoryFilter, initialProducts]); - пример для фильтрации по категории
-
 
   const dispatch = useAppDispatch();
   const currentFilterByCategory = useAppSelector(getCurrentFilterByCategory);
@@ -31,16 +20,32 @@ function Filters(): JSX.Element {
     setTopPrice('');
   };
 
-  const handleCategoryInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const radioInput = event.target;
-    const value = radioInput.dataset.value as string;
-    if (value) {
-      dispatch(setCurrentFilterCategory(value));
+  const handleCategoryInputChange = (event: ChangeEvent<HTMLInputElement>) => {// переделать название под общее!!!
+    const filterInput = event.target;
+    const queryKey = filterInput.dataset.query as QueryKey;
+    const value = filterInput.dataset.value as string;
+
+    switch(queryKey) {
+      case QueryKey.FilterCategory: {
+
+        if (value) {
+          console.log(value);
+          console.log(queryKey);
+          dispatch(setCurrentFilterCategory(value));// тут убирать при смене категории тип камеры!!!
+        }
+
+        break;
+      }
+
+      case QueryKey.TopPrice: {
+        // add handle
+      }
     }
+
   };
 
-  const handleCategoryInputKeyDown = (event: KeyboardEvent) => {
-    const radioInput = event.target as HTMLInputElement;;
+  const handleCategoryInputKeyDown = (event: KeyboardEvent) => {// скорее всего убрать обаботчик - решается стрелками!!!
+    const radioInput = event.target as HTMLInputElement;
     const value = radioInput.dataset.value as string;
     if (event.key === 'Enter') {
       if (value) {
@@ -71,6 +76,7 @@ function Filters(): JSX.Element {
                     value={name}
                     checked={category === currentFilterByCategory}
                     data-value={category}
+                    data-query={QueryKey.FilterCategory}
                     onChange={handleCategoryInputChange}
                     onKeyDown={handleCategoryInputKeyDown}
                   />
