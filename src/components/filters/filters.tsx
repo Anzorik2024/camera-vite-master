@@ -1,9 +1,9 @@
-import {useState, ChangeEvent, KeyboardEvent } from 'react';
+import {useState, ChangeEvent, KeyboardEvent, useEffect } from 'react';
 import FilterByPrice from '../filter-by-price/filter-by-price';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { UserInput } from '../../types/filter';
-import { resetFilters, setCurrentFilterCategory, setCurrentFilterTypes, removeCurrentFilterType } from '../../store/filter-slice/filter-slice';
+import { resetFilters, setCurrentFilterLevels, setCurrentFilterCategory, setCurrentFilterTypes, removeCurrentFilterType, removeCurrentFilterLevels } from '../../store/filter-slice/filter-slice';
 import { FilterByCategory } from '../../const/filter-by-category';
 import { getCurrentFilterByCategory, getCurrentFiltersByTypes, getCurrentFiltersByLevels } from '../../store/selectors';
 import { QueryKey } from '../../const/query-key';
@@ -19,12 +19,8 @@ function Filters(): JSX.Element {
   const isVideocamera = currentFilterByCategory === FilterByCategory.Videocamera;
   const isChecked = (filter: string, filtres: string[]) => filtres.some((value) => value === filter);
 
-  console.log(currentFiltersByLevels);
-
-
   const [bottomPrice, setBottomPrice] = useState<UserInput>('');
   const [topPrice, setTopPrice] = useState<UserInput>('');
-
 
   const handleFormReset = () => {
     dispatch(resetFilters());// поменять поведении перед сдачечей
@@ -41,8 +37,6 @@ function Filters(): JSX.Element {
       case QueryKey.FilterCategory: {
 
         if (value) {
-          console.log(value);
-          console.log(queryKey);
           dispatch(setCurrentFilterCategory(value));// тут убирать при смене категории тип камеры!!!
         }
 
@@ -53,17 +47,30 @@ function Filters(): JSX.Element {
         // add handle
         if (value && !currentFiltersByType.some((filter) => filter === value)) {
           dispatch(setCurrentFilterTypes(value));// устанавливаю тип камеры
-          console.log(currentFiltersByType);
         }
 
         if (value && currentFiltersByType.some((filter) => filter === value)) {
           dispatch(removeCurrentFilterType(value));//убираю тип камеры
-          console.log(currentFiltersByType);
         }
+        break;
+      }
+
+      case QueryKey.FilterLevel: {
+        if (value && !currentFiltersByLevels.some((filter) => filter === value)) {
+          dispatch(setCurrentFilterLevels(value));// устанавливаю тип камеры
+
+        }
+        if (value && currentFiltersByLevels.some((filter) => filter === value)) {
+          dispatch(removeCurrentFilterLevels(value));//убираю тип камеры
+
+        }
+        break;
+
       }
     }
 
   };
+
 
   const handleCategoryInputKeyDown = (event: KeyboardEvent) => {// скорее всего убрать обаботчик - решается стрелками!!!
     const radioInput = event.target as HTMLInputElement;
