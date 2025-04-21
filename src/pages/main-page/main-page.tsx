@@ -44,11 +44,9 @@ function MainPage ():JSX.Element {
 
   const filterAllCameras = filterCameras(camerasCatalog, currentFilterByCategory, currentFiltersByLevels, currentFiltersByType);
 
-  const prices = filterAllCameras.map((camera) => camera.price);// заменить на отфильтрованные данные
+  const prices = filterAllCameras.length > 0 ? filterAllCameras.map((camera) => camera.price) : camerasCatalog.map((camera) => camera.price) ;// пустой фильтр
   const currentMinPrice = Math.min(...prices);// текущие данные вынести в фильтр компонент
   const currentMaxPrice = Math.max(...prices);// текущие данные вынести в фильтр компонент
-
-
 
   useEffect(() => {// вынести в отдельный компонент!!!
     dispatch(setMinPrice(currentMinPrice));//устанавливаем значение в плейсхолдер и это будет начальное значение
