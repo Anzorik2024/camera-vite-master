@@ -31,7 +31,7 @@ export const filterSlice = createSlice({
       state.currentFilterLevels = [...state.currentFilterLevels, action.payload];
     },
     removeCurrentFilterLevels: (state, action: PayloadAction<string>) => {
-      state.currentFilterLevels = state.currentFilterTypes.filter(
+      state.currentFilterLevels = state.currentFilterLevels.filter(
         (type) => type !== action.payload
       );
     },

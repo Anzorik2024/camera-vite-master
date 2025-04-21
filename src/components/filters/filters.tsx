@@ -62,7 +62,6 @@ function Filters(): JSX.Element {
         }
         if (value && currentFiltersByLevels.some((filter) => filter === value)) {
           dispatch(removeCurrentFilterLevels(value));//убираю тип камеры
-
         }
         break;
 
