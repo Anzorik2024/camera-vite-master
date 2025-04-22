@@ -41,18 +41,16 @@ export const filterSlice = createSlice({
     setTopPrice: (state, action: PayloadAction<UserInput>) => {
       state.topPrice = action.payload;
     },
-    resetFilters: (state) => {
-      state.currentFilterCategory = null;
-      state.currentFilterTypes = [];
-      state.currentFilterLevels = [];
-      //state.bottomPrice = '';//изсменить перед сдачей сюда подставить начальные значения каталога
-      //state.topPrice = '';//изсменить перед сдачей изсменить перед сдачей сюда подставить начальные значения каталога
-    },
     setMinPrice: (state, action: PayloadAction<number>) => {
       state.minPrice = action.payload;
     },
     setMaxPrice: (state, action: PayloadAction<number>) => {
       state.maxPrice = action.payload;
+    },
+    resetFilters: (state) => {
+      state.currentFilterCategory = null;
+      state.currentFilterTypes = [];
+      state.currentFilterLevels = [];
     },
   },
 });

@@ -11,6 +11,7 @@ import { FilterByType } from '../../const/filter-by-type';
 import { FilterByLevel } from '../../const/filter-by-level';
 
 import '../filters/filters.css';
+
 function Filters(): JSX.Element {
 
   const dispatch = useAppDispatch();
@@ -23,12 +24,6 @@ function Filters(): JSX.Element {
 
   const [bottomPrice, setBottomPrice] = useState<UserInput>('');
   const [topPrice, setTopPrice] = useState<UserInput>('');
-
-  const handleFormReset = () => {
-    dispatch(resetFilters());// поменять поведении перед сдачечей
-    setBottomPrice('');
-    setTopPrice('');
-  };
 
   const handleCatalogFilterInputChange = (event: ChangeEvent<HTMLInputElement>) => {// переделать название под общее!!! добавить изменение под типы
     const filterInput = event.target;
@@ -82,6 +77,15 @@ function Filters(): JSX.Element {
       }
     }
   };
+
+
+  const handleFormReset = (event: React.FormEvent) => {
+    event.preventDefault(); // оказалось удачное решение!!!
+    setBottomPrice('');
+    setTopPrice('');
+    dispatch(resetFilters());
+  };
+
 
   return (
     <div className="catalog__aside">
