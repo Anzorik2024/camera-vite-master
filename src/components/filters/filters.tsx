@@ -31,7 +31,7 @@ function Filters(): JSX.Element {
   const currentFiltersByType = useAppSelector(getCurrentFiltersByTypes);
   const currentFiltersByLevels = useAppSelector(getCurrentFiltersByLevels);
 
-  //////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////Установка в  ValueInput
   const camerasCatalog = useAppSelector(selectCameras);// Заменить на фильтрованные данные
 
   const currentMinPriceValue = usePriceRange(camerasCatalog).minPrice;
@@ -42,7 +42,14 @@ function Filters(): JSX.Element {
     dispatch(setBottomPrice(currentMinPriceValue));// тестирую для фильтрации!!!
   },[currentMaxPriceValue,currentMinPriceValue,dispatch]);
 
-  //////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////установка в плейсхолдер и сброс значений!!!
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////
 
   const isVideocamera = currentFilterByCategory === FilterByCategory.Videocamera;
   const isChecked = (filter: string, filtres: string[]) => filtres.some((value) => value === filter);

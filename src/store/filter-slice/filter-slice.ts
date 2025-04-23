@@ -1,8 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Cameras } from '../../types/camera';
 import { FilterData, UserInput } from '../../types/filter';
 
 
 export const initialStateFilter: FilterData = {
+  filterCameras: [],
   currentFilterCategory: null,
   currentFilterTypes: [],
   currentFilterLevels: [],
@@ -47,10 +49,14 @@ export const filterSlice = createSlice({
     setMaxPrice: (state, action: PayloadAction<number>) => {
       state.maxPrice = action.payload;
     },
+    setFilterCameras: (state, action: PayloadAction<Cameras>) => {
+      state.filterCameras = action.payload;
+    },
     resetFilters: (state) => {
       state.currentFilterCategory = null;
       state.currentFilterTypes = [];
       state.currentFilterLevels = [];
+      state.filterCameras = [];
     },
   },
 });
