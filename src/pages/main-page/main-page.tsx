@@ -53,16 +53,24 @@ function MainPage ():JSX.Element {
     dispatch(setMaxPrice(currentMaxPrice));//устанавливаем значение в плейсхолдер и это будет начальное значение
 
   },[currentMaxPrice,currentMinPrice,dispatch]);
-
+  ///////////////////////////////////////////
+  const prices2 = camerasCatalog.map((camera) => camera.price) ;// пустой фильтр
+  const currentMinPrice2 = Math.min(...prices2);// текущие данные вынести в фильтр компонент
+  const currentMaxPrice2 = Math.max(...prices2);// текущие данные вынести в фильтр компонент
   useEffect(() => {// вынести в отдельный компонент!!!
-    dispatch(setTopPrice(currentMaxPrice));// тестирую для фильтрации!!!
-    dispatch(setBottomPrice(currentMinPrice));// тестирую для фильтрации!!!
-  },[currentMaxPrice,currentMinPrice,dispatch]);
+    dispatch(setTopPrice(currentMaxPrice2));// тестирую для фильтрации!!!
+    dispatch(setBottomPrice(currentMinPrice2));// тестирую для фильтрации!!!
+  },[currentMaxPrice2,currentMinPrice2,dispatch]);
+
+  //////////////////////////////////////////////доработать кнопку сбросить фильтры !!!!!
 
   const currentBottomPrice = Number(useAppSelector(getUserEnteredBottomPrice));// для теста вынести в компонент!!!-начало фильтрации по цене
   const currentTopPrice = Number(useAppSelector(getUserEnteredTopPrice));// для теста -начало фильтрации по цене
 
   const camerasFilterByPrice = filterCamerasByPrice(filterAllCameras,currentBottomPrice, currentTopPrice);// пример как будет работать фильтрация
+
+  console.log(currentTopPrice); // цена должна оставаться при смене фильтров!!!
+
 
   const currentSortByType = useAppSelector(getCurrentSortType);
   const currentSortByOrder = useAppSelector(getCurrentSortOrder);

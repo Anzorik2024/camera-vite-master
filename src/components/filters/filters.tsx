@@ -83,7 +83,7 @@ function Filters(): JSX.Element {
     event.preventDefault(); // оказалось удачное решение!!!
     setBottomPrice('');
     setTopPrice('');
-    dispatch(resetFilters());
+    dispatch(resetFilters());// доработать сброс цены
   };
 
 
