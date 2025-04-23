@@ -6,7 +6,7 @@ import { useAppSelector } from '../../hooks/use-app-selector';
 import { UserInput } from '../../types/filter';
 
 import { FilterByCategory } from '../../const/filter-by-category';
-import { getCurrentFilterByCategory, getCurrentFiltersByTypes, getCurrentFiltersByLevels, selectCameras } from '../../store/selectors';
+import { getCurrentFilterByCategory, getCurrentFiltersByTypes,getUserEnteredTopPrice, getCurrentFiltersByLevels, selectCameras } from '../../store/selectors';
 import { QueryKey } from '../../const/query-key';
 import { FilterByType } from '../../const/filter-by-type';
 import { FilterByLevel } from '../../const/filter-by-level';
@@ -30,24 +30,7 @@ function Filters(): JSX.Element {
   const currentFilterByCategory = useAppSelector(getCurrentFilterByCategory);
   const currentFiltersByType = useAppSelector(getCurrentFiltersByTypes);
   const currentFiltersByLevels = useAppSelector(getCurrentFiltersByLevels);
-
-  //////////////////////////////////////////////////////////////Установка в  ValueInput
-  const camerasCatalog = useAppSelector(selectCameras);// Заменить на фильтрованные данные
-
-  const currentMinPriceValue = usePriceRange(camerasCatalog).minPrice;
-  const currentMaxPriceValue = usePriceRange(camerasCatalog).maxPrice;
-
-  useEffect(() => {// вынести в отдельный компонент!!!
-    dispatch(setTopPrice(currentMaxPriceValue));// тестирую для фильтрации!!!
-    dispatch(setBottomPrice(currentMinPriceValue));// тестирую для фильтрации!!!
-  },[currentMaxPriceValue,currentMinPriceValue,dispatch]);
-
-  //////////////////////////////////////////////////////////////////установка в плейсхолдер и сброс значений!!!
-
-
-
-
-
+  const camerasCatalog = useAppSelector(selectCameras);
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -56,6 +39,29 @@ function Filters(): JSX.Element {
 
   const [bottomPriceValue, setBottomPriceValue] = useState<UserInput>('');
   const [topPriceValue, setTopPriceValue] = useState<UserInput>('');
+
+
+  const currentMinPriceValue = usePriceRange(camerasCatalog).minPrice;
+  const currentMaxPriceValue = usePriceRange(camerasCatalog).maxPrice;
+
+  const testPriceTop = Number(useAppSelector(getUserEnteredTopPrice));
+
+  useEffect(() => {// вынести в отдельный компонент!!!
+
+    if(testPriceTop > 0 && testPriceTop !== currentMaxPriceValue) {// решение при переходе на страницу!!!
+      dispatch(setTopPrice(testPriceTop));
+      setTopPriceValue(testPriceTop);
+    } else {
+      dispatch(setTopPrice(currentMaxPriceValue));// тестирую для фильтрации!!!
+      dispatch(setBottomPrice(currentMinPriceValue));// тестирую для фильтрации!!!
+    }
+
+  },[testPriceTop,currentMinPriceValue, currentMaxPriceValue, dispatch]);
+
+
+  useEffect(()=> {
+    console.log('test Flter', testPriceTop);
+  }, [testPriceTop]);
 
   const handleCatalogFilterInputChange = (event: ChangeEvent<HTMLInputElement>) => {// переделать название под общее!!! добавить изменение под типы
     const filterInput = event.target;
@@ -115,6 +121,7 @@ function Filters(): JSX.Element {
     event.preventDefault(); // оказалось удачное решение!!!
     setBottomPriceValue('');
     setTopPriceValue('');
+    dispatch(setTopPrice(currentMaxPriceValue));// наброска сброса фильтров!!!
     dispatch(resetFilters());// доработать сброс цены
   };
 
