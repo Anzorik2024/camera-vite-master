@@ -18,6 +18,8 @@ import { resetFilters,
   setCurrentFilterTypes,
   removeCurrentFilterType,
   removeCurrentFilterLevels,
+  setBottomPrice,
+  setTopPrice
 } from '../../store/filter-slice/filter-slice';
 
 import '../filters/filters.css';
@@ -32,13 +34,13 @@ function Filters(): JSX.Element {
   //////////////////////////////////////////////////////////////
   const camerasCatalog = useAppSelector(selectCameras);// Заменить на фильтрованные данные
 
-  // const currentMinPriceValue = usePriceRange(camerasCatalog).minPrice;
-  // dispatch(setBottomPrice(currentMinPriceValue));
+  const currentMinPriceValue = usePriceRange(camerasCatalog).minPrice;
+  const currentMaxPriceValue = usePriceRange(camerasCatalog).maxPrice;
 
-  // useEffect(() => {// вынести в отдельный компонент!!!
-  //   dispatch(setTopPrice(currentMaxPrice2));// тестирую для фильтрации!!!
-  //   dispatch(setBottomPrice(currentMinPriceValue));// тестирую для фильтрации!!!
-  // },[currentMaxPrice2,currentMinPriceValue,dispatch]);
+  useEffect(() => {// вынести в отдельный компонент!!!
+    dispatch(setTopPrice(currentMaxPriceValue));// тестирую для фильтрации!!!
+    dispatch(setBottomPrice(currentMinPriceValue));// тестирую для фильтрации!!!
+  },[currentMaxPriceValue,currentMinPriceValue,dispatch]);
 
   //////////////////////////////////////////////////////////////////
 
