@@ -1,14 +1,24 @@
-import {useState, ChangeEvent, KeyboardEvent} from 'react';
+import {useEffect, useState, ChangeEvent, KeyboardEvent} from 'react';
+
 import FilterByPrice from '../filter-by-price/filter-by-price';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { UserInput } from '../../types/filter';
-import { resetFilters, setCurrentFilterLevels, setCurrentFilterCategory, setCurrentFilterTypes, removeCurrentFilterType, removeCurrentFilterLevels } from '../../store/filter-slice/filter-slice';
+
 import { FilterByCategory } from '../../const/filter-by-category';
-import { getCurrentFilterByCategory, getCurrentFiltersByTypes, getCurrentFiltersByLevels } from '../../store/selectors';
+import { getCurrentFilterByCategory, getCurrentFiltersByTypes, getCurrentFiltersByLevels, selectCameras } from '../../store/selectors';
 import { QueryKey } from '../../const/query-key';
 import { FilterByType } from '../../const/filter-by-type';
 import { FilterByLevel } from '../../const/filter-by-level';
+import { usePriceRange } from '../../hooks/use-price-range';
+
+import { resetFilters,
+  setCurrentFilterLevels,
+  setCurrentFilterCategory,
+  setCurrentFilterTypes,
+  removeCurrentFilterType,
+  removeCurrentFilterLevels,
+} from '../../store/filter-slice/filter-slice';
 
 import '../filters/filters.css';
 
@@ -19,11 +29,24 @@ function Filters(): JSX.Element {
   const currentFiltersByType = useAppSelector(getCurrentFiltersByTypes);
   const currentFiltersByLevels = useAppSelector(getCurrentFiltersByLevels);
 
+  //////////////////////////////////////////////////////////////
+  const camerasCatalog = useAppSelector(selectCameras);// Заменить на фильтрованные данные
+
+  // const currentMinPriceValue = usePriceRange(camerasCatalog).minPrice;
+  // dispatch(setBottomPrice(currentMinPriceValue));
+
+  // useEffect(() => {// вынести в отдельный компонент!!!
+  //   dispatch(setTopPrice(currentMaxPrice2));// тестирую для фильтрации!!!
+  //   dispatch(setBottomPrice(currentMinPriceValue));// тестирую для фильтрации!!!
+  // },[currentMaxPrice2,currentMinPriceValue,dispatch]);
+
+  //////////////////////////////////////////////////////////////////
+
   const isVideocamera = currentFilterByCategory === FilterByCategory.Videocamera;
   const isChecked = (filter: string, filtres: string[]) => filtres.some((value) => value === filter);
 
-  const [bottomPrice, setBottomPrice] = useState<UserInput>('');
-  const [topPrice, setTopPrice] = useState<UserInput>('');
+  const [bottomPriceValue, setBottomPriceValue] = useState<UserInput>('');
+  const [topPriceValue, setTopPriceValue] = useState<UserInput>('');
 
   const handleCatalogFilterInputChange = (event: ChangeEvent<HTMLInputElement>) => {// переделать название под общее!!! добавить изменение под типы
     const filterInput = event.target;
@@ -81,8 +104,8 @@ function Filters(): JSX.Element {
 
   const handleFormReset = (event: React.FormEvent) => {
     event.preventDefault(); // оказалось удачное решение!!!
-    setBottomPrice('');
-    setTopPrice('');
+    setBottomPriceValue('');
+    setTopPriceValue('');
     dispatch(resetFilters());// доработать сброс цены
   };
 
@@ -93,10 +116,10 @@ function Filters(): JSX.Element {
         <form action="#" onReset={handleFormReset}>
           <h2 className="visually-hidden">Фильтр</h2>
           <FilterByPrice
-            bottomPrice={bottomPrice}
-            topPrice={topPrice}
-            onBottomPriceChange={setBottomPrice}
-            onTopPriceChange={setTopPrice}
+            bottomPrice={bottomPriceValue}
+            topPrice={topPriceValue}
+            onBottomPriceChange={setBottomPriceValue}
+            onTopPriceChange={setTopPriceValue}
           />
           <fieldset className="catalog-filter__block">
             <legend className="title title--h5">Категория</legend>
