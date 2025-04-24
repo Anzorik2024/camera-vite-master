@@ -46,29 +46,23 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
 
   const [bottomPriceValue, setBottomPriceValue] = useState<UserInput>('');
   const [topPriceValue, setTopPriceValue] = useState<UserInput>('');
-  //////////////////
   const pricesFromCatalog = usePriceRange(camerasCatalog);
   const pricesFromFiltered = usePriceRange(cameraFiltering);
-
-  ///////////////////////перенос из главной страницы
 
   const currentMaxPrice = cameraFiltering.length > 0 ? pricesFromFiltered.maxPrice : pricesFromCatalog.maxPrice;
   const currentMinPrice = cameraFiltering.length > 0 ? pricesFromFiltered.minPrice : pricesFromCatalog.minPrice;
 
-
-  useEffect(() => {// вынести в отдельный компонент!!!
-    dispatch(setMinPrice(currentMinPrice));//устанавливаем значение в плейсхолдер и это будет начальное значение
-    dispatch(setMaxPrice(currentMaxPrice));//устанавливаем значение в плейсхолдер и это будет начальное значение
+  useEffect(() => {
+    dispatch(setMinPrice(currentMinPrice));
+    dispatch(setMaxPrice(currentMaxPrice));
 
   },[currentMaxPrice,currentMinPrice,dispatch]);
 
-  /////////////////////////////
+  const currentMinPriceValue = pricesFromCatalog.minPrice;
+  const currentMaxPriceValue = pricesFromCatalog.maxPrice;
 
-  const currentMinPriceValue = pricesFromCatalog.minPrice;// установка в значение поля цены
-  const currentMaxPriceValue = pricesFromCatalog.maxPrice;// установка в значение поля цены
-
-  const currentTopPrice = Number(useAppSelector(getUserEnteredTopPrice));// установка в значение поля цены
-  const currentBottomPrice = Number(useAppSelector(getUserEnteredBottomPrice));// установка в значение поля цены
+  const currentTopPrice = Number(useAppSelector(getUserEnteredTopPrice));
+  const currentBottomPrice = Number(useAppSelector(getUserEnteredBottomPrice));
 
   useEffect(() => {
     if(currentTopPrice > 0 && currentTopPrice !== currentMaxPriceValue) {
@@ -104,7 +98,7 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
               dispatch(removeCurrentFilterType(FilterByType.Snapshot));//убираю тип камеры
             }
           }
-          dispatch(setCurrentFilterCategory(value));// тут убирать при смене категории тип камеры!!!
+          dispatch(setCurrentFilterCategory(value));
         }
         break;
       }
@@ -131,23 +125,21 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
     }
   };
 
-  // Добавляем обработчик для чекбоксов
   const handleCheckboxKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      event.preventDefault(); // Предотвращаем стандартное поведение
+      event.preventDefault();
       const checkbox = event.target as HTMLInputElement;
-      checkbox.click(); // Имитируем клик по чекбоксу
+      checkbox.click();
     }
   };
 
-
   const handleFormReset = (event: React.FormEvent) => {
-    event.preventDefault(); // оказалось удачное решение!!!
-    dispatch(setTopPrice(currentMaxPriceValue));// наброска сброса фильтров!!!
-    dispatch(setBottomPrice(currentMinPriceValue));// наброска сброса фильтров!!!
+    event.preventDefault();
+    dispatch(setTopPrice(currentMaxPriceValue));
+    dispatch(setBottomPrice(currentMinPriceValue));
     setBottomPriceValue('');
     setTopPriceValue('');
-    dispatch(resetFilters());// доработать сброс цены
+    dispatch(resetFilters());
   };
 
   return (
@@ -199,7 +191,7 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
                       data-query={QueryKey.FilterType}
                       data-value={type}
                       onKeyDown={handleCheckboxKeyDown}
-                      onChange={handleCatalogFilterInputChange}// переделать название под общее, сделать изменение значения
+                      onChange={handleCatalogFilterInputChange}
                     />
                     <span className="custom-checkbox__icon" />
                     <span className="custom-checkbox__label">
@@ -222,7 +214,7 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
                     data-query={QueryKey.FilterLevel}
                     data-value={level}
                     onKeyDown={handleCheckboxKeyDown}
-                    onChange={handleCatalogFilterInputChange}// переделать название под общее, сделать изменение значения
+                    onChange={handleCatalogFilterInputChange}
                   />
                   <span className="custom-checkbox__icon" />
                   <span className="custom-checkbox__label">
