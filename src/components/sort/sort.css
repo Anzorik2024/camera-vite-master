@@ -1,0 +1,17 @@
+.catalog-sort__btn-text input[type=radio]:focus-visible + label {
+  color: #fff;
+    background-color: #7575e2;
+    pointer-events: none;
+    outline: 1px solid #212121;
+  box-shadow: 0 0 2px #212121;
+}
+
+.catalog-sort__order input[type=radio]:focus-visible + label {
+  color: #fff;
+    background-color: #7575e2;
+    pointer-events: none;
+    outline: 1px solid #212121;
+  box-shadow: 0 0 2px #212121;
+}
+
+

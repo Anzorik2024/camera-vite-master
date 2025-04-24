@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, KeyboardEvent } from 'react';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
@@ -7,6 +7,8 @@ import { changeSortOrder, changeSortType } from '../../store/sort-slice/sort-sli
 import { getCurrentSortType, getCurrentSortOrder } from '../../store/selectors';
 import { SortByOrderServerValue, SORT_BY_ORDER } from '../../const/sort-by-order';
 import { SortByTypeServerValue, SORT_BY_TYPE } from '../../const/sort-by-type';
+
+import '../sort/sort.css';
 
 
 function Sort(): JSX.Element {
@@ -34,7 +36,7 @@ function Sort(): JSX.Element {
         <div className="catalog-sort__inner">
           <p className="title title--h5">Сортировать:</p>
           <div className="catalog-sort__type">
-            {SORT_BY_TYPE.map(({title, id, value}) => (
+            {SORT_BY_TYPE.map(({ title, id, value }) => (
               <div className="catalog-sort__btn-text" key={id}>
                 <input
                   type="radio"
@@ -49,7 +51,7 @@ function Sort(): JSX.Element {
             ))}
           </div>
           <div className="catalog-sort__order">
-            {SORT_BY_ORDER.map(({title, id, value}) => (
+            {SORT_BY_ORDER.map(({ title, id, value }) => (
               <div className={`catalog-sort__btn catalog-sort__btn--${id}`} key={id}>
                 <input
                   type="radio"
@@ -59,7 +61,7 @@ function Sort(): JSX.Element {
                   data-value={value}
                   checked={value === currentSortByOrder}
                   onChange={handleInputSortOrderChange}
-                />{' '}
+                />
                 <label htmlFor={id}>
                   <svg width={16} height={14} aria-hidden="true">
                     <use xlinkHref="#icon-sort" />
