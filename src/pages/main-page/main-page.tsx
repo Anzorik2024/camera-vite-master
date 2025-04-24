@@ -29,6 +29,8 @@ import { getCurrentSortOrder,
   getCurrentFiltersByTypes,
   getCurrentFiltersByLevels,
 } from '../../store/selectors';
+
+import { usePriceRange } from '../../hooks/use-price-range';
 function MainPage ():JSX.Element {
 
   const [isModalAddCameraToBasketOpen, setModalAddCameraToBasketOpen] = useState<boolean>(false);
@@ -43,9 +45,11 @@ function MainPage ():JSX.Element {
 
   const filterAllCameras = filterCameras(camerasCatalog, currentFilterByCategory, currentFiltersByLevels, currentFiltersByType);
 
-  const prices = filterAllCameras.length > 0 ? filterAllCameras.map((camera) => camera.price) : camerasCatalog.map((camera) => camera.price) ;// пустой фильтр
-  const currentMinPrice = Math.min(...prices);// текущие данные вынести в фильтр компонент
-  const currentMaxPrice = Math.max(...prices);// текущие данные вынести в фильтр компонент
+  const pricesFromFiltered = usePriceRange(filterAllCameras);
+  const pricesFromCatalog = usePriceRange(camerasCatalog);
+
+  const currentMaxPrice = filterAllCameras.length > 0 ? pricesFromFiltered.maxPrice : pricesFromCatalog.maxPrice;
+  const currentMinPrice = filterAllCameras.length > 0 ? pricesFromFiltered.minPrice : pricesFromCatalog.minPrice;// текущие данные вынести в фильтр компонент
 
   useEffect(() => {// вынести в отдельный компонент!!!
     dispatch(setMinPrice(currentMinPrice));//устанавливаем значение в плейсхолдер и это будет начальное значение

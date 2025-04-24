@@ -32,8 +32,6 @@ function Filters(): JSX.Element {
   const currentFiltersByLevels = useAppSelector(getCurrentFiltersByLevels);
   const camerasCatalog = useAppSelector(selectCameras);
 
-  ///////////////////////////////////////////////////////////////////////
-
   const isVideocamera = currentFilterByCategory === FilterByCategory.Videocamera;
   const isChecked = (filter: string, filtres: string[]) => filtres.some((value) => value === filter);
 
@@ -41,19 +39,18 @@ function Filters(): JSX.Element {
   const [topPriceValue, setTopPriceValue] = useState<UserInput>('');
 
 
-  const currentMinPriceValue = usePriceRange(camerasCatalog).minPrice;
-  const currentMaxPriceValue = usePriceRange(camerasCatalog).maxPrice;
+  const currentMinPriceValue = usePriceRange(camerasCatalog).minPrice;// использовать периспользовать
+  const currentMaxPriceValue = usePriceRange(camerasCatalog).maxPrice;// использовать периспользовать
 
   const currentTopPrice = Number(useAppSelector(getUserEnteredTopPrice));
   const currentBottomPrice = Number(useAppSelector(getUserEnteredBottomPrice));
 
-  useEffect(() => {// вынести в отдельный компонент!!!
-
-    if(currentTopPrice > 0 && currentTopPrice !== currentMaxPriceValue) {// решение при переходе на страницу!!!
+  useEffect(() => {
+    if(currentTopPrice > 0 && currentTopPrice !== currentMaxPriceValue) {
       dispatch(setTopPrice(currentTopPrice));
       setTopPriceValue(currentTopPrice);
     } else {
-      dispatch(setTopPrice(currentMaxPriceValue));// тестирую для фильтрации!!!
+      dispatch(setTopPrice(currentMaxPriceValue));
     }
   },[currentTopPrice, currentMaxPriceValue, dispatch]);
 
@@ -62,7 +59,7 @@ function Filters(): JSX.Element {
       dispatch(setBottomPrice(currentBottomPrice));
       setBottomPriceValue(currentBottomPrice);
     } else {
-      dispatch(setBottomPrice(currentMinPriceValue));// тестирую для фильтрации!!!
+      dispatch(setBottomPrice(currentMinPriceValue));
     }
   },[currentBottomPrice, currentMinPriceValue, dispatch]);
 
