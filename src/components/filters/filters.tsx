@@ -19,8 +19,11 @@ import { resetFilters,
   removeCurrentFilterType,
   removeCurrentFilterLevels,
   setBottomPrice,
-  setTopPrice
+  setTopPrice,
+  setFilterCameras
 } from '../../store/filter-slice/filter-slice';
+
+import { filterCameras } from '../../utils/filter-cameras';
 
 import '../filters/filters.css';
 
@@ -32,7 +35,7 @@ function Filters(): JSX.Element {
   const currentFiltersByLevels = useAppSelector(getCurrentFiltersByLevels);
   const camerasCatalog = useAppSelector(selectCameras);
 
-///////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////
 
   const isVideocamera = currentFilterByCategory === FilterByCategory.Videocamera;
   const isChecked = (filter: string, filtres: string[]) => filtres.some((value) => value === filter);
@@ -64,6 +67,15 @@ function Filters(): JSX.Element {
 
   },[currentTopPrice,currentMinPriceValue,currentBottomPrice, currentMaxPriceValue, dispatch]);
 
+  const filterAllCameras = filterCameras(
+    camerasCatalog,
+    currentFilterByCategory,
+    currentFiltersByLevels,
+    currentFiltersByType);
+
+  useEffect(()=> {
+    dispatch(setFilterCameras(filterAllCameras));
+  }, [filterAllCameras,dispatch]);// перенос отфильрованных фильтров в редьюсер
 
 
   const handleCatalogFilterInputChange = (event: ChangeEvent<HTMLInputElement>) => {// переделать название под общее!!! добавить изменение под типы

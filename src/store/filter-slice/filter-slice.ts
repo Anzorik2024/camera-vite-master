@@ -70,7 +70,9 @@ const {setCurrentFilterCategory,
   setMinPrice,
   setMaxPrice,
   removeCurrentFilterType,
-  removeCurrentFilterLevels} = filterSlice.actions;
+  removeCurrentFilterLevels,
+  setFilterCameras
+} = filterSlice.actions;
 
 const filterReducer = filterSlice.reducer;
 
@@ -85,5 +87,6 @@ export {
   setMinPrice,
   setMaxPrice,
   removeCurrentFilterType,
-  removeCurrentFilterLevels
+  removeCurrentFilterLevels,
+  setFilterCameras
 };

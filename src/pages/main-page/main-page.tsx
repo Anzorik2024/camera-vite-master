@@ -42,8 +42,8 @@ function MainPage ():JSX.Element {
   const currentFiltersByType = useAppSelector(getCurrentFiltersByTypes);
   const currentFiltersByLevels = useAppSelector(getCurrentFiltersByLevels);
 
-  const filterAllCameras = filterCameras(camerasCatalog, currentFilterByCategory, currentFiltersByLevels, currentFiltersByType);
-
+  //const filterAllCameras = filterCameras(camerasCatalog, currentFilterByCategory, currentFiltersByLevels, currentFiltersByType);
+// заменить на получение по селектору!!!
   const prices = filterAllCameras.length > 0 ? filterAllCameras.map((camera) => camera.price) : camerasCatalog.map((camera) => camera.price) ;// пустой фильтр
   const currentMinPrice = Math.min(...prices);// текущие данные вынести в фильтр компонент
   const currentMaxPrice = Math.max(...prices);// текущие данные вынести в фильтр компонент
