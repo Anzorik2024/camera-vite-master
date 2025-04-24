@@ -21,10 +21,19 @@ import { resetFilters,
   setBottomPrice,
   setTopPrice,
 } from '../../store/filter-slice/filter-slice';
+import { Cameras } from '../../types/camera';
 
 import '../filters/filters.css';
 
-function Filters(): JSX.Element {
+
+type FilterProps = {
+  cameraFiltering: Cameras;
+}
+
+
+function Filters({cameraFiltering} :FilterProps): JSX.Element {
+
+  console.log(cameraFiltering);
 
   const dispatch = useAppDispatch();
   const currentFilterByCategory = useAppSelector(getCurrentFilterByCategory);
@@ -37,13 +46,16 @@ function Filters(): JSX.Element {
 
   const [bottomPriceValue, setBottomPriceValue] = useState<UserInput>('');
   const [topPriceValue, setTopPriceValue] = useState<UserInput>('');
+//////////////////
+  const pricesFromCatalog = usePriceRange(camerasCatalog);
 
+///////////////////////
 
-  const currentMinPriceValue = usePriceRange(camerasCatalog).minPrice;// использовать периспользовать
-  const currentMaxPriceValue = usePriceRange(camerasCatalog).maxPrice;// использовать периспользовать
+  const currentMinPriceValue = pricesFromCatalog.minPrice;// установка в значение поля цены
+  const currentMaxPriceValue = pricesFromCatalog.maxPrice;// установка в значение поля цены
 
-  const currentTopPrice = Number(useAppSelector(getUserEnteredTopPrice));
-  const currentBottomPrice = Number(useAppSelector(getUserEnteredBottomPrice));
+  const currentTopPrice = Number(useAppSelector(getUserEnteredTopPrice));// установка в значение поля цены
+  const currentBottomPrice = Number(useAppSelector(getUserEnteredBottomPrice));// установка в значение поля цены
 
   useEffect(() => {
     if(currentTopPrice > 0 && currentTopPrice !== currentMaxPriceValue) {

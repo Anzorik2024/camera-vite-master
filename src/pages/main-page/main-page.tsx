@@ -103,7 +103,7 @@ function MainPage ():JSX.Element {
             <div className="container">
               <h1 className="title title--h2">Каталог фото- и видеотехники</h1>
               <div className="page-content__columns">
-                <Filters/>
+                <Filters cameraFiltering={filterAllCameras}/>
                 <div className="catalog__content">
                   <Sort/>
                   <div className="cards catalog__cards">
