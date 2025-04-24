@@ -101,7 +101,7 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
         if (validBottomPrice) {
           onBottomPriceChange(validBottomPrice);
 
-          dispatch(setBottomPrice(validBottomPrice)); // тестирую для фильтрации!!!
+          dispatch(setBottomPrice(validBottomPrice));
         }
 
         break;
@@ -112,7 +112,7 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
 
         if (validTopPrice) {
           onTopPriceChange(validTopPrice);
-          dispatch(setTopPrice(validTopPrice));// тестирую для фильтрации!!!
+          dispatch(setTopPrice(validTopPrice));
         }
 
         break;
