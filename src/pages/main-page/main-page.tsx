@@ -59,9 +59,6 @@ function MainPage ():JSX.Element {
 
   const camerasFilterByPrice = filterCamerasByPrice(filterAllCameras,currentBottomPrice, currentTopPrice);// пример как будет работать фильтрация
 
-  console.log(currentTopPrice); // цена должна оставаться при смене фильтров!!!
-
-
   const currentSortByType = useAppSelector(getCurrentSortType);
   const currentSortByOrder = useAppSelector(getCurrentSortOrder);
 

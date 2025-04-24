@@ -65,9 +65,6 @@ function Filters(): JSX.Element {
   },[currentTopPrice,currentMinPriceValue,currentBottomPrice, currentMaxPriceValue, dispatch]);
 
 
-  useEffect(()=> {
-    console.log('test Flter', currentBottomPrice);
-  }, [currentBottomPrice]);
 
   const handleCatalogFilterInputChange = (event: ChangeEvent<HTMLInputElement>) => {// переделать название под общее!!! добавить изменение под типы
     const filterInput = event.target;
@@ -125,9 +122,10 @@ function Filters(): JSX.Element {
 
   const handleFormReset = (event: React.FormEvent) => {
     event.preventDefault(); // оказалось удачное решение!!!
+    dispatch(setTopPrice(currentMaxPriceValue));// наброска сброса фильтров!!!
+    dispatch(setBottomPrice(currentMinPriceValue));// наброска сброса фильтров!!!
     setBottomPriceValue('');
     setTopPriceValue('');
-    dispatch(setTopPrice(currentMaxPriceValue));// наброска сброса фильтров!!!
     dispatch(resetFilters());// доработать сброс цены
   };
 
