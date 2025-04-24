@@ -44,24 +44,24 @@ function Filters(): JSX.Element {
   const currentMinPriceValue = usePriceRange(camerasCatalog).minPrice;
   const currentMaxPriceValue = usePriceRange(camerasCatalog).maxPrice;
 
-  const testPriceTop = Number(useAppSelector(getUserEnteredTopPrice));
+  const currentTopPrice = Number(useAppSelector(getUserEnteredTopPrice));
 
   useEffect(() => {// вынести в отдельный компонент!!!
 
-    if(testPriceTop > 0 && testPriceTop !== currentMaxPriceValue) {// решение при переходе на страницу!!!
-      dispatch(setTopPrice(testPriceTop));
-      setTopPriceValue(testPriceTop);
+    if(currentTopPrice > 0 && currentTopPrice !== currentMaxPriceValue) {// решение при переходе на страницу!!!
+      dispatch(setTopPrice(currentTopPrice));
+      setTopPriceValue(currentTopPrice);
     } else {
       dispatch(setTopPrice(currentMaxPriceValue));// тестирую для фильтрации!!!
       dispatch(setBottomPrice(currentMinPriceValue));// тестирую для фильтрации!!!
     }
 
-  },[testPriceTop,currentMinPriceValue, currentMaxPriceValue, dispatch]);
+  },[currentTopPrice,currentMinPriceValue, currentMaxPriceValue, dispatch]);
 
 
   useEffect(()=> {
-    console.log('test Flter', testPriceTop);
-  }, [testPriceTop]);
+    console.log('test Flter', currentTopPrice);
+  }, [currentTopPrice]);
 
   const handleCatalogFilterInputChange = (event: ChangeEvent<HTMLInputElement>) => {// переделать название под общее!!! добавить изменение под типы
     const filterInput = event.target;
