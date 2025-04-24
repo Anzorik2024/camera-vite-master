@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent } from 'react';
+import { ChangeEvent} from 'react';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
