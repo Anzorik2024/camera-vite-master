@@ -18,7 +18,7 @@ import { WarningMessage } from '../../const/warning-message';
 import Sort from '../../components/sort/sort';
 import { sortCameras } from '../../utils/sort-cameras';
 import Filters from '../../components/filters/filters';
-import { setMaxPrice,setMinPrice, setTopPrice, setBottomPrice } from '../../store/filter-slice/filter-slice';
+import { setMaxPrice,setMinPrice} from '../../store/filter-slice/filter-slice';
 import { filterCamerasByPrice } from '../../utils/filter-cameras-by-price';
 import { filterCameras } from '../../utils/filter-cameras';
 import { getCurrentSortOrder,
@@ -27,13 +27,12 @@ import { getCurrentSortOrder,
   getUserEnteredTopPrice,
   getCurrentFilterByCategory,
   getCurrentFiltersByTypes,
-  getCurrentFiltersByLevels
+  getCurrentFiltersByLevels,
 } from '../../store/selectors';
 function MainPage ():JSX.Element {
 
   const [isModalAddCameraToBasketOpen, setModalAddCameraToBasketOpen] = useState<boolean>(false);
   const modalRef = useRef(null);
-
   const dispatch = useAppDispatch();
 
   const camerasCatalog = useAppSelector(selectCameras);// Заменить на фильтрованные данные
@@ -42,8 +41,8 @@ function MainPage ():JSX.Element {
   const currentFiltersByType = useAppSelector(getCurrentFiltersByTypes);
   const currentFiltersByLevels = useAppSelector(getCurrentFiltersByLevels);
 
-  //const filterAllCameras = filterCameras(camerasCatalog, currentFilterByCategory, currentFiltersByLevels, currentFiltersByType);
-// заменить на получение по селектору!!!
+  const filterAllCameras = filterCameras(camerasCatalog, currentFilterByCategory, currentFiltersByLevels, currentFiltersByType);
+
   const prices = filterAllCameras.length > 0 ? filterAllCameras.map((camera) => camera.price) : camerasCatalog.map((camera) => camera.price) ;// пустой фильтр
   const currentMinPrice = Math.min(...prices);// текущие данные вынести в фильтр компонент
   const currentMaxPrice = Math.max(...prices);// текущие данные вынести в фильтр компонент

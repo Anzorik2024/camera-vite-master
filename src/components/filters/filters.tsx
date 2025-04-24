@@ -20,10 +20,7 @@ import { resetFilters,
   removeCurrentFilterLevels,
   setBottomPrice,
   setTopPrice,
-  setFilterCameras
 } from '../../store/filter-slice/filter-slice';
-
-import { filterCameras } from '../../utils/filter-cameras';
 
 import '../filters/filters.css';
 
@@ -58,25 +55,16 @@ function Filters(): JSX.Element {
     } else {
       dispatch(setTopPrice(currentMaxPriceValue));// тестирую для фильтрации!!!
     }
+  },[currentTopPrice, currentMaxPriceValue, dispatch]);
+
+  useEffect(() => {
     if (currentBottomPrice > 0 && currentBottomPrice !== currentMinPriceValue) {
       dispatch(setBottomPrice(currentBottomPrice));
       setBottomPriceValue(currentBottomPrice);
     } else {
       dispatch(setBottomPrice(currentMinPriceValue));// тестирую для фильтрации!!!
     }
-
-  },[currentTopPrice,currentMinPriceValue,currentBottomPrice, currentMaxPriceValue, dispatch]);
-
-  const filterAllCameras = filterCameras(
-    camerasCatalog,
-    currentFilterByCategory,
-    currentFiltersByLevels,
-    currentFiltersByType);
-
-  useEffect(()=> {
-    dispatch(setFilterCameras(filterAllCameras));
-  }, [filterAllCameras,dispatch]);// перенос отфильрованных фильтров в редьюсер
-
+  },[currentBottomPrice, currentMinPriceValue, dispatch]);
 
   const handleCatalogFilterInputChange = (event: ChangeEvent<HTMLInputElement>) => {// переделать название под общее!!! добавить изменение под типы
     const filterInput = event.target;
