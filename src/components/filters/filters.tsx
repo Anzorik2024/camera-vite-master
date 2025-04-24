@@ -20,6 +20,8 @@ import { resetFilters,
   removeCurrentFilterLevels,
   setBottomPrice,
   setTopPrice,
+  setMinPrice,
+  setMaxPrice
 } from '../../store/filter-slice/filter-slice';
 import { Cameras } from '../../types/camera';
 
@@ -33,8 +35,6 @@ type FilterProps = {
 
 function Filters({cameraFiltering} :FilterProps): JSX.Element {
 
-  console.log(cameraFiltering);
-
   const dispatch = useAppDispatch();
   const currentFilterByCategory = useAppSelector(getCurrentFilterByCategory);
   const currentFiltersByType = useAppSelector(getCurrentFiltersByTypes);
@@ -46,10 +46,23 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
 
   const [bottomPriceValue, setBottomPriceValue] = useState<UserInput>('');
   const [topPriceValue, setTopPriceValue] = useState<UserInput>('');
-//////////////////
+  //////////////////
   const pricesFromCatalog = usePriceRange(camerasCatalog);
+  const pricesFromFiltered = usePriceRange(cameraFiltering);
 
-///////////////////////
+  ///////////////////////перенос из главной страницы
+
+  const currentMaxPrice = cameraFiltering.length > 0 ? pricesFromFiltered.maxPrice : pricesFromCatalog.maxPrice;
+  const currentMinPrice = cameraFiltering.length > 0 ? pricesFromFiltered.minPrice : pricesFromCatalog.minPrice;
+
+
+  useEffect(() => {// вынести в отдельный компонент!!!
+    dispatch(setMinPrice(currentMinPrice));//устанавливаем значение в плейсхолдер и это будет начальное значение
+    dispatch(setMaxPrice(currentMaxPrice));//устанавливаем значение в плейсхолдер и это будет начальное значение
+
+  },[currentMaxPrice,currentMinPrice,dispatch]);
+
+  /////////////////////////////
 
   const currentMinPriceValue = pricesFromCatalog.minPrice;// установка в значение поля цены
   const currentMaxPriceValue = pricesFromCatalog.maxPrice;// установка в значение поля цены
