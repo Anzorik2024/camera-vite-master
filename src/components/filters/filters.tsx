@@ -131,13 +131,12 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
     }
   };
 
-  const handleCategoryInputKeyDown = (event: KeyboardEvent) => {// скорее всего убрать обаботчик - решается стрелками!!!
-    const radioInput = event.target as HTMLInputElement;
-    const value = radioInput.dataset.value as string;
+  // Добавляем обработчик для чекбоксов
+  const handleCheckboxKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      if (value) {
-        dispatch(setCurrentFilterCategory(value));
-      }
+      event.preventDefault(); // Предотвращаем стандартное поведение
+      const checkbox = event.target as HTMLInputElement;
+      checkbox.click(); // Имитируем клик по чекбоксу
     }
   };
 
@@ -150,7 +149,6 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
     setTopPriceValue('');
     dispatch(resetFilters());// доработать сброс цены
   };
-
 
   return (
     <div className="catalog__aside">
@@ -176,7 +174,6 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
                     data-value={category}
                     data-query={QueryKey.FilterCategory}
                     onChange={handleCatalogFilterInputChange}
-                    onKeyDown={handleCategoryInputKeyDown}
                   />
                   <span className="custom-radio__icon">
                   </span>
@@ -201,6 +198,7 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
                       disabled={isDisabled}
                       data-query={QueryKey.FilterType}
                       data-value={type}
+                      onKeyDown={handleCheckboxKeyDown}
                       onChange={handleCatalogFilterInputChange}// переделать название под общее, сделать изменение значения
                     />
                     <span className="custom-checkbox__icon" />
@@ -223,6 +221,7 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
                     checked={isChecked(level, currentFiltersByLevels)}
                     data-query={QueryKey.FilterLevel}
                     data-value={level}
+                    onKeyDown={handleCheckboxKeyDown}
                     onChange={handleCatalogFilterInputChange}// переделать название под общее, сделать изменение значения
                   />
                   <span className="custom-checkbox__icon" />
