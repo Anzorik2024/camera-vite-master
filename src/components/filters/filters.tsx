@@ -6,7 +6,7 @@ import { useAppSelector } from '../../hooks/use-app-selector';
 import { UserInput } from '../../types/filter';
 
 import { FilterByCategory } from '../../const/filter-by-category';
-import { getCurrentFilterByCategory, getCurrentFiltersByTypes,getUserEnteredTopPrice, getCurrentFiltersByLevels, selectCameras } from '../../store/selectors';
+import { getCurrentFilterByCategory, getCurrentFiltersByTypes,getUserEnteredTopPrice, getCurrentFiltersByLevels, selectCameras, getUserEnteredBottomPrice} from '../../store/selectors';
 import { QueryKey } from '../../const/query-key';
 import { FilterByType } from '../../const/filter-by-type';
 import { FilterByLevel } from '../../const/filter-by-level';
@@ -45,6 +45,7 @@ function Filters(): JSX.Element {
   const currentMaxPriceValue = usePriceRange(camerasCatalog).maxPrice;
 
   const currentTopPrice = Number(useAppSelector(getUserEnteredTopPrice));
+  const currentBottomPrice = Number(useAppSelector(getUserEnteredBottomPrice));
 
   useEffect(() => {// вынести в отдельный компонент!!!
 
@@ -53,15 +54,20 @@ function Filters(): JSX.Element {
       setTopPriceValue(currentTopPrice);
     } else {
       dispatch(setTopPrice(currentMaxPriceValue));// тестирую для фильтрации!!!
+    }
+    if (currentBottomPrice > 0 && currentBottomPrice !== currentMinPriceValue) {
+      dispatch(setBottomPrice(currentBottomPrice));
+      setBottomPriceValue(currentBottomPrice);
+    } else {
       dispatch(setBottomPrice(currentMinPriceValue));// тестирую для фильтрации!!!
     }
 
-  },[currentTopPrice,currentMinPriceValue, currentMaxPriceValue, dispatch]);
+  },[currentTopPrice,currentMinPriceValue,currentBottomPrice, currentMaxPriceValue, dispatch]);
 
 
   useEffect(()=> {
-    console.log('test Flter', currentTopPrice);
-  }, [currentTopPrice]);
+    console.log('test Flter', currentBottomPrice);
+  }, [currentBottomPrice]);
 
   const handleCatalogFilterInputChange = (event: ChangeEvent<HTMLInputElement>) => {// переделать название под общее!!! добавить изменение под типы
     const filterInput = event.target;
