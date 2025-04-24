@@ -29,7 +29,7 @@ describe('PhoneNumberInput Component - Class Tests', () => {
 
     const input = screen.getByTestId('input-phone');
     await userEvent.type(input, 'abc');
-    expect(screen.getByText(/недопустимые символы/i)).toBeInTheDocument();
+    expect(screen.getByText(/Недопустимо. Введите только цифры/i)).toBeInTheDocument();
   });
 
   it('formats phone number correctly on valid input', () => {

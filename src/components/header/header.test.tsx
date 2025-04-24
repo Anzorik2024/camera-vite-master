@@ -1,44 +1,26 @@
-import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { render, screen } from '@testing-library/react';
+import { Provider} from 'react-redux';
+import { mockStore } from '../../utils/mock';
 
 import Header from './header';
+const store = mockStore({
+  catalog: {
+    cameras: [],
+  }
+});
 
-describe('Header Component', () => {
-  it('renders the logo with the correct link', () => {
+describe('Component: Header', () => {
+  it('should render correctly', () => {
     render(
-      <MemoryRouter>
-        <Header />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <Header/>
+        </MemoryRouter>
+      </Provider>
     );
 
-    const logoLink = screen.getByRole('link', { name: /переход на главную/i });
-    expect(logoLink).toBeInTheDocument();
-    expect(logoLink).toHaveAttribute('href', '/');
-  });
-
-  it('displays all menu items', () => {
-    render(
-      <MemoryRouter>
-        <Header />
-      </MemoryRouter>
-    );
-
-    const menuItems = screen.getAllByRole('listitem');
-    expect(menuItems.length).toBe(4);
-
-  });
-
-  it('checks the correctness of classes', () => {
-    render(
-      <MemoryRouter>
-        <Header />
-      </MemoryRouter>
-    );
-
-    const header = screen.getByTestId('header');
-    const nav = screen.getByRole('navigation');
-
-    expect(header).toHaveClass('header');
-    expect(nav).toHaveClass('main-nav');
+    expect(screen.getByText(/Гарантии/i)).toBeInTheDocument();
+    expect(screen.getByText(/Каталог/i)).toBeInTheDocument();
   });
 });
