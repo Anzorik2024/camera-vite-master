@@ -129,7 +129,7 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
     }
   };
 
-  const handleInputKeyDown = (event: KeyboardEvent) => {
+  const handlePriceInputKeyDown = (event: KeyboardEvent) => {
     const input = event.target as HTMLInputElement;
     if (event.key === 'Enter') {
       input.blur();
@@ -150,7 +150,7 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
               onChange={handlePriceInputChange}
               data-query={QueryKey.BottomPrice}
               onBlur={handlePriceInputBlur}
-              onKeyDown={handleInputKeyDown}
+              onKeyDown={handlePriceInputKeyDown}
             />
           </label>
         </div>
@@ -163,7 +163,7 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
               onChange={handlePriceInputChange}
               data-query={QueryKey.TopPrice}
               onBlur={handlePriceInputBlur}
-              onKeyDown={handleInputKeyDown}
+              onKeyDown={handlePriceInputKeyDown}
               value={topPrice}
             />
           </label>
