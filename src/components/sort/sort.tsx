@@ -6,7 +6,7 @@ import { changeSortOrder, changeSortType } from '../../store/sort-slice/sort-sli
 
 import { getCurrentSortType, getCurrentSortOrder } from '../../store/selectors';
 import { SortByOrderServerValue, SORT_BY_ORDER } from '../../const/sort-by-order';
-import { SortByTypeServerValue, SORT_BY_TYPE } from '../../const/sort-by-type';
+import { SortByTypeValue, SORT_BY_TYPE } from '../../const/sort-by-type';
 
 import '../sort/sort.css';
 
@@ -18,7 +18,7 @@ function Sort(): JSX.Element {
 
   const handleInputSortTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
     const element = event.target;
-    const selectedSortByType = element.dataset.value as SortByTypeServerValue;
+    const selectedSortByType = element.dataset.value as SortByTypeValue;
 
     dispatch(changeSortType(selectedSortByType));
   };

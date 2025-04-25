@@ -8,13 +8,13 @@ enum SortByTypeID {
   Popular= 'sortPopular'
 }
 
-export enum SortByTypeServerValue {
+export enum SortByTypeValue {
   Price ='price',
   Popular='rating',
 }
 
 
 export const SORT_BY_TYPE = [
-  {title: SortByTypeTitle.Price, id: SortByTypeID.Price, value: SortByTypeServerValue.Price},
-  {title: SortByTypeTitle.Popular, id: SortByTypeID.Popular, value: SortByTypeServerValue.Popular},
+  {title: SortByTypeTitle.Price, id: SortByTypeID.Price, value: SortByTypeValue.Price},
+  {title: SortByTypeTitle.Popular, id: SortByTypeID.Popular, value: SortByTypeValue.Popular},
 ] ;
