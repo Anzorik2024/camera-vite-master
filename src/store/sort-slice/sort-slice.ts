@@ -3,10 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SortByTypeValue } from '../../const/sort-by-type';
 import { SortByOrderValue } from '../../const/sort-by-order';
 
-type SortData = {
-  currentSortType: SortByTypeValue;
-  currentSortOrder: SortByOrderValue;
-}
+import { SortData } from '../../types/sort';
 
 export const initialStateSort: SortData = {
   currentSortType: SortByTypeValue.Price,
