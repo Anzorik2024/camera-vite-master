@@ -82,7 +82,7 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
     }
   },[currentBottomPrice, currentMinPriceValue, dispatch]);
 
-  const handleCatalogFilterInputChange = (event: ChangeEvent<HTMLInputElement>) => {// переделать название под общее!!! добавить изменение под типы
+  const handleCatalogFilterInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const filterInput = event.target;
     const queryKey = filterInput.dataset.query as QueryKey;
     const value = filterInput.dataset.value as string;
@@ -92,10 +92,10 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
         if (value) {
           if(value === FilterByCategory.Videocamera) {
             if (currentFiltersByType.some((filter) => filter === FilterByType.Film)) {
-              dispatch(removeCurrentFilterType(FilterByType.Film));//убираю тип камеры
+              dispatch(removeCurrentFilterType(FilterByType.Film));
             }
             if (currentFiltersByType.some((filter) => filter === FilterByType.Snapshot)) {
-              dispatch(removeCurrentFilterType(FilterByType.Snapshot));//убираю тип камеры
+              dispatch(removeCurrentFilterType(FilterByType.Snapshot));
             }
           }
           dispatch(setCurrentFilterCategory(value));
