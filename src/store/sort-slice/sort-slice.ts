@@ -1,16 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { SortByTypeValue } from '../../const/sort-by-type';
-import { SortByOrderServerValue } from '../../const/sort-by-order';
+import { SortByOrderValue } from '../../const/sort-by-order';
 
 type SortData = {
   currentSortType: SortByTypeValue;
-  currentSortOrder: SortByOrderServerValue;
+  currentSortOrder: SortByOrderValue;
 }
 
 export const initialStateSort: SortData = {
   currentSortType: SortByTypeValue.Price,
-  currentSortOrder: SortByOrderServerValue.OrderUp
+  currentSortOrder: SortByOrderValue.OrderUp
 };
 
 export const sortSlice = createSlice({
@@ -20,7 +20,7 @@ export const sortSlice = createSlice({
     changeSortType: (state, action: PayloadAction<SortByTypeValue>) => {
       state.currentSortType = action.payload;
     },
-    changeSortOrder: (state, action: PayloadAction<SortByOrderServerValue>) => {
+    changeSortOrder: (state, action: PayloadAction<SortByOrderValue>) => {
       state.currentSortOrder = action.payload;
     }
   }

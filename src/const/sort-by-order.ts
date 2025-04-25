@@ -8,12 +8,12 @@ enum SortByOrderID {
   OrderDown = 'down'
 }
 
-export enum SortByOrderServerValue {
+export enum SortByOrderValue {
   OrderUp= 'asc',
   OrderDown='desc'
 }
 
 export const SORT_BY_ORDER = [
-  {title: SortByuOrderTitle.OrderUp, id: SortByOrderID.OrderUp, value: SortByOrderServerValue.OrderUp},
-  {title: SortByOrderID.OrderUp, id: SortByOrderID.OrderDown, value: SortByOrderServerValue.OrderDown},
+  {title: SortByuOrderTitle.OrderUp, id: SortByOrderID.OrderUp, value: SortByOrderValue.OrderUp},
+  {title: SortByOrderID.OrderUp, id: SortByOrderID.OrderDown, value: SortByOrderValue.OrderDown},
 ];

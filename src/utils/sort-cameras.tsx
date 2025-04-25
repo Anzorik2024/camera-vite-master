@@ -1,8 +1,8 @@
 import { Cameras } from '../types/camera';
 import { SortByTypeValue} from '../const/sort-by-type';
-import { SortByOrderServerValue } from '../const/sort-by-order';
+import { SortByOrderValue } from '../const/sort-by-order';
 
-export const sortCameras = (initialCameras : Cameras | [] , sortType: SortByTypeValue, order: SortByOrderServerValue) : Cameras => {
+export const sortCameras = (initialCameras : Cameras | [] , sortType: SortByTypeValue, order: SortByOrderValue) : Cameras => {
   const cameras = [...initialCameras];
   const direction = order === 'asc' ? 1 : -1;
 

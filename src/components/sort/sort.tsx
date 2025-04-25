@@ -5,7 +5,7 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { changeSortOrder, changeSortType } from '../../store/sort-slice/sort-slice';
 
 import { getCurrentSortType, getCurrentSortOrder } from '../../store/selectors';
-import { SortByOrderServerValue, SORT_BY_ORDER } from '../../const/sort-by-order';
+import { SortByOrderValue, SORT_BY_ORDER } from '../../const/sort-by-order';
 import { SortByTypeValue, SORT_BY_TYPE } from '../../const/sort-by-type';
 
 import '../sort/sort.css';
@@ -26,7 +26,7 @@ function Sort(): JSX.Element {
   const handleInputSortOrderChange = (event: ChangeEvent<HTMLInputElement>) => {
     const element = event.target;
 
-    const selectedSortByOrder = element.dataset.value as SortByOrderServerValue;
+    const selectedSortByOrder = element.dataset.value as SortByOrderValue;
     dispatch(changeSortOrder(selectedSortByOrder));
   };
 
