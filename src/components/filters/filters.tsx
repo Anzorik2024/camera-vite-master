@@ -5,24 +5,17 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { UserInput } from '../../types/filter';
 
-import { FilterByCategory } from '../../const/filter-by-category';
-import { getCurrentFilterByCategory, getCurrentFiltersByTypes,getUserEnteredTopPrice, getCurrentFiltersByLevels, selectCameras, getUserEnteredBottomPrice} from '../../store/selectors';
 import { QueryKey } from '../../const/query-key';
 import { FilterByType } from '../../const/filter-by-type';
 import { FilterByLevel } from '../../const/filter-by-level';
 import { usePriceRange } from '../../hooks/use-price-range';
 
-import { resetFilters,
-  setCurrentFilterLevels,
-  setCurrentFilterCategory,
-  setCurrentFilterTypes,
-  removeCurrentFilterType,
-  removeCurrentFilterLevels,
-  setBottomPrice,
-  setTopPrice,
-  setMinPrice,
-  setMaxPrice
-} from '../../store/filter-slice/filter-slice';
+import { FilterByCategory } from '../../const/filter-by-category';
+import { getCurrentFilterByCategory, getCurrentFiltersByTypes,getUserEnteredTopPrice,
+  getCurrentFiltersByLevels, selectCameras, getUserEnteredBottomPrice} from '../../store/selectors';
+import { resetFilters,setCurrentFilterLevels, setCurrentFilterCategory, setCurrentFilterTypes, removeCurrentFilterType,
+  removeCurrentFilterLevels,setBottomPrice,setTopPrice,setMinPrice,
+  setMaxPrice} from '../../store/filter-slice/filter-slice';
 import { Cameras } from '../../types/camera';
 
 import '../filters/filters.css';
@@ -31,8 +24,6 @@ import '../filters/filters.css';
 type FilterProps = {
   cameraFiltering: Cameras;
 }
-
-
 function Filters({cameraFiltering} :FilterProps): JSX.Element {
 
   const dispatch = useAppDispatch();
