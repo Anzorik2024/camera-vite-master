@@ -81,7 +81,7 @@ function MainPage ():JSX.Element {
                   <Sort/>
                   {camerasSort.length === 0 && <EmptyPage message={WarningMessage.NoProductsMatchingThisFilterWarning}/>}
                   <div className="cards catalog__cards">
-                    {camerasSort.map((camera) => <ProductCard camera={camera} key={camera.id} onAddCameraInBasketButtonClick={handleAddCameraToBasketButtonClick} />)}
+                    {camerasSort.length > 0 && camerasSort.map((camera) => <ProductCard camera={camera} key={camera.id} onAddCameraInBasketButtonClick={handleAddCameraToBasketButtonClick} />)}
                   </div>
                 </div>
               </div>
