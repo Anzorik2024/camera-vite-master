@@ -24,27 +24,20 @@ const getCurrentSortType = (state: State) => state.sort.currentSortType;
 const getCurrentSortOrder = (state: State) => state.sort.currentSortOrder;
 
 
-export const getCamerasMinPrice = (state: State): number => state.filter.minPrice;//переделать однообр
-export const getCamerasMaxPrice = (state: State): number => state.filter.maxPrice;//переделать однообр
+const getCamerasMinPrice = (state: State): number => state.filter.minPrice;
+const getCamerasMaxPrice = (state: State): number => state.filter.maxPrice;
 
-export const getUserEnteredBottomPrice = (state: State) => state.filter.bottomPrice;//переделать однообр
-export const getUserEnteredTopPrice = (state: State) => state.filter.topPrice;//переделать однообр
+const getUserEnteredBottomPrice = (state: State) => state.filter.bottomPrice;
+const getUserEnteredTopPrice = (state: State) => state.filter.topPrice;
 
-export const getCurrentFilterByCategory = (state: State) => state.filter.currentFilterCategory;//переделать однообр
-export const getCurrentFiltersByTypes = (state: State) => state.filter.currentFilterTypes;//переделать однообр
-export const getCurrentFiltersByLevels = (state: State) => state.filter.currentFilterLevels;//переделать однообр
+const getCurrentFilterByCategory = (state: State) => state.filter.currentFilterCategory;
+const getCurrentFiltersByTypes = (state: State) => state.filter.currentFilterTypes;
+const getCurrentFiltersByLevels = (state: State) => state.filter.currentFilterLevels;
 
 
 export {
-  selectCameras,
-  selectIsLoading,
-  selectProductStatus,
-  selectProductCamera,
-  selectCameraReviews,
-  selectSortedReviews,
-  getSelectCamera,
-  getSelectPhoneOrder,
-  selectOrderStatus,
-  getCurrentSortType,
-  getCurrentSortOrder
+  selectCameras,selectIsLoading,selectProductStatus,selectProductCamera,selectCameraReviews,selectSortedReviews,
+  getSelectCamera,getSelectPhoneOrder,selectOrderStatus,getCurrentSortType,getCurrentSortOrder,getCamerasMinPrice,
+  getCamerasMaxPrice,getUserEnteredBottomPrice,getUserEnteredTopPrice,getCurrentFilterByCategory,getCurrentFiltersByTypes,
+  getCurrentFiltersByLevels
 };
