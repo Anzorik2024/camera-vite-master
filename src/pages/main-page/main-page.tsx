@@ -22,6 +22,7 @@ import { filterCamerasByPrice } from '../../utils/filter-cameras-by-price';
 import { filterCameras } from '../../utils/filter-cameras';
 import { getCurrentSortOrder,getCurrentSortType, getUserEnteredBottomPrice,getUserEnteredTopPrice,
   getCurrentFilterByCategory, getCurrentFiltersByTypes,getCurrentFiltersByLevels,} from '../../store/selectors';
+import EmptyPage from '../empty-page/empty-page';
 
 function MainPage ():JSX.Element {
   const [isModalAddCameraToBasketOpen, setModalAddCameraToBasketOpen] = useState<boolean>(false);
@@ -78,6 +79,7 @@ function MainPage ():JSX.Element {
                 <Filters cameraFiltering={filterAllCameras}/>
                 <div className="catalog__content">
                   <Sort/>
+                  {camerasSort.length === 0 && <EmptyPage message={WarningMessage.NoProductsMatchingThisFilterWarning}/>}
                   <div className="cards catalog__cards">
                     {camerasSort.map((camera) => <ProductCard camera={camera} key={camera.id} onAddCameraInBasketButtonClick={handleAddCameraToBasketButtonClick} />)}
                   </div>
