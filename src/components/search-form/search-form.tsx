@@ -27,7 +27,7 @@ function SearchForm () : JSX.Element {
         camera.name.toLowerCase().includes(query.toLowerCase())
       );
       setFilteredCameras(filteredCameras);
-      setFocusedIndex(-1); // Сброс активного индекса при новом фильтре
+      setFocusedIndex(-1);
     }
   }, [query, camerasCatalog]);
 
@@ -51,14 +51,14 @@ function SearchForm () : JSX.Element {
     const value = event.target.value;
     setQuery(value);
     setIsListOpen(value.length >= 3);
-    setFocusedIndex(-1); // Сброс активного индекса при изменении запроса
+    setFocusedIndex(-1);
   };
 
   const resetDropdown = () => {
     setQuery('');
     setIsListOpen(false);
     setFilteredCameras([]);
-    setFocusedIndex(-1); // Сброс активного индекса
+    setFocusedIndex(-1);
   };
 
   const handleResetButtonClick = () => {
