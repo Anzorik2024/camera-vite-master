@@ -1,4 +1,5 @@
 import {useEffect, useState, ChangeEvent, KeyboardEvent} from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import FilterByPrice from '../filter-by-price/filter-by-price';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
@@ -24,7 +25,19 @@ import '../filters/filters.css';
 type FilterProps = {
   cameraFiltering: Cameras;
 }
+
+const SNAPSHOT_PARAMS = {key: QueryKey.FilterType, value: FilterByType.Snapshot};
+const FILM_PARAMS = {key: QueryKey.FilterType, value: FilterByType.Film};
+
+const excludeParams = (params: URLSearchParams, excludedValues: string[]) => { //  для поисковой строки!!!
+  //удаление из строки запроса ненужных параметров
+  const cleanedParams = [...params.entries()]
+    .filter(([...args]) => !excludedValues.includes(args[1]));
+
+  return new URLSearchParams(cleanedParams);
+};
 function Filters({cameraFiltering} :FilterProps): JSX.Element {
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const dispatch = useAppDispatch();
   const currentFilterByCategory = useAppSelector(getCurrentFilterByCategory);
@@ -82,13 +95,19 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
       case QueryKey.FilterCategory: {
         if (value) {
           if(value === FilterByCategory.Videocamera) {
+            const updatedSearchParams = new URLSearchParams([...searchParams.entries(), [queryKey, value]]);
+            setSearchParams(updatedSearchParams);
             if (currentFiltersByType.some((filter) => filter === FilterByType.Film)) {
               dispatch(removeCurrentFilterType(FilterByType.Film));
+
             }
             if (currentFiltersByType.some((filter) => filter === FilterByType.Snapshot)) {
               dispatch(removeCurrentFilterType(FilterByType.Snapshot));
             }
           }
+          const photocameraSearchParams = excludeParams(searchParams, [FilterByCategory.Videocamera]);
+          photocameraSearchParams.append(queryKey, value);
+          setSearchParams(photocameraSearchParams);
           dispatch(setCurrentFilterCategory(value));
         }
         break;
