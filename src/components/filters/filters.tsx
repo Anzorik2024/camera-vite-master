@@ -26,9 +26,6 @@ type FilterProps = {
   cameraFiltering: Cameras;
 }
 
-const SNAPSHOT_PARAMS = {key: QueryKey.FilterType, value: FilterByType.Snapshot};
-const FILM_PARAMS = {key: QueryKey.FilterType, value: FilterByType.Film};
-
 const excludeParams = (params: URLSearchParams, excludedValues: string[]) => { //  для поисковой строки!!!
   //удаление из строки запроса ненужных параметров
   const cleanedParams = [...params.entries()]
@@ -95,8 +92,9 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
       case QueryKey.FilterCategory: {
         if (value) {
           if(value === FilterByCategory.Videocamera) {
-            const updatedSearchParams = new URLSearchParams([...searchParams.entries(), [queryKey, value]]);
-            setSearchParams(updatedSearchParams);
+            const videocameraSearchParams = excludeParams(searchParams, [FilterByType.Film, FilterByType.Snapshot, FilterByCategory.Photocamera]);
+            videocameraSearchParams.append(queryKey, value);
+            setSearchParams(videocameraSearchParams);
             if (currentFiltersByType.some((filter) => filter === FilterByType.Film)) {
               dispatch(removeCurrentFilterType(FilterByType.Film));
 
@@ -105,9 +103,12 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
               dispatch(removeCurrentFilterType(FilterByType.Snapshot));
             }
           }
-          const photocameraSearchParams = excludeParams(searchParams, [FilterByCategory.Videocamera]);
-          photocameraSearchParams.append(queryKey, value);
-          setSearchParams(photocameraSearchParams);
+
+          if(value === FilterByCategory.Photocamera) {
+            const photocameraSearchParams = excludeParams(searchParams, [FilterByCategory.Videocamera]);
+            photocameraSearchParams.append(queryKey, value);
+            setSearchParams(photocameraSearchParams);
+          }
           dispatch(setCurrentFilterCategory(value));
         }
         break;
