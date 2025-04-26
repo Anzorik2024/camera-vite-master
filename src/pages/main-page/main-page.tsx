@@ -32,19 +32,19 @@ function MainPage ():JSX.Element {
 
   useCheckSearchParams();
 
-  const camerasCatalog = useAppSelector(selectCameras);// Заменить на фильтрованные данные
+  const camerasCatalog = useAppSelector(selectCameras);
   const currentFilterByCategory = useAppSelector(getCurrentFilterByCategory);
   const currentFiltersByType = useAppSelector(getCurrentFiltersByTypes);
   const currentFiltersByLevels = useAppSelector(getCurrentFiltersByLevels);
-  const currentBottomPrice = Number(useAppSelector(getUserEnteredBottomPrice));// для теста вынести в компонент!!!-начало фильтрации по цене
-  const currentTopPrice = Number(useAppSelector(getUserEnteredTopPrice));// для теста -начало фильтрации по цене
+  const currentBottomPrice = Number(useAppSelector(getUserEnteredBottomPrice));
+  const currentTopPrice = Number(useAppSelector(getUserEnteredTopPrice));
   const currentSortByType = useAppSelector(getCurrentSortType);
   const currentSortByOrder = useAppSelector(getCurrentSortOrder);
   const isOrderStatus = useAppSelector(selectOrderStatus);
 
   const filterAllCameras = filterCameras(camerasCatalog, currentFilterByCategory, currentFiltersByLevels, currentFiltersByType);
-  const camerasFilterByPrice = filterCamerasByPrice(filterAllCameras,currentBottomPrice, currentTopPrice);// пример как будет работать фильтрация
-  const camerasSort = sortCameras(camerasFilterByPrice,currentSortByType, currentSortByOrder); // в самом конце всегда сортировка
+  const camerasFilterByPrice = filterCamerasByPrice(filterAllCameras,currentBottomPrice, currentTopPrice);
+  const camerasSort = sortCameras(camerasFilterByPrice,currentSortByType, currentSortByOrder);
 
   useEffect(() => {
     if (isOrderStatus === RequestStatus.Success) {
