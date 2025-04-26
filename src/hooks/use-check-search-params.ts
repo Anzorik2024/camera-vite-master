@@ -29,8 +29,8 @@ const useCheckSearchParams = () => {
   const currentFilterLevels = useAppSelector(getCurrentFiltersByLevels);
   const currentSortType = useAppSelector(getCurrentSortType);
   const currentSortOrder = useAppSelector(getCurrentSortOrder);
-  // const currentBottomPrice = useAppSelector(getUserEnteredTopPrice);
-  // const currentTopPrice = useAppSelector(getUserEnteredBottomPrice);
+  // const currentBottomPrice = useAppSelector(getUserEnteredBottomPrice);
+  // const currentTopPrice = useAppSelector(getUserEnteredTopPrice);
 
   const [searchParams] = useSearchParams();
 
