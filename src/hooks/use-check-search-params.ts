@@ -6,8 +6,10 @@ import {useAppSelector} from '../hooks/use-app-selector';
 
 import { QueryKey } from '../const/query-key';
 
-import { getCurrentFilterByCategory,getCurrentFiltersByTypes, } from '../store/selectors';
-import { setCurrentFilterCategory, removeCurrentFilterType, setCurrentFilterTypes, resetCurrentFilterGroup } from '../store/filter-slice/filter-slice';
+import { getCurrentFilterByCategory,getCurrentFiltersByTypes, getCurrentFiltersByLevels} from '../store/selectors';
+import { setCurrentFilterCategory, removeCurrentFilterType, setCurrentFilterTypes, resetCurrentFilterGroup,
+  setCurrentFilterLevels
+} from '../store/filter-slice/filter-slice';
 import { FilterByCategory } from '../const/filter-by-category';
 import { FilterByType } from '../const/filter-by-type';
 
@@ -16,7 +18,7 @@ const useCheckSearchParams = () => {
   const dispatch = useAppDispatch();
   const currentFilterCategory = useAppSelector(getCurrentFilterByCategory);
   const currentFiltersByType = useAppSelector(getCurrentFiltersByTypes);
-  // const currentFilterLevels = useAppSelector(getCurrentFiltersByLevels);
+  const currentFilterLevels = useAppSelector(getCurrentFiltersByLevels);
   // const currentSortType = useAppSelector(getCurrentSortType);
   // const currentSortOrder = useAppSelector(getCurrentSortOrder);
   // const currentBottomPrice = useAppSelector(getUserEnteredTopPrice);
@@ -117,22 +119,22 @@ const useCheckSearchParams = () => {
       dispatch(resetCurrentFilterGroup(QueryKey.FilterType));
     }
 
-    // if(isQueryParamExists(QueryKey.FilterLevel)) {
-    //   const paramsLevel = searchParams.getAll(QueryKey.FilterLevel);
-    //   paramsLevel.forEach((value) => {
-    //     const isAlreadySelected = currentFilterLevels.some((level) => level === value);
+    if(isQueryParamExists(QueryKey.FilterLevel)) {
+      const paramsLevel = searchParams.getAll(QueryKey.FilterLevel);
+      paramsLevel.forEach((value) => {
+        const isAlreadySelected = currentFilterLevels.some((level) => level === value);
 
-    //     if (!isAlreadySelected) {
-    //       dispatch(setCurrentFilterLevels(value));
-    //     }
-    //   });
-    // }
+        if (!isAlreadySelected) {
+          dispatch(setCurrentFilterLevels(value));
+        }
+      });
+    }
 
-    // if(!isQueryParamExists(QueryKey.FilterLevel) && currentFilterLevels.length !== 0) {
-    //   dispatch(resetCurrentFilterGroup(QueryKey.FilterLevel));
-    // }
+    if(!isQueryParamExists(QueryKey.FilterLevel) && currentFilterLevels.length !== 0) {
+      dispatch(resetCurrentFilterGroup(QueryKey.FilterLevel));
+    }
 
-  },[dispatch, searchParams, currentFilterCategory,currentFiltersByType]);
+  },[dispatch, searchParams, currentFilterCategory,currentFiltersByType, currentFilterLevels]);
 };
 
 export default useCheckSearchParams;
