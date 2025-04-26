@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback} from 'react';
+import { ChangeEvent, useCallback, useEffect} from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
@@ -45,6 +45,13 @@ function Sort(): JSX.Element {
       updateSearchParams([QueryKey.SortType, currentSortByType || SortByTypeValue.Price], [QueryKey.SortOrder, selectedSortByOrder]);
     }
   };
+
+  useEffect (() => {
+    const isQueryParamExists = (param: QueryKey) => searchParams && searchParams.has(param);
+    if(!isQueryParamExists(QueryKey.SortType) || !isQueryParamExists(QueryKey.SortOrder)) {
+      updateSearchParams([QueryKey.SortType, SortByTypeValue.Price], [QueryKey.SortOrder,SortByOrderValue.OrderUp]);
+    }
+  },[searchParams,updateSearchParams]);
 
   return (
     <div className="catalog-sort">
