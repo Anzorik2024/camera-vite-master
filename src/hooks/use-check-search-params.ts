@@ -13,7 +13,7 @@ import { setCurrentFilterCategory, removeCurrentFilterType, setCurrentFilterType
   setCurrentFilterLevels
 } from '../store/filter-slice/filter-slice';
 
-import { changeSortType,resetSortType,changeSortOrder,resetSortOrder } from '../store/sort-slice/sort-slice';
+import { changeSortType,changeSortOrder} from '../store/sort-slice/sort-slice';
 
 
 import { FilterByCategory } from '../const/filter-by-category';
@@ -47,10 +47,6 @@ const useCheckSearchParams = () => {
       }
     }
 
-    if(!isQueryParamExists(QueryKey.SortType) && currentSortType !== null) {
-      dispatch(resetSortType());
-    }
-
     if(isQueryParamExists(QueryKey.SortOrder)) {
       const paramsSortOrder = searchParams.get(QueryKey.SortOrder) as SortByOrderValue;
       const isAlreadySelected = currentSortOrder === paramsSortOrder;
@@ -58,10 +54,6 @@ const useCheckSearchParams = () => {
       if(!isAlreadySelected) {
         dispatch(changeSortOrder(paramsSortOrder));
       }
-    }
-
-    if(!isQueryParamExists(QueryKey.SortOrder) && currentSortOrder !== null) {
-      dispatch(resetSortOrder());
     }
 
     // if(isQueryParamExists(QueryKey.BottomPrice)) {
