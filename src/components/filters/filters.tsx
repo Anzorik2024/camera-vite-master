@@ -18,14 +18,11 @@ import { resetFilters, setCurrentFilterCategory, removeCurrentFilterType,
   removeCurrentFilterLevels,setBottomPrice,setTopPrice,setMinPrice,
   setMaxPrice} from '../../store/filter-slice/filter-slice';
 import { Cameras } from '../../types/camera';
-
 import '../filters/filters.css';
-
 
 type FilterProps = {
   cameraFiltering: Cameras;
 }
-
 const excludeParams = (params: URLSearchParams, excludedValues: string[]) => {
   const cleanedParams = [...params.entries()]
     .filter(([...args]) => !excludedValues.includes(args[1]));
