@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { FilterData, UserInput } from '../../types/filter';
+import { QueryKey } from '../../const/query-key';
 
 
 export const initialStateFilter: FilterData = {
@@ -52,6 +53,22 @@ export const filterSlice = createSlice({
       state.currentFilterTypes = [];
       state.currentFilterLevels = [];
     },
+    resetCurrentFilterGroup: (state, action: PayloadAction<QueryKey>) => {
+      switch(action.payload) {
+        case (QueryKey.FilterCategory): {
+          state.currentFilterCategory = null;
+          break;
+        }
+        case (QueryKey.FilterType): {
+          state.currentFilterTypes = [];
+          break;
+        }
+        case (QueryKey.FilterLevel): {
+          state.currentFilterLevels = [];
+          break;
+        }
+      }
+    },
   },
 });
 
@@ -65,6 +82,7 @@ const {setCurrentFilterCategory,
   setMaxPrice,
   removeCurrentFilterType,
   removeCurrentFilterLevels,
+  resetCurrentFilterGroup
 } = filterSlice.actions;
 
 const filterReducer = filterSlice.reducer;
@@ -81,4 +99,5 @@ export {
   setMaxPrice,
   removeCurrentFilterType,
   removeCurrentFilterLevels,
+  resetCurrentFilterGroup
 };

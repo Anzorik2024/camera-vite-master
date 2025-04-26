@@ -7,7 +7,7 @@ import {useAppSelector} from '../hooks/use-app-selector';
 import { QueryKey } from '../const/query-key';
 
 import { getCurrentFilterByCategory,getCurrentFiltersByTypes, } from '../store/selectors';
-import { setCurrentFilterCategory, removeCurrentFilterType } from '../store/filter-slice/filter-slice';
+import { setCurrentFilterCategory, removeCurrentFilterType, setCurrentFilterTypes, resetCurrentFilterGroup } from '../store/filter-slice/filter-slice';
 import { FilterByCategory } from '../const/filter-by-category';
 import { FilterByType } from '../const/filter-by-type';
 
@@ -98,24 +98,24 @@ const useCheckSearchParams = () => {
       }
     }
 
-    // if(!isQueryParamExists(QueryKey.FilterCategory) && currentFilterCategory !== null) {
-    //   dispatch(resetCurrentFilterGroup(QueryKey.FilterCategory));
-    // }
+    if(!isQueryParamExists(QueryKey.FilterCategory) && currentFilterCategory !== null) {
+      dispatch(resetCurrentFilterGroup(QueryKey.FilterCategory));
+    }
 
-    // if(isQueryParamExists(QueryKey.FilterType)) {
-    //   const paramsType = searchParams.getAll(QueryKey.FilterType);
-    //   paramsType.forEach((value) => {
-    //     const isAlreadySelected = currentFilterTypes.some((type) => type === value);
+    if(isQueryParamExists(QueryKey.FilterType)) {
+      const paramsType = searchParams.getAll(QueryKey.FilterType);
+      paramsType.forEach((value) => {
+        const isAlreadySelected = currentFiltersByType.some((type) => type === value);
 
-    //     if (!isAlreadySelected) {
-    //       dispatch(setCurrentFilterTypes(value));
-    //     }
-    //   });
-    // }
+        if (!isAlreadySelected) {
+          dispatch(setCurrentFilterTypes(value));
+        }
+      });
+    }
 
-    // if(!isQueryParamExists(QueryKey.FilterType) && currentFilterTypes.length !== 0) {
-    //   dispatch(resetCurrentFilterGroup(QueryKey.FilterType));
-    // }
+    if(!isQueryParamExists(QueryKey.FilterType) && currentFiltersByType.length !== 0) {// обязательно добавить!!!
+      dispatch(resetCurrentFilterGroup(QueryKey.FilterType));
+    }
 
     // if(isQueryParamExists(QueryKey.FilterLevel)) {
     //   const paramsLevel = searchParams.getAll(QueryKey.FilterLevel);
