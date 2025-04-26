@@ -12,8 +12,8 @@ import { FilterByLevel } from '../../const/filter-by-level';
 import { usePriceRange } from '../../hooks/use-price-range';
 
 import { FilterByCategory } from '../../const/filter-by-category';
-import { getCurrentFilterByCategory, getCurrentFiltersByTypes,getUserEnteredTopPrice,
-  getCurrentFiltersByLevels, selectCameras, getUserEnteredBottomPrice} from '../../store/selectors';
+import { getCurrentFilterByCategory, getCurrentFiltersByTypes,
+  getCurrentFiltersByLevels, selectCameras} from '../../store/selectors';
 import { resetFilters, setCurrentFilterCategory, removeCurrentFilterType,
   removeCurrentFilterLevels,setBottomPrice,setTopPrice,setMinPrice,
   setMaxPrice} from '../../store/filter-slice/filter-slice';
