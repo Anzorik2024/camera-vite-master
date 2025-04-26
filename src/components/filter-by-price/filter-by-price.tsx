@@ -104,7 +104,6 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
         if (validBottomPrice) {
           onBottomPriceChange(validBottomPrice);
 
-          dispatch(setBottomPrice(validBottomPrice));
           searchParams.set(QueryKey.BottomPrice, String(validBottomPrice));
         }
 

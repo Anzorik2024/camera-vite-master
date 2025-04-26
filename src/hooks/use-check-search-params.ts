@@ -7,10 +7,10 @@ import {useAppSelector} from '../hooks/use-app-selector';
 import { QueryKey } from '../const/query-key';
 
 import { getCurrentFilterByCategory,getCurrentFiltersByTypes, getCurrentFiltersByLevels,getCurrentSortType,
-  getCurrentSortOrder,
+  getCurrentSortOrder,getUserEnteredBottomPrice
 } from '../store/selectors';
 import { setCurrentFilterCategory, removeCurrentFilterType, setCurrentFilterTypes, resetCurrentFilterGroup,
-  setCurrentFilterLevels
+  setCurrentFilterLevels,setBottomPrice
 } from '../store/filter-slice/filter-slice';
 
 import { changeSortType,changeSortOrder} from '../store/sort-slice/sort-slice';
@@ -20,6 +20,7 @@ import { FilterByCategory } from '../const/filter-by-category';
 import { FilterByType } from '../const/filter-by-type';
 import { SortByTypeValue} from '../const/sort-by-type';
 import { SortByOrderValue} from '../const/sort-by-order';
+import { UserInput } from '../types/filter';
 
 
 const useCheckSearchParams = () => {
@@ -29,7 +30,7 @@ const useCheckSearchParams = () => {
   const currentFilterLevels = useAppSelector(getCurrentFiltersByLevels);
   const currentSortType = useAppSelector(getCurrentSortType);
   const currentSortOrder = useAppSelector(getCurrentSortOrder);
-  // const currentBottomPrice = useAppSelector(getUserEnteredBottomPrice);
+  const currentBottomPrice = useAppSelector(getUserEnteredBottomPrice);
   // const currentTopPrice = useAppSelector(getUserEnteredTopPrice);
 
   const [searchParams] = useSearchParams();
@@ -56,14 +57,14 @@ const useCheckSearchParams = () => {
       }
     }
 
-    // if(isQueryParamExists(QueryKey.BottomPrice)) {
-    //   const paramsPriceFrom = searchParams.get(QueryKey.BottomPrice) as UserInput;
-    //   const isAlreadySelected = currentTopPrice === paramsPriceFrom;
+    if(isQueryParamExists(QueryKey.BottomPrice)) {
+      const paramsPriceFrom = searchParams.get(QueryKey.BottomPrice) as UserInput;
+      const isAlreadySelected = currentBottomPrice === paramsPriceFrom;
 
-    //   if(!isAlreadySelected) {
-    //     dispatch(setBottomPrice(paramsPriceFrom));
-    //   }
-    // }
+      if(!isAlreadySelected) {
+        dispatch(setBottomPrice(paramsPriceFrom));
+      }
+    }
 
     // if(!isQueryParamExists(QueryKey.BottomPrice) && Number(currentBottomPrice) !== 0) {
     //   dispatch(setBottomPrice(''));
@@ -134,7 +135,7 @@ const useCheckSearchParams = () => {
       dispatch(resetCurrentFilterGroup(QueryKey.FilterLevel));
     }
 
-  },[dispatch, searchParams, currentFilterCategory,currentFiltersByType, currentFilterLevels,currentSortType,currentSortOrder]);
+  },[dispatch, searchParams, currentFilterCategory,currentFiltersByType, currentFilterLevels,currentSortType,currentSortOrder, currentBottomPrice]);
 };
 
 export default useCheckSearchParams;
