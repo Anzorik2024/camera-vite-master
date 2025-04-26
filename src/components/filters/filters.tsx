@@ -58,28 +58,6 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
   const currentMinPriceValue = pricesFromCatalog.minPrice;
   const currentMaxPriceValue = pricesFromCatalog.maxPrice;
 
-  const currentTopPrice = Number(useAppSelector(getUserEnteredTopPrice));
-  const currentBottomPrice = Number(useAppSelector(getUserEnteredBottomPrice));
-
-  useEffect(() => {
-    if(currentTopPrice > 0 && currentTopPrice !== currentMaxPriceValue) {
-      dispatch(setTopPrice(currentTopPrice));
-      setTopPriceValue(currentTopPrice);
-    } else {
-      dispatch(setTopPrice(currentMaxPriceValue));
-    }
-  },[currentTopPrice, currentMaxPriceValue, dispatch]);
-
-  useEffect(() => {
-    if (currentBottomPrice > 0 && currentBottomPrice !== currentMinPriceValue) {
-      dispatch(setBottomPrice(currentBottomPrice));
-      setBottomPriceValue(currentBottomPrice);
-    } else {
-      dispatch(setBottomPrice(currentMinPriceValue));
-    }
-  },[currentBottomPrice, currentMinPriceValue, dispatch]);
-
-
   const addQueryParams = (key: QueryKey, value :string) => {
     const params = new URLSearchParams([...searchParams.entries(), [key, value]]);
     setSearchParams(params);
