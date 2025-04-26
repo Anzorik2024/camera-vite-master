@@ -40,18 +40,21 @@ function Sort(): JSX.Element {
   const handleInputSortTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
     const element = event.target;
     const selectedSortByType = element.dataset.value as SortByTypeValue;
-    dispatch(changeSortType(selectedSortByType));
     if (selectedSortByType) {
+      dispatch(changeSortType(selectedSortByType));
       updateSearchParams ([QueryKey.SortType, selectedSortByType], [QueryKey.SortOrder, currentSortByOrder]);
     }
-
   };
 
   const handleInputSortOrderChange = (event: ChangeEvent<HTMLInputElement>) => {
     const element = event.target;
 
     const selectedSortByOrder = element.dataset.value as SortByOrderValue;
-    dispatch(changeSortOrder(selectedSortByOrder));
+
+    if (selectedSortByOrder) {
+      dispatch(changeSortOrder(selectedSortByOrder));
+      updateSearchParams([QueryKey.SortType, currentSortByType], [QueryKey.SortOrder, selectedSortByOrder]);
+    }
   };
 
   return (
