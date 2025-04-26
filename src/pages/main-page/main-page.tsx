@@ -23,11 +23,14 @@ import { filterCameras } from '../../utils/filter-cameras';
 import { getCurrentSortOrder,getCurrentSortType, getUserEnteredBottomPrice,getUserEnteredTopPrice,
   getCurrentFilterByCategory, getCurrentFiltersByTypes,getCurrentFiltersByLevels,} from '../../store/selectors';
 import EmptyPage from '../empty-page/empty-page';
+import useCheckSearchParams from '../../hooks/use-check-search-params';
 
 function MainPage ():JSX.Element {
   const [isModalAddCameraToBasketOpen, setModalAddCameraToBasketOpen] = useState<boolean>(false);
   const modalRef = useRef(null);
   const dispatch = useAppDispatch();
+
+  useCheckSearchParams();
 
   const camerasCatalog = useAppSelector(selectCameras);// Заменить на фильтрованные данные
   const currentFilterByCategory = useAppSelector(getCurrentFilterByCategory);

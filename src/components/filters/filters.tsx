@@ -95,6 +95,7 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
             const videocameraSearchParams = excludeParams(searchParams, [FilterByType.Film, FilterByType.Snapshot, FilterByCategory.Photocamera]);
             videocameraSearchParams.append(queryKey, value);
             setSearchParams(videocameraSearchParams);
+
             if (currentFiltersByType.some((filter) => filter === FilterByType.Film)) {
               dispatch(removeCurrentFilterType(FilterByType.Film));
 
