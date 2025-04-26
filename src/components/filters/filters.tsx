@@ -64,18 +64,21 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
   useEffect(() => {
     if(currentTopPrice > 0 && currentTopPrice !== currentMaxPriceValue) {
       dispatch(setTopPrice(currentTopPrice));
+      setTopPriceValue(currentTopPrice);
     } else {
       dispatch(setTopPrice(currentMaxPriceValue));
     }
+
   },[currentTopPrice, currentMaxPriceValue, dispatch]);
 
   useEffect(() => {
     if (currentBottomPrice > 0 && currentBottomPrice !== currentMinPriceValue) {
       dispatch(setBottomPrice(currentBottomPrice));
+      setBottomPriceValue(currentBottomPrice);
     } else {
       dispatch(setBottomPrice(currentMinPriceValue));
     }
-  },[currentBottomPrice, currentMinPriceValue, dispatch,bottomPriceValue ]);
+  },[currentBottomPrice, currentMinPriceValue, dispatch]);
 
   useEffect (() => {
     const isQueryParamExists = (param: QueryKey) => searchParams && searchParams.has(param);
