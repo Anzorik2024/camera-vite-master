@@ -14,7 +14,7 @@ import { usePriceRange } from '../../hooks/use-price-range';
 import { FilterByCategory } from '../../const/filter-by-category';
 import { getCurrentFilterByCategory, getCurrentFiltersByTypes,getUserEnteredTopPrice,
   getCurrentFiltersByLevels, selectCameras, getUserEnteredBottomPrice} from '../../store/selectors';
-import { resetFilters,setCurrentFilterLevels, setCurrentFilterCategory, setCurrentFilterTypes, removeCurrentFilterType,
+import { resetFilters, setCurrentFilterCategory, removeCurrentFilterType,
   removeCurrentFilterLevels,setBottomPrice,setTopPrice,setMinPrice,
   setMaxPrice} from '../../store/filter-slice/filter-slice';
 import { Cameras } from '../../types/camera';
@@ -26,8 +26,7 @@ type FilterProps = {
   cameraFiltering: Cameras;
 }
 
-const excludeParams = (params: URLSearchParams, excludedValues: string[]) => { //  для поисковой строки!!!
-  //удаление из строки запроса ненужных параметров
+const excludeParams = (params: URLSearchParams, excludedValues: string[]) => {
   const cleanedParams = [...params.entries()]
     .filter(([...args]) => !excludedValues.includes(args[1]));
 
@@ -83,6 +82,16 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
     }
   },[currentBottomPrice, currentMinPriceValue, dispatch]);
 
+
+  const addQueryParams = (key: QueryKey, value :string) => {
+    const params = new URLSearchParams([...searchParams.entries(), [key, value]]);
+    setSearchParams(params);
+  };
+  const removeQueryParams = (valuesToRemove:string) => {
+    const params = excludeParams(searchParams, [valuesToRemove]);
+    setSearchParams(params);
+  };
+
   const handleCatalogFilterInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const filterInput = event.target;
     const queryKey = filterInput.dataset.query as QueryKey;
@@ -117,28 +126,22 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
 
       case QueryKey.FilterType: {
         if (value && !currentFiltersByType.some((filter) => filter === value)) {
-          dispatch(setCurrentFilterTypes(value));
-          const params = new URLSearchParams([...searchParams.entries(), [queryKey, value]]);//вынести в функцию
-          setSearchParams(params);//вынести в функцию
+          addQueryParams(queryKey,value);
         }
         if (value && currentFiltersByType.some((filter) => filter === value)) {
           dispatch(removeCurrentFilterType(value));
-          const params = excludeParams(searchParams, [value]);//вынести в функцию
-          setSearchParams(params);//вынести в функцию
+          removeQueryParams(value);
         }
         break;
       }
 
       case QueryKey.FilterLevel: {
         if (value && !currentFiltersByLevels.some((filter) => filter === value)) {
-          dispatch(setCurrentFilterLevels(value));
-          const params = new URLSearchParams([...searchParams.entries(), [queryKey, value]]);//вынести в функцию
-          setSearchParams(params);//вынести в функцию
+          addQueryParams(queryKey,value);
         }
         if (value && currentFiltersByLevels.some((filter) => filter === value)) {
           dispatch(removeCurrentFilterLevels(value));
-          const params = excludeParams(searchParams, [value]);//вынести в функцию
-          setSearchParams(params);//вынести в функцию
+          removeQueryParams(value);
         }
         break;
       }
