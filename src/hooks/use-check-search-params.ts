@@ -7,10 +7,10 @@ import {useAppSelector} from '../hooks/use-app-selector';
 import { QueryKey } from '../const/query-key';
 
 import { getCurrentFilterByCategory,getCurrentFiltersByTypes, getCurrentFiltersByLevels,getCurrentSortType,
-  getCurrentSortOrder,getUserEnteredBottomPrice
+  getCurrentSortOrder,getUserEnteredBottomPrice, getUserEnteredTopPrice
 } from '../store/selectors';
 import { setCurrentFilterCategory, removeCurrentFilterType, setCurrentFilterTypes, resetCurrentFilterGroup,
-  setCurrentFilterLevels,setBottomPrice
+  setCurrentFilterLevels,setBottomPrice,setTopPrice
 } from '../store/filter-slice/filter-slice';
 
 import { changeSortType,changeSortOrder} from '../store/sort-slice/sort-slice';
@@ -31,7 +31,7 @@ const useCheckSearchParams = () => {
   const currentSortType = useAppSelector(getCurrentSortType);
   const currentSortOrder = useAppSelector(getCurrentSortOrder);
   const currentBottomPrice = useAppSelector(getUserEnteredBottomPrice);
-  // const currentTopPrice = useAppSelector(getUserEnteredTopPrice);
+  const currentTopPrice = useAppSelector(getUserEnteredTopPrice);
 
   const [searchParams] = useSearchParams();
 
@@ -70,14 +70,14 @@ const useCheckSearchParams = () => {
     //   dispatch(setBottomPrice(''));
     // }
 
-    // if(isQueryParamExists(QueryKey.TopPrice)) {
-    //   const paramsPriceTo = searchParams.get(QueryKey.TopPrice) as UserInput;
-    //   const isAlreadySelected = currentBottomPrice === paramsPriceTo;
+    if(isQueryParamExists(QueryKey.TopPrice)) {
+      const paramsPriceTo = searchParams.get(QueryKey.TopPrice) as UserInput;
+      const isAlreadySelected = currentTopPrice === paramsPriceTo;
 
-    //   if(!isAlreadySelected) {
-    //     dispatch(setTopPrice(paramsPriceTo));
-    //   }
-    // }
+      if(!isAlreadySelected) {
+        dispatch(setTopPrice(paramsPriceTo));
+      }
+    }
 
     // if(!isQueryParamExists(QueryKey.TopPrice) && Number(currentTopPrice) !== 0) {
     //   dispatch(setTopPrice(''));
@@ -135,7 +135,7 @@ const useCheckSearchParams = () => {
       dispatch(resetCurrentFilterGroup(QueryKey.FilterLevel));
     }
 
-  },[dispatch, searchParams, currentFilterCategory,currentFiltersByType, currentFilterLevels,currentSortType,currentSortOrder, currentBottomPrice]);
+  },[dispatch, searchParams, currentFilterCategory,currentFiltersByType, currentFilterLevels,currentSortType,currentSortOrder, currentBottomPrice,currentTopPrice]);
 };
 
 export default useCheckSearchParams;

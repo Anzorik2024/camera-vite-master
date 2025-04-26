@@ -174,7 +174,6 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
     setTopPriceValue('');
     dispatch(resetFilters());
     deleteSearchParams();
-
   };
 
   return (

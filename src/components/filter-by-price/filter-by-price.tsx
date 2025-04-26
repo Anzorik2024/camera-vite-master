@@ -3,8 +3,6 @@ import { useAppSelector } from '../../hooks/use-app-selector';
 import { getCamerasMaxPrice,getCamerasMinPrice } from '../../store/selectors';
 import { UserInput } from '../../types/filter';
 import { QueryKey } from '../../const/query-key';
-import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import {setBottomPrice,setTopPrice} from '../../store/filter-slice/filter-slice';
 import { useSearchParams } from 'react-router-dom';
 
 type FilterByPriceProps = {
@@ -14,8 +12,6 @@ type FilterByPriceProps = {
   onTopPriceChange: (topPrice: UserInput) => void;
 }
 function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceChange}: FilterByPriceProps): JSX.Element {
-
-  const dispatch = useAppDispatch();
 
   const [searchParams, setSearchParams ] = useSearchParams();
 
@@ -115,7 +111,6 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
 
         if (validTopPrice) {
           onTopPriceChange(validTopPrice);
-          dispatch(setTopPrice(validTopPrice));
           searchParams.set(QueryKey.TopPrice, String(validTopPrice));
         }
 
