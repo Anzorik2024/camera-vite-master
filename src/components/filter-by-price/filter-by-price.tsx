@@ -111,6 +111,7 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
 
         if (validTopPrice) {
           onTopPriceChange(validTopPrice);
+
           searchParams.set(QueryKey.TopPrice, String(validTopPrice));
         }
 
@@ -120,12 +121,10 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
 
     if (numBottomPrice === 0) {
       onBottomPriceChange('');
-      searchParams.set(QueryKey.BottomPrice, String(minPrice));
       setBottomPriceInvalid(false);
     }
     if (numTopPrice === 0) {
       onTopPriceChange('');
-      searchParams.set(QueryKey.TopPrice, String(maxPrice));
       setTopPriceInvalid(false);
     }
 

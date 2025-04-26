@@ -12,8 +12,8 @@ import { FilterByLevel } from '../../const/filter-by-level';
 import { usePriceRange } from '../../hooks/use-price-range';
 
 import { FilterByCategory } from '../../const/filter-by-category';
-import { getCurrentFilterByCategory, getCurrentFiltersByTypes,
-  getCurrentFiltersByLevels, selectCameras} from '../../store/selectors';
+import { getCurrentFilterByCategory, getCurrentFiltersByTypes,getUserEnteredTopPrice,
+  getCurrentFiltersByLevels, selectCameras, getUserEnteredBottomPrice} from '../../store/selectors';
 import { resetFilters, setCurrentFilterCategory, removeCurrentFilterType,
   removeCurrentFilterLevels,setBottomPrice,setTopPrice,setMinPrice,
   setMaxPrice} from '../../store/filter-slice/filter-slice';
@@ -57,6 +57,38 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
 
   const currentMinPriceValue = pricesFromCatalog.minPrice;
   const currentMaxPriceValue = pricesFromCatalog.maxPrice;
+
+  const currentTopPrice = Number(useAppSelector(getUserEnteredTopPrice));
+  const currentBottomPrice = Number(useAppSelector(getUserEnteredBottomPrice));
+
+  useEffect(() => {
+    if(currentTopPrice > 0 && currentTopPrice !== currentMaxPriceValue) {
+      dispatch(setTopPrice(currentTopPrice));
+    } else {
+      dispatch(setTopPrice(currentMaxPriceValue));
+    }
+  },[currentTopPrice, currentMaxPriceValue, dispatch]);
+
+  useEffect(() => {
+    if (currentBottomPrice > 0 && currentBottomPrice !== currentMinPriceValue) {
+      dispatch(setBottomPrice(currentBottomPrice));
+    } else {
+      dispatch(setBottomPrice(currentMinPriceValue));
+    }
+  },[currentBottomPrice, currentMinPriceValue, dispatch,bottomPriceValue ]);
+
+  useEffect (() => {
+    const isQueryParamExists = (param: QueryKey) => searchParams && searchParams.has(param);
+    if(!isQueryParamExists(QueryKey.BottomPrice)) {
+      setBottomPriceValue('');
+      dispatch(setBottomPrice(currentMinPriceValue));
+    }
+    if(!isQueryParamExists(QueryKey.TopPrice)) {
+      setTopPriceValue('');
+      dispatch(setTopPrice(currentMaxPriceValue));
+    }
+  },[searchParams,currentMinPriceValue, currentMaxPriceValue, dispatch ]);
+
 
   const addQueryParams = (key: QueryKey, value :string) => {
     const params = new URLSearchParams([...searchParams.entries(), [key, value]]);

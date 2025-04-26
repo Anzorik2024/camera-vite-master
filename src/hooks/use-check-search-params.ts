@@ -65,11 +65,6 @@ const useCheckSearchParams = () => {
         dispatch(setBottomPrice(paramsPriceFrom));
       }
     }
-
-    // if(!isQueryParamExists(QueryKey.BottomPrice) && Number(currentBottomPrice) !== 0) {
-    //   dispatch(setBottomPrice(''));
-    // }
-
     if(isQueryParamExists(QueryKey.TopPrice)) {
       const paramsPriceTo = searchParams.get(QueryKey.TopPrice) as UserInput;
       const isAlreadySelected = currentTopPrice === paramsPriceTo;
@@ -78,11 +73,6 @@ const useCheckSearchParams = () => {
         dispatch(setTopPrice(paramsPriceTo));
       }
     }
-
-    // if(!isQueryParamExists(QueryKey.TopPrice) && Number(currentTopPrice) !== 0) {
-    //   dispatch(setTopPrice(''));
-    // }
-
     if(isQueryParamExists(QueryKey.FilterCategory)) {
       const paramsCategory = searchParams.get(QueryKey.FilterCategory) as string;
       const isAlreadySelected = currentFilterCategory === paramsCategory;
