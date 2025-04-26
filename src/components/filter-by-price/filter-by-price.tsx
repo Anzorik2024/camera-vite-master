@@ -5,6 +5,7 @@ import { UserInput } from '../../types/filter';
 import { QueryKey } from '../../const/query-key';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import {setBottomPrice,setTopPrice} from '../../store/filter-slice/filter-slice';
+import { useSearchParams } from 'react-router-dom';
 
 type FilterByPriceProps = {
   bottomPrice: UserInput;
@@ -15,6 +16,8 @@ type FilterByPriceProps = {
 function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceChange}: FilterByPriceProps): JSX.Element {
 
   const dispatch = useAppDispatch();
+
+  const [searchParams, setSearchParams ] = useSearchParams();
 
   const minPrice = useAppSelector(getCamerasMinPrice);
   const maxPrice = useAppSelector(getCamerasMaxPrice);
@@ -102,6 +105,7 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
           onBottomPriceChange(validBottomPrice);
 
           dispatch(setBottomPrice(validBottomPrice));
+          searchParams.set(QueryKey.BottomPrice, String(validBottomPrice));
         }
 
         break;
@@ -113,6 +117,7 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
         if (validTopPrice) {
           onTopPriceChange(validTopPrice);
           dispatch(setTopPrice(validTopPrice));
+          searchParams.set(QueryKey.TopPrice, String(validTopPrice));
         }
 
         break;
@@ -121,12 +126,16 @@ function FilterByPrice({bottomPrice, topPrice, onBottomPriceChange, onTopPriceCh
 
     if (numBottomPrice === 0) {
       onBottomPriceChange('');
+      searchParams.set(QueryKey.BottomPrice, String(minPrice));
       setBottomPriceInvalid(false);
     }
     if (numTopPrice === 0) {
       onTopPriceChange('');
+      searchParams.set(QueryKey.TopPrice, String(maxPrice));
       setTopPriceInvalid(false);
     }
+
+    setSearchParams(searchParams);
   };
 
   const handlePriceInputKeyDown = (event: KeyboardEvent) => {
