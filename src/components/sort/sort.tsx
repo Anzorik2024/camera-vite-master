@@ -2,8 +2,8 @@ import { ChangeEvent, useEffect, useCallback} from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { changeSortOrder, changeSortType } from '../../store/sort-slice/sort-slice';
+import { useDispatch } from 'react-redux';
+import { changeSortType, changeSortOrder } from '../../store/sort-slice/sort-slice';
 
 import { getCurrentSortType, getCurrentSortOrder } from '../../store/selectors';
 import { SortByOrderValue, SORT_BY_ORDER } from '../../const/sort-by-order';
@@ -17,13 +17,22 @@ type ParamsType = [QueryKey.SortType, SortByTypeValue];
 type ParamsOrder = [QueryKey.SortOrder, SortByOrderValue];
 
 function Sort(): JSX.Element {
-  const dispatch = useAppDispatch();
-
   const [searchParams, setSearchParams] = useSearchParams();
+  const dispatch = useDispatch();
 
 
   const currentSortByType = useAppSelector(getCurrentSortType);
   const currentSortByOrder = useAppSelector(getCurrentSortOrder);
+
+  useEffect(() => {
+    if(currentSortByType === null) {
+      dispatch(changeSortType(SortByTypeValue.Price));
+    }
+    if(currentSortByOrder === null) {
+      dispatch(changeSortOrder(SortByOrderValue.OrderUp));
+    }
+  },[currentSortByType,currentSortByOrder, dispatch]);
+
 
   const updateSearchParams = useCallback((typeParams: ParamsType, orderParams: ParamsOrder) => {
     const newSearchParams = new URLSearchParams(searchParams);
@@ -34,15 +43,16 @@ function Sort(): JSX.Element {
   }, [searchParams, setSearchParams]);
 
   useEffect(() => {
-    updateSearchParams ([QueryKey.SortType, currentSortByType], [QueryKey.SortOrder, currentSortByOrder]);
+    if(currentSortByType !== null && currentSortByOrder !== null){
+      updateSearchParams ([QueryKey.SortType, currentSortByType], [QueryKey.SortOrder, currentSortByOrder]);
+    }
   },[currentSortByType,currentSortByOrder,updateSearchParams]);
 
   const handleInputSortTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
     const element = event.target;
     const selectedSortByType = element.dataset.value as SortByTypeValue;
     if (selectedSortByType) {
-      dispatch(changeSortType(selectedSortByType));
-      updateSearchParams ([QueryKey.SortType, selectedSortByType], [QueryKey.SortOrder, currentSortByOrder]);
+      updateSearchParams ([QueryKey.SortType, selectedSortByType], [QueryKey.SortOrder, currentSortByOrder || SortByOrderValue.OrderUp]);
     }
   };
 
@@ -52,8 +62,7 @@ function Sort(): JSX.Element {
     const selectedSortByOrder = element.dataset.value as SortByOrderValue;
 
     if (selectedSortByOrder) {
-      dispatch(changeSortOrder(selectedSortByOrder));
-      updateSearchParams([QueryKey.SortType, currentSortByType], [QueryKey.SortOrder, selectedSortByOrder]);
+      updateSearchParams([QueryKey.SortType, currentSortByType || SortByTypeValue.Price], [QueryKey.SortOrder, selectedSortByOrder]);
     }
   };
 

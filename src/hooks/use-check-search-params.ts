@@ -6,12 +6,20 @@ import {useAppSelector} from '../hooks/use-app-selector';
 
 import { QueryKey } from '../const/query-key';
 
-import { getCurrentFilterByCategory,getCurrentFiltersByTypes, getCurrentFiltersByLevels} from '../store/selectors';
+import { getCurrentFilterByCategory,getCurrentFiltersByTypes, getCurrentFiltersByLevels,getCurrentSortType,
+  getCurrentSortOrder,
+} from '../store/selectors';
 import { setCurrentFilterCategory, removeCurrentFilterType, setCurrentFilterTypes, resetCurrentFilterGroup,
   setCurrentFilterLevels
 } from '../store/filter-slice/filter-slice';
+
+import { changeSortType,resetSortType,changeSortOrder,resetSortOrder } from '../store/sort-slice/sort-slice';
+
+
 import { FilterByCategory } from '../const/filter-by-category';
 import { FilterByType } from '../const/filter-by-type';
+import { SortByTypeValue} from '../const/sort-by-type';
+import { SortByOrderValue} from '../const/sort-by-order';
 
 
 const useCheckSearchParams = () => {
@@ -19,8 +27,8 @@ const useCheckSearchParams = () => {
   const currentFilterCategory = useAppSelector(getCurrentFilterByCategory);
   const currentFiltersByType = useAppSelector(getCurrentFiltersByTypes);
   const currentFilterLevels = useAppSelector(getCurrentFiltersByLevels);
-  // const currentSortType = useAppSelector(getCurrentSortType);
-  // const currentSortOrder = useAppSelector(getCurrentSortOrder);
+  const currentSortType = useAppSelector(getCurrentSortType);
+  const currentSortOrder = useAppSelector(getCurrentSortOrder);
   // const currentBottomPrice = useAppSelector(getUserEnteredTopPrice);
   // const currentTopPrice = useAppSelector(getUserEnteredBottomPrice);
 
@@ -29,32 +37,32 @@ const useCheckSearchParams = () => {
   useEffect (() => {
     const isQueryParamExists = (param: QueryKey) => searchParams && searchParams.has(param);
 
-    // if(isQueryParamExists(QueryKey.SortType)) {
-    //   const paramsSortType = searchParams.get(QueryKey.SortType) as SortByTypeServerValue;
-    //   const isAlreadySelected = currentSortType === paramsSortType;
+    if(isQueryParamExists(QueryKey.SortType)) {
+      const paramsSortType = searchParams.get(QueryKey.SortType) as SortByTypeValue;
+      const isAlreadySelected = currentSortType === paramsSortType;
 
 
-    //   if(!isAlreadySelected) {
-    //     dispatch(changeSortType(paramsSortType));
-    //   }
-    // }
+      if(!isAlreadySelected) {
+        dispatch(changeSortType(paramsSortType));
+      }
+    }
 
-    // if(!isQueryParamExists(QueryKey.SortType) && currentSortType !== null) {
-    //   dispatch(resetSortType());//делаем сброс state, когда в адресной строке уже нет query-string с ключом sort_type, а в state значение сохранилось
-    // }
+    if(!isQueryParamExists(QueryKey.SortType) && currentSortType !== null) {
+      dispatch(resetSortType());
+    }
 
-    // if(isQueryParamExists(QueryKey.SortOrder)) {
-    //   const paramsSortOrder = searchParams.get(QueryKey.SortOrder) as SortByOrderServerValue;
-    //   const isAlreadySelected = currentSortOrder === paramsSortOrder;
+    if(isQueryParamExists(QueryKey.SortOrder)) {
+      const paramsSortOrder = searchParams.get(QueryKey.SortOrder) as SortByOrderValue;
+      const isAlreadySelected = currentSortOrder === paramsSortOrder;
 
-    //   if(!isAlreadySelected) {
-    //     dispatch(changeSortOrder(paramsSortOrder));
-    //   }
-    // }
+      if(!isAlreadySelected) {
+        dispatch(changeSortOrder(paramsSortOrder));
+      }
+    }
 
-    // if(!isQueryParamExists(QueryKey.SortOrder) && currentSortOrder !== null) {
-    //   dispatch(resetSortOrder());
-    // }
+    if(!isQueryParamExists(QueryKey.SortOrder) && currentSortOrder !== null) {
+      dispatch(resetSortOrder());
+    }
 
     // if(isQueryParamExists(QueryKey.BottomPrice)) {
     //   const paramsPriceFrom = searchParams.get(QueryKey.BottomPrice) as UserInput;
@@ -134,7 +142,7 @@ const useCheckSearchParams = () => {
       dispatch(resetCurrentFilterGroup(QueryKey.FilterLevel));
     }
 
-  },[dispatch, searchParams, currentFilterCategory,currentFiltersByType, currentFilterLevels]);
+  },[dispatch, searchParams, currentFilterCategory,currentFiltersByType, currentFilterLevels,currentSortType,currentSortOrder]);
 };
 
 export default useCheckSearchParams;

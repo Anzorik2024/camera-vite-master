@@ -6,8 +6,8 @@ import { SortByOrderValue } from '../../const/sort-by-order';
 import { SortData } from '../../types/sort';
 
 export const initialStateSort: SortData = {
-  currentSortType: SortByTypeValue.Price,
-  currentSortOrder: SortByOrderValue.OrderUp
+  currentSortType: null,
+  currentSortOrder: null
 };
 
 export const sortSlice = createSlice({
@@ -19,15 +19,23 @@ export const sortSlice = createSlice({
     },
     changeSortOrder: (state, action: PayloadAction<SortByOrderValue>) => {
       state.currentSortOrder = action.payload;
+    },
+    resetSortType: (state) => {
+      state.currentSortType = null;
+    },
+    resetSortOrder: (state) => {
+      state.currentSortOrder = null;
     }
   }
 });
 
-const {changeSortOrder, changeSortType} = sortSlice.actions;
+const {changeSortOrder, changeSortType,resetSortType, resetSortOrder} = sortSlice.actions;
 const sortReducer = sortSlice.reducer;
 
 export {
   changeSortOrder,
   changeSortType,
-  sortReducer
+  sortReducer,
+  resetSortType,
+  resetSortOrder
 };
