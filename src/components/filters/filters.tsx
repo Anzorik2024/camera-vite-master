@@ -118,9 +118,13 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
       case QueryKey.FilterType: {
         if (value && !currentFiltersByType.some((filter) => filter === value)) {
           dispatch(setCurrentFilterTypes(value));
+          const params = new URLSearchParams([...searchParams.entries(), [queryKey, value]]);//вынести в функцию
+          setSearchParams(params);//вынести в функцию
         }
         if (value && currentFiltersByType.some((filter) => filter === value)) {
           dispatch(removeCurrentFilterType(value));
+          const params = excludeParams(searchParams, [value]);//вынести в функцию
+          setSearchParams(params);//вынести в функцию
         }
         break;
       }
@@ -128,9 +132,13 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
       case QueryKey.FilterLevel: {
         if (value && !currentFiltersByLevels.some((filter) => filter === value)) {
           dispatch(setCurrentFilterLevels(value));
+          const params = new URLSearchParams([...searchParams.entries(), [queryKey, value]]);//вынести в функцию
+          setSearchParams(params);//вынести в функцию
         }
         if (value && currentFiltersByLevels.some((filter) => filter === value)) {
           dispatch(removeCurrentFilterLevels(value));
+          const params = excludeParams(searchParams, [value]);//вынести в функцию
+          setSearchParams(params);//вынести в функцию
         }
         break;
       }
@@ -145,6 +153,19 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
     }
   };
 
+
+  const deleteSearchParams = () => {
+    Object.values(QueryKey).forEach((key) => {
+      if(key === QueryKey.SortOrder || key === QueryKey.SortType) {
+        return;
+      }
+
+      searchParams.delete(key);
+    });
+    setSearchParams(searchParams);
+  };
+
+
   const handleFormReset = (event: React.FormEvent) => {
     event.preventDefault();
     dispatch(setTopPrice(currentMaxPriceValue));
@@ -152,6 +173,8 @@ function Filters({cameraFiltering} :FilterProps): JSX.Element {
     setBottomPriceValue('');
     setTopPriceValue('');
     dispatch(resetFilters());
+    deleteSearchParams();
+
   };
 
   return (
