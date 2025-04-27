@@ -24,6 +24,11 @@ function Tabs({camera}: TabsProps): JSX.Element {
 
   ////
 
+  const [searchParams] = useSearchParams();
+  const tab = searchParams.get('tab');
+
+  console.log(tab);
+
   const handleCharacteristicsButtonClick = () => {
     setisCharacteristicsActive(true);
     setisDescriptionActive(false);
