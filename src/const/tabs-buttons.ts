@@ -8,5 +8,5 @@ export enum TabType {
   Description = 'description'
 }
 
-export const DEFAULT_TABS_TYPE = TabType.Features;
+export const DEFAULT_TABS_TYPE = TabType.Description;
 
