@@ -7,6 +7,8 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import IconStar from '../icon-star/icon-star';
 import { AppRoute } from '../../const/app-route';
 import { selectCamera} from '../../store/order-slice/order-slice';
+import { ComponentName } from '../../const/component-name';
+import { DEFAULT_TABS_TYPE } from '../../const/tabs-buttons';
 
 type ProductCardProps = {
   camera: Camera;
@@ -65,7 +67,7 @@ function ProductCard ({camera, onAddCameraInBasketButtonClick } :ProductCardProp
         <button className="btn btn--purple product-card__btn" type="button" onClick={handleAddCameraInBasketButtonClick}>
           Купить
         </button>
-        <Link className="btn btn--transparent" to = {`${AppRoute.Product}/${id}`}>
+        <Link className="btn btn--transparent" to = {`${AppRoute.Product}/${id}?${ComponentName.Tab}=${DEFAULT_TABS_TYPE}`}>
           Подробнее
         </Link>
       </div>
