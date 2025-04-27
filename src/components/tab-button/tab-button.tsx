@@ -1,4 +1,4 @@
-import { TabsButtonsTitles } from '../../const/tabs-buttons-titles';
+import { TabsButtonsTitles } from '../../const/tabs-buttons';
 
 type TabsProps = {
   onClick: () => void;

@@ -2,7 +2,7 @@ import {useState } from 'react';
 import TabButton from '../tab-button/tab-button';
 import TabDescription from '../tab-description/tab-description';
 import TabCharacteristics from '../tab-characteristics/tab-characteristics';
-import { TabsButtonsTitles } from '../../const/tabs-buttons-titles';
+import { TabsButtonsTitles } from '../../const/tabs-buttons';
 
 import { Camera } from '../../types/camera';
 
